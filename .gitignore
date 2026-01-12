@@ -6,6 +6,19 @@ __pycache__/
 # C extensions
 *.so
 
+# Data files
+*.dat
+*.data
+*.db
+*.sqlite3
+*.db-journal
+*.csv
+
+# Javar executables
+*.jar
+*.war
+*.ear
+
 # Distribution / packaging
 .Python
 build/
