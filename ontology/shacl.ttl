@@ -1,0 +1,233 @@
+@prefix : <http://example.org/smartphone#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# =============================================================================
+# SMARTPHONE SHAPE
+# =============================================================================
+
+:SmartphoneShape a sh:NodeShape ;
+    sh:targetClass :Smartphone ;
+
+    sh:property [
+        sh:path :hasName ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasModelKey ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasBrand ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class :Brand ;
+    ] ;
+
+    sh:property [
+        sh:path :hasPrice ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:float ;
+        sh:minInclusive 0 ;
+    ] ;
+
+    # Specs properties (optional, from specs dataset)
+    sh:property [
+        sh:path :hasRAM ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasProcessor ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasBattery ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasScreenSize ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasWeight ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasFrontCamera ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasBackCamera ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasLaunchYear ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 2010 ;
+        sh:maxInclusive 2030 ;
+    ] .
+
+# =============================================================================
+# BRAND SHAPE
+# =============================================================================
+
+:BrandShape a sh:NodeShape ;
+    sh:targetClass :Brand ;
+
+    sh:property [
+        sh:path :hasName ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] .
+
+# =============================================================================
+# REVIEW SHAPE
+# =============================================================================
+
+:ReviewShape a sh:NodeShape ;
+    sh:targetClass :Review ;
+
+    sh:property [
+        sh:path :hasRating ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+    ] ;
+
+    sh:property [
+        sh:path :hasReviewText ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasSentiment ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:in ( "Positive" "Negative" "Neutral" ) ;
+    ] ;
+
+    sh:property [
+        sh:path :reviewOf ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class :Smartphone ;
+    ] ;
+
+    sh:property [
+        sh:path :writtenBy ;
+        sh:maxCount 1 ;
+        sh:class :User ;
+    ] ;
+
+    sh:property [
+        sh:path :hasHelpfulVotes ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 0 ;
+    ] ;
+
+    sh:property [
+        sh:path :isVerifiedPurchase ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+    ] ;
+
+    # Detailed ratings (1-5 scale)
+    sh:property [
+        sh:path :hasBatteryRating ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+    ] ;
+
+    sh:property [
+        sh:path :hasCameraRating ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+    ] ;
+
+    sh:property [
+        sh:path :hasPerformanceRating ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+    ] ;
+
+    sh:property [
+        sh:path :hasDesignRating ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+    ] ;
+
+    sh:property [
+        sh:path :hasDisplayRating ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+    ] .
+
+# =============================================================================
+# USER SHAPE
+# =============================================================================
+
+:UserShape a sh:NodeShape ;
+    sh:targetClass :User ;
+
+    sh:property [
+        sh:path :hasName ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasAge ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 13 ;
+        sh:maxInclusive 120 ;
+    ] ;
+
+    sh:property [
+        sh:path :hasCountry ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+
+    sh:property [
+        sh:path :hasLanguage ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] .
