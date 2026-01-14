@@ -15,13 +15,12 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 # Install dependencies
 uv sync
 ```
+## Build Knowledge Graph
 
-## Usage
+1. Generate facts
+2. Combine both ontologie and facts
+3. Materialize inverse relation + classes that should be inferred.
 
-```python
-from load_data import load_datasets
-
-df_smartphones, df_amazon_reviews = load_datasets()
+```sh
+./scripts/build_kg.sh
 ```
-
-Downloads on first run, uses cache afterward.
