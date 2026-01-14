@@ -13,7 +13,7 @@ __pycache__/
 *.sqlite3
 *.db-journal
 *.csv
-data/
+dataset
 
 # Javar executables
 *.jar
