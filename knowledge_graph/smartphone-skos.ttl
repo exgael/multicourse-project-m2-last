@@ -1,0 +1,171 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sp: <http://example.org/smartphone#> .
+@prefix spv: <http://example.org/smartphone/vocab/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+# region CONCEPT SCHEME
+spv:SmartphoneVocabulary a skos:ConceptScheme ;
+    skos:prefLabel "Smartphone Recommendation Vocabulary"@en ;
+    skos:prefLabel "Vocabulaire de recommandation smartphone"@fr ;
+    dct:description "SKOS vocabulary for smartphone features, use cases, and recommendations"@en ;
+    skos:hasTopConcept spv:Feature, spv:UseCase, spv:PriceSegment .
+# endregion
+
+# region TOP CONCEPTS
+spv:Feature a skos:Concept ;
+    skos:prefLabel "Feature"@en ;
+    skos:prefLabel "Caractéristique"@fr ;
+    skos:topConceptOf spv:SmartphoneVocabulary ;
+    skos:definition "A technical feature or specification"@en .
+
+spv:UseCase a skos:Concept ;
+    skos:prefLabel "Use Case"@en ;
+    skos:prefLabel "Cas d'usage"@fr ;
+    skos:topConceptOf spv:SmartphoneVocabulary ;
+    skos:definition "User intent or primary usage scenario"@en .
+
+spv:PriceSegment a skos:Concept ;
+    skos:prefLabel "Price Segment"@en ;
+    skos:prefLabel "Segment de prix"@fr ;
+    skos:topConceptOf spv:SmartphoneVocabulary ;
+    skos:definition "Market segment based on price range"@en .
+# endregion
+
+# region FEATURES
+spv:Camera a skos:Concept ;
+    skos:prefLabel "Camera"@en ;
+    skos:prefLabel "Appareil photo"@fr ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:exactMatch wd:Q15328 .  # camera
+
+spv:Display a skos:Concept ;
+    skos:prefLabel "Display"@en ;
+    skos:prefLabel "Ecran"@fr ;
+    skos:altLabel "Screen"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:exactMatch wd:Q5296 .  # display device
+
+spv:Battery a skos:Concept ;
+    skos:prefLabel "Battery"@en ;
+    skos:prefLabel "Batterie"@fr ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:exactMatch wd:Q267298 .  # rechargeable battery
+
+spv:Performance a skos:Concept ;
+    skos:prefLabel "Performance"@en ;
+    skos:altLabel "Processor"@en ;
+    skos:altLabel "Chipset"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary .
+
+spv:Storage a skos:Concept ;
+    skos:prefLabel "Storage"@en ;
+    skos:prefLabel "Stockage"@fr ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary .
+
+spv:Connectivity a skos:Concept ;
+    skos:prefLabel "Connectivity"@en ;
+    skos:prefLabel "Connectivite"@fr ;
+    skos:altLabel "5G"@en ;
+    skos:altLabel "NFC"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary .
+
+spv:BuildQuality a skos:Concept ;
+    skos:prefLabel "Build Quality"@en ;
+    skos:prefLabel "Qualite de fabrication"@fr ;
+    skos:altLabel "Water Resistance"@en ;
+    skos:altLabel "IP68"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary .
+# endregion
+
+# region USE CASES
+spv:PhotographyEnthusiast a skos:Concept ;
+    skos:prefLabel "Photography Enthusiast"@en ;
+    skos:prefLabel "Passione de photo"@fr ;
+    skos:broader spv:UseCase ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Users who prioritize camera quality and photo features"@en ;
+    skos:related spv:Camera .
+
+spv:MobileGamer a skos:Concept ;
+    skos:prefLabel "Mobile Gamer"@en ;
+    skos:prefLabel "Joueur mobile"@fr ;
+    skos:broader spv:UseCase ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Users who play games and need high performance"@en ;
+    skos:related spv:Performance, spv:Display, spv:Battery .
+
+spv:BusinessUser a skos:Concept ;
+    skos:prefLabel "Business User"@en ;
+    skos:prefLabel "Utilisateur professionnel"@fr ;
+    skos:broader spv:UseCase ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Users focused on productivity and reliability"@en ;
+    skos:related spv:Battery, spv:Connectivity .
+
+spv:ContentCreator a skos:Concept ;
+    skos:prefLabel "Content Creator"@en ;
+    skos:prefLabel "Createur de contenu"@fr ;
+    skos:broader spv:UseCase ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Users creating video/photo content for social media"@en ;
+    skos:related spv:Camera, spv:Display, spv:Storage .
+
+spv:BudgetConscious a skos:Concept ;
+    skos:prefLabel "Budget Conscious"@en ;
+    skos:prefLabel "Petit budget"@fr ;
+    skos:broader spv:UseCase ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Users seeking best value for money"@en ;
+    skos:related spv:Budget .
+
+spv:EverydayUser a skos:Concept ;
+    skos:prefLabel "Everyday User"@en ;
+    skos:prefLabel "Utilisateur quotidien"@fr ;
+    skos:broader spv:UseCase ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "General users with balanced needs"@en ;
+    skos:related spv:MidRange, spv:Battery .
+# endregion
+
+# region PRICE SEGMENTS
+spv:Flagship a skos:Concept ;
+    skos:prefLabel "Flagship"@en ;
+    skos:prefLabel "Haut de gamme"@fr ;
+    skos:broader spv:PriceSegment ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Premium segment, typically >800 EUR"@en .
+
+spv:MidRange a skos:Concept ;
+    skos:prefLabel "Mid-Range"@en ;
+    skos:prefLabel "Milieu de gamme"@fr ;
+    skos:broader spv:PriceSegment ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Middle segment, typically 300-800 EUR"@en .
+
+spv:Budget a skos:Concept ;
+    skos:prefLabel "Budget"@en ;
+    skos:prefLabel "Entree de gamme"@fr ;
+    skos:broader spv:PriceSegment ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Entry-level segment, typically <300 EUR"@en .
+# endregion
+
+# region WIKIDATA ALIGNMENTS (Task 3c)
+spv:SmartphoneVocabulary skos:exactMatch wd:Q22645 .  # smartphone
+
+spv:Flagship skos:closeMatch wd:Q1051759 .  # flagship product
+spv:Camera skos:exactMatch wd:Q15328 .      # camera
+spv:Display skos:exactMatch wd:Q5296 .      # display device
+spv:Battery skos:exactMatch wd:Q267298 .    # rechargeable battery
+# endregion

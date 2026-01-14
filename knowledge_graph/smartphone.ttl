@@ -1,0 +1,320 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sp: <http://example.org/smartphone#> .
+
+# region ONTOLOGY METADATA
+
+<http://example.org/smartphone> a owl:Ontology ;
+    rdfs:label "Smartphone Ontology"@en ;
+    rdfs:comment "OWL ontology for smartphone specifications, reviews, and recommendations."@en ;
+    owl:versionInfo "1.1" .
+
+# endregion
+
+# region CLASSES
+
+sp:Device a owl:Class ;
+    rdfs:label "Device"@en .
+
+sp:Phone a owl:Class ;
+    rdfs:label "Phone"@en ;
+    rdfs:subClassOf sp:Device .
+
+sp:Smartphone a owl:Class ;
+    rdfs:label "Smartphone"@en ;
+    rdfs:subClassOf sp:Phone .
+
+sp:Brand a owl:Class ;
+    rdfs:label "Brand"@en .
+
+sp:Variant a owl:Class ;
+    rdfs:label "Variant"@en ;
+    rdfs:comment "Storage/RAM configuration of a phone"@en .
+
+sp:Review a owl:Class ;
+    rdfs:label "Review"@en .
+
+sp:User a owl:Class ;
+    rdfs:label "User"@en .
+
+sp:Price a owl:Class ;
+    rdfs:label "Price"@en .
+
+# endregion
+
+# region INFERRED CLASSES
+
+sp:LargeBatteryPhone a owl:Class ;
+    rdfs:label "Large Battery Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:Smartphone
+            [ a owl:Restriction ; owl:onProperty sp:batteryCapacityMah ;
+              owl:someValuesFrom [ a rdfs:Datatype ; owl:onDatatype xsd:integer ;
+                  owl:withRestrictions ( [ xsd:minInclusive 5000 ] ) ] ]
+        )
+    ] .
+
+sp:FiveGPhone a owl:Class ;
+    rdfs:label "5G Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:Smartphone
+            [ a owl:Restriction ; owl:onProperty sp:supports5G ; owl:hasValue true ]
+        )
+    ] .
+
+sp:HighResolutionCameraPhone a owl:Class ;
+    rdfs:label "High Resolution Camera Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:Smartphone
+            [ a owl:Restriction ; owl:onProperty sp:mainCameraMP ;
+              owl:someValuesFrom [ a rdfs:Datatype ; owl:onDatatype xsd:integer ;
+                  owl:withRestrictions ( [ xsd:minInclusive 100 ] ) ] ]
+        )
+    ] .
+
+# endregion
+
+# region OBJECT PROPERTIES
+
+sp:hasBrand a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "has brand"@en ;
+    rdfs:domain sp:Device ;
+    rdfs:range sp:Brand ;
+    owl:inverseOf sp:manufactures .
+
+sp:manufactures a owl:ObjectProperty ;
+    rdfs:label "manufactures"@en ;
+    rdfs:domain sp:Brand ;
+    rdfs:range sp:Device .
+
+sp:hasVariant a owl:ObjectProperty ;
+    rdfs:label "has variant"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range sp:Variant ;
+    owl:inverseOf sp:variantOf .
+
+sp:variantOf a owl:ObjectProperty ;
+    rdfs:label "variant of"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range sp:Phone .
+
+sp:hasReview a owl:ObjectProperty ;
+    rdfs:label "has review"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range sp:Review ;
+    owl:inverseOf sp:reviewOf .
+
+sp:reviewOf a owl:ObjectProperty ;
+    rdfs:label "review of"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range sp:Phone .
+
+sp:writtenBy a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "written by"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range sp:User ;
+    owl:inverseOf sp:wroteReview .
+
+sp:wroteReview a owl:ObjectProperty ;
+    rdfs:label "wrote review"@en ;
+    rdfs:domain sp:User ;
+    rdfs:range sp:Review .
+
+sp:hasPrice a owl:ObjectProperty ;
+    rdfs:label "has price"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range sp:Price .
+
+sp:suitableFor a owl:ObjectProperty ;
+    rdfs:label "suitable for"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range <http://www.w3.org/2004/02/skos/core#Concept> .
+
+# endregion
+
+# region DATA PROPERTIES - Phone
+
+sp:phoneName a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "phone name"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:releaseYear a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "release year"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:announcedDate a owl:DatatypeProperty ;
+    rdfs:label "announced date"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:operatingSystem a owl:DatatypeProperty ;
+    rdfs:label "operating system"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:gsmarenaUrl a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "GSMArena URL"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:anyURI .
+
+# Display
+sp:screenSizeInches a owl:DatatypeProperty ;
+    rdfs:label "screen size (inches)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:decimal .
+
+sp:displayType a owl:DatatypeProperty ;
+    rdfs:label "display type"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:displayResolution a owl:DatatypeProperty ;
+    rdfs:label "display resolution"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:refreshRateHz a owl:DatatypeProperty ;
+    rdfs:label "refresh rate (Hz)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+# Battery
+sp:batteryCapacityMah a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "battery capacity (mAh)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+# Camera
+sp:mainCameraMP a owl:DatatypeProperty ;
+    rdfs:label "main camera (megapixels)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:frontCameraMP a owl:DatatypeProperty ;
+    rdfs:label "front camera (megapixels)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:cameraDescription a owl:DatatypeProperty ;
+    rdfs:label "camera description"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+# Processor
+sp:processorName a owl:DatatypeProperty ;
+    rdfs:label "processor name"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+# Connectivity
+sp:supports5G a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "supports 5G"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:boolean .
+
+sp:supportsNFC a owl:DatatypeProperty ;
+    rdfs:label "supports NFC"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:boolean .
+
+sp:networkTechnology a owl:DatatypeProperty ;
+    rdfs:label "network technology"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+# Physical
+sp:weightGrams a owl:DatatypeProperty ;
+    rdfs:label "weight (grams)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:decimal .
+
+sp:dimensions a owl:DatatypeProperty ;
+    rdfs:label "dimensions"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:ipRating a owl:DatatypeProperty ;
+    rdfs:label "IP rating"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+# endregion
+
+# region DATA PROPERTIES - Variant
+
+sp:storageGB a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "storage (GB)"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range xsd:integer .
+
+sp:ramGB a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "RAM (GB)"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range xsd:integer .
+
+# endregion
+
+# region DATA PROPERTIES - Price
+
+sp:priceValue a owl:DatatypeProperty ;
+    rdfs:label "price value"@en ;
+    rdfs:domain sp:Price ;
+    rdfs:range xsd:decimal .
+
+sp:currency a owl:DatatypeProperty ;
+    rdfs:label "currency"@en ;
+    rdfs:domain sp:Price ;
+    rdfs:range xsd:string .
+
+sp:store a owl:DatatypeProperty ;
+    rdfs:label "store"@en ;
+    rdfs:domain sp:Price ;
+    rdfs:range xsd:string .
+
+# endregion
+
+# region DATA PROPERTIES - Review
+
+sp:reviewText a owl:DatatypeProperty ;
+    rdfs:label "review text"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range xsd:string .
+
+sp:reviewDate a owl:DatatypeProperty ;
+    rdfs:label "review date"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range xsd:string .
+
+sp:userLocation a owl:DatatypeProperty ;
+    rdfs:label "user location"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range xsd:string .
+
+# endregion
+
+# region DATA PROPERTIES - User & Brand
+
+sp:username a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "username"@en ;
+    rdfs:domain sp:User ;
+    rdfs:range xsd:string .
+
+sp:brandName a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "brand name"@en ;
+    rdfs:domain sp:Brand ;
+    rdfs:range xsd:string .
+
+# endregion

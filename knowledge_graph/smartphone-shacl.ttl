@@ -1,0 +1,131 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sp: <http://example.org/smartphone#> .
+@prefix spsh: <http://example.org/smartphone/shapes/> .
+
+# 10 SHACL CONSTRAINT EXAMPLES
+
+# Smartphone must have exactly one non-empty name
+spsh:SmartphoneShape a sh:NodeShape ;
+    sh:targetClass sp:Smartphone ;
+    sh:property [
+        sh:path sp:phoneName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Smartphone must have exactly one non-empty name" ;
+    ] ;
+
+# Smartphone must be linked to exactly one Brand (class constraint)
+    sh:property [
+        sh:path sp:hasBrand ;
+        sh:class sp:Brand ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Smartphone must be linked to exactly one Brand" ;
+    ] ;
+
+# Battery capacity must be in valid range (integer range constraint)
+    sh:property [
+        sh:path sp:batteryCapacityMah ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 500 ;
+        sh:maxInclusive 10000 ;
+        sh:message "Battery capacity must be between 500 and 10000 mAh" ;
+    ] ;
+
+# Screen size must be in valid range (decimal range constraint)
+    sh:property [
+        sh:path sp:screenSizeInches ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 3.0 ;
+        sh:maxInclusive 10.0 ;
+        sh:message "Screen size must be between 3.0 and 10.0 inches" ;
+    ] .
+
+# Brand must have exactly one non-empty name
+spsh:BrandShape a sh:NodeShape ;
+    sh:targetClass sp:Brand ;
+    sh:property [
+        sh:path sp:brandName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Brand must have exactly one non-empty name" ;
+    ] .
+
+# Review must have non-empty text
+# Review must be linked to exactly one phone
+spsh:ReviewShape a sh:NodeShape ;
+    sh:targetClass sp:Review ;
+    sh:property [
+        sh:path sp:reviewText ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Review must have non-empty text" ;
+    ] ;
+    sh:property [
+        sh:path sp:reviewOf ;
+        sh:class sp:Smartphone ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Review must be linked to exactly one smartphone" ;
+    ] .
+
+# Currency must be one of allowed values (enum constraint)
+spsh:PriceShape a sh:NodeShape ;
+    sh:targetClass sp:Price ;
+    sh:property [
+        sh:path sp:currency ;
+        sh:datatype xsd:string ;
+        sh:in ( "EUR" "USD" "GBP" "INR" "CNY" ) ;
+        sh:message "Currency must be EUR, USD, GBP, INR, or CNY" ;
+    ] .
+
+# Flagship phones must have price >= 800 EUR (class membership validation)
+spsh:FlagshipPhoneShape a sh:NodeShape ;
+    sh:targetClass sp:FlagshipPhone ;
+    sh:property [
+        sh:path sp:priceEUR ;
+        sh:minInclusive 800 ;
+        sh:message "Flagship phones must have price >= 800 EUR" ;
+    ] .
+
+# 10. SPARQL constraint: Review must reference back correctly
+spsh:ReviewConsistencyShape a sh:NodeShape ;
+    sh:targetClass sp:Smartphone ;
+    sh:sparql [
+        sh:message "Review linked via hasReview must reference back via reviewOf" ;
+        sh:prefixes [
+            sh:declare [ sh:prefix "sp" ; sh:namespace "http://example.org/smartphone#"^^xsd:anyURI ]
+        ] ;
+        sh:select """
+            SELECT $this ?review
+            WHERE {
+                $this sp:hasReview ?review .
+                FILTER NOT EXISTS { ?review sp:reviewOf $this }
+            }
+        """ ;
+    ] .
+
+spsh:PhoneVariantConsistencyShape a sh:NodeShape ;
+    sh:targetClass sp:Phone ;
+    rdfs:label "Phone-Variant Consistency" ;
+    rdfs:comment "Ensures variant references are consistent" ;
+
+    sh:sparql [
+        sh:message "Variant must reference back to this phone via variantOf" ;
+        sh:prefixes [
+            sh:declare [ sh:prefix "sp" ; sh:namespace "http://example.org/smartphone#"^^xsd:anyURI ]
+        ] ;
+        sh:select """
+            SELECT $this ?variant
+            WHERE {
+                $this sp:hasVariant ?variant .
+                FILTER NOT EXISTS { ?variant sp:variantOf $this }
+            }
+        """ ;
+    ] .
