@@ -1,12 +1,12 @@
 """
-Generate RDF knowledge graph using RMLMapper.
+Generate RDF tripples via rml mapper.
 
 Usage:
-    uv run generate_kg.py <mapping.ttl> [--output <output.ttl>]
+    uv run generate_facts.py <mapping.ttl> [--output <output.ttl>]
 
 Examples:
-    uv run generate_kg.py mappings/smartphone-rml.ttl
-    uv run generate_kg.py mappings/smartphone-rml.ttl --output knowledge_graph/facts.ttl
+    uv run generate_facts.py knowledge_graph/smartphone-rml.ttl
+    uv run generate_facts.py knowledge_graph/smartphone-rml.ttl --output knowledge_graph/facts.ttl
 """
 
 import argparse
