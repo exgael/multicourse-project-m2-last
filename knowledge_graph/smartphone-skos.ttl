@@ -40,23 +40,20 @@ spv:Camera a skos:Concept ;
     skos:prefLabel "Camera"@en ;
     skos:prefLabel "Appareil photo"@fr ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:exactMatch wd:Q15328 .  # camera
+    skos:inScheme spv:SmartphoneVocabulary .
 
 spv:Display a skos:Concept ;
     skos:prefLabel "Display"@en ;
     skos:prefLabel "Ecran"@fr ;
     skos:altLabel "Screen"@en ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:exactMatch wd:Q5296 .  # display device
+    skos:inScheme spv:SmartphoneVocabulary .
 
 spv:Battery a skos:Concept ;
     skos:prefLabel "Battery"@en ;
     skos:prefLabel "Batterie"@fr ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:exactMatch wd:Q267298 .  # rechargeable battery
+    skos:inScheme spv:SmartphoneVocabulary .
 
 spv:Performance a skos:Concept ;
     skos:prefLabel "Performance"@en ;
@@ -161,11 +158,23 @@ spv:Budget a skos:Concept ;
     skos:definition "Entry-level segment, typically <300 EUR"@en .
 # endregion
 
-# region WIKIDATA ALIGNMENTS (Task 3c)
-spv:SmartphoneVocabulary skos:exactMatch wd:Q22645 .  # smartphone
+# region LOD ALIGNMENTS
 
-spv:Flagship skos:closeMatch wd:Q1051759 .  # flagship product
-spv:Camera skos:exactMatch wd:Q15328 .      # camera
-spv:Display skos:exactMatch wd:Q5296 .      # display device
-spv:Battery skos:exactMatch wd:Q267298 .    # rechargeable battery
+spv:Camera skos:exactMatch wd:Q15328 .
+    # optical device for recording or transmitting photographic images or videos
+spv:Display skos:exactMatch wd:Q6021804 .
+    # electrically controlled display with no moving parts
+spv:Battery skos:exactMatch wd:Q267298 .
+    # rechargeable battery
+spv:Performance skos:closeMatch wd:Q1197550 .
+    # computer performance
+spv:Storage skos:closeMatch wd:Q66221 .
+    # digital data storage
+spv:Connectivity skos:exactMatch wd:Q1429228 .
+    # connectivity
+spv:BuildQuality skos:closeMatch wd:Q206615 .
+    # build quality / durability
+
 # endregion
+
+

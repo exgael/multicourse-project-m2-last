@@ -2,7 +2,9 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sp: <http://example.org/smartphone#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
 
 # region ONTOLOGY METADATA
 
@@ -316,5 +318,16 @@ sp:brandName a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "brand name"@en ;
     rdfs:domain sp:Brand ;
     rdfs:range xsd:string .
+
+# endregion
+
+# region LOD ALIGNMENTS
+
+sp:Smartphone skos:closeMatch wd:Q19723451 .
+    # model of mobile phone with advanced networking and display capabilities
+sp:Brand skos:exactMatch wd:Q431289 .
+    # identification for a good or service
+sp:Review skos:exactMatch wd:Q265158 .
+    # evaluation of a publication, service, company, piece of hardware, event, exhibition, or performance
 
 # endregion

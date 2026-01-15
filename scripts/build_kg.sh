@@ -31,10 +31,14 @@ wc -l "$OUTPUT"
 
 echo ""
 echo "[3] Materializing inferences..."
-
 uv run scripts/materialize_inferences.py
 
 echo ""
-echo "BUILD COMPLETE"
+echo "[4] Linking brands to DBpedia..."
+uv run scripts/link_brands.py
+cat knowledge_graph/brand-links.ttl >> "$OUTPUT"
+rm -f knowledge_graph/brand-links.ttl
 
+echo ""
+echo "BUILD COMPLETE"
 wc -l "$OUTPUT"
