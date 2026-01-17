@@ -21,7 +21,7 @@ def spotlight(text: str) -> str | None:
 
 def main():
     g = Graph()
-    g.parse("knowledge_graph/kg.ttl", format="turtle")
+    g.parse("knowledge_graph/facts.ttl", format="turtle")
 
     brands: list[str] = list(g.subjects(RDF.type, SP.Brand)) # type: ignore
     print(f"Found {len(brands)} brands\n")
@@ -36,13 +36,13 @@ def main():
         else:
             print(f"  {name} -> not found")
 
-    with open("knowledge_graph/brand-links.ttl", "w") as f:
+    with open("knowledge_graph/linkage.ttl", "w") as f:
         f.write("@prefix owl: <http://www.w3.org/2002/07/owl#> .\n\n")
         f.write("# Brand linking to DBpedia (automatic via Spotlight)\n\n")
         for uri, dbpedia in links:
             f.write(f"<{uri}> owl:sameAs <{dbpedia}> .\n")
 
-    print(f"\nSaved {len(links)} links to knowledge_graph/brand-links.ttl")
+    print(f"\nSaved {len(links)} links to knowledge_graph/linkage.ttl")
 
 
 if __name__ == "__main__":
