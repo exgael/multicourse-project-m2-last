@@ -22,5 +22,11 @@ uv sync
 3. Materialize inverse relation + classes that should be inferred.
 
 ```sh
-./scripts/build_kg.sh
+make build_kg
+```
+
+or 
+
+```sh
+uv run src/kg_build_pipeline.py
 ```
