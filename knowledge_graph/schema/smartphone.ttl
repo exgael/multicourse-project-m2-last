@@ -143,6 +143,18 @@ sp:hasPrice a owl:ObjectProperty ;
     rdfs:domain sp:Variant ;
     rdfs:range sp:Price .
 
+sp:hasPositiveSentimentTag a owl:ObjectProperty ;
+    rdfs:label "has positive sentiment tag"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "Links a review to a SKOS concept representing a positively mentioned feature"@en .
+
+sp:hasNegativeSentimentTag a owl:ObjectProperty ;
+    rdfs:label "has negative sentiment tag"@en ;
+    rdfs:domain sp:Review ;
+    rdfs:range skos:Concept ;
+    rdfs:comment "Links a review to a SKOS concept representing a negatively mentioned feature"@en .
+
 sp:suitableFor a owl:ObjectProperty ;
     rdfs:label "suitable for"@en ;
     rdfs:domain sp:Phone ;

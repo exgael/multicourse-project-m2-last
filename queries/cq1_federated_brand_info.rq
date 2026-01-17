@@ -1,0 +1,29 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+
+# CQ1: Federated Query - Get brand information from DBpedia
+# Question: What brands manufacture smartphones in our KG and what additional info exists in DBpedia?
+
+SELECT DISTINCT ?brandName ?dbpediaURI ?abstract ?industry ?foundingYear
+WHERE {
+  # Local KG: Get brands and their DBpedia links
+  ?brand a sp:Brand ;
+         sp:brandName ?brandName ;
+         owl:sameAs ?dbpediaURI .
+
+  # Federated query to DBpedia
+  SERVICE <https://dbpedia.org/sparql> {
+    ?dbpediaURI rdfs:label ?label .
+
+    OPTIONAL { ?dbpediaURI dbo:abstract ?abstract . FILTER(LANG(?abstract) = "en") }
+    OPTIONAL { ?dbpediaURI dbo:industry ?industry . }
+    OPTIONAL { ?dbpediaURI dbo:foundingYear ?foundingYear . }
+  }
+
+  FILTER(LANG(?label) = "en")
+}
+ORDER BY ?brandName
+LIMIT 20

@@ -58,11 +58,14 @@ class Pipeline:
     @step
     def gen_review_tags(self) -> None:
         from preprocess.analyse_reviews import analyse_reviews
+        from preprocess.flatten_review_tags import flatten_review_tags
+
         analyse_reviews(
             input_path=REVIEWS_JSON,
             output_path=REVIEW_TAGS_JSON,
             model="qwen2.5:latest"
         )
+        flatten_review_tags()
 
     @step
     def gen_facts(self) -> None:

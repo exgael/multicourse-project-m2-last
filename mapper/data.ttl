@@ -146,3 +146,31 @@
     rr:predicateObjectMap [ rr:predicate sp:username ; rr:objectMap [ rml:reference "username" ] ] .
 
 # endregion
+
+# region REVIEW SENTIMENT TAGS
+
+<#PositiveSentimentMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/review_tags_positive.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [ rr:template "http://example.org/smartphone/instance/review/{review_id}" ] ;
+    rr:predicateObjectMap [
+        rr:predicate sp:hasPositiveSentimentTag ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/vocab/{tag}" ]
+    ] .
+
+<#NegativeSentimentMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/review_tags_negative.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [ rr:template "http://example.org/smartphone/instance/review/{review_id}" ] ;
+    rr:predicateObjectMap [
+        rr:predicate sp:hasNegativeSentimentTag ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/vocab/{tag}" ]
+    ] .
+
+# endregion

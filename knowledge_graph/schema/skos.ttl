@@ -57,6 +57,32 @@ spv:Build a skos:Concept ;
     skos:broader spv:Feature ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "Build quality, design, durability"@en .
+
+spv:OS a skos:Concept ;
+    skos:prefLabel "OS"@en ;
+    skos:altLabel "Operating System"@en, "Software"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Operating system, software, UI"@en .
+
+spv:Gaming a skos:Concept ;
+    skos:prefLabel "Gaming"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Gaming performance and capabilities"@en .
+
+spv:Value a skos:Concept ;
+    skos:prefLabel "Value"@en ;
+    skos:altLabel "Price"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Price, value for money"@en .
+
+spv:Overall a skos:Concept ;
+    skos:prefLabel "Overall"@en ;
+    skos:broader spv:Feature ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "General sentiment or overall experience"@en .
 # endregion
 
 # region USE CASES

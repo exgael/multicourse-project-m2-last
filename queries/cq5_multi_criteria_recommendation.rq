@@ -1,0 +1,85 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# CQ5: Multi-criteria Phone Recommendation
+# Question: Recommend phones based on multiple user preferences (battery life, camera, 5G, price range)
+# User wants: Good battery (>=5000mAh), Good camera sentiment, 5G support, Price <800 EUR
+
+SELECT ?phoneName ?brandName
+       ?batteryCapacity
+       ?mainCameraMP
+       ?avgPrice
+       (COALESCE(?posBat, 0) AS ?positiveBattery)
+       (COALESCE(?negBat, 0) AS ?negativeBattery)
+       (COALESCE(?posCam, 0) AS ?positiveCamera)
+       (COALESCE(?negCam, 0) AS ?negativeCamera)
+       ((COALESCE(?posBat, 0) - COALESCE(?negBat, 0) + COALESCE(?posCam, 0) - COALESCE(?negCam, 0)) AS ?totalScore)
+WHERE {
+  # Phone with required specs
+  ?phone a sp:Smartphone ;
+         sp:phoneName ?phoneName ;
+         sp:hasBrand ?brand ;
+         sp:batteryCapacityMah ?batteryCapacity ;
+         sp:mainCameraMP ?mainCameraMP ;
+         sp:supports5G true .
+
+  ?brand sp:brandName ?brandName .
+
+  # Price information
+  {
+    SELECT ?phone (AVG(?priceValue) AS ?avgPrice)
+    WHERE {
+      ?variant sp:variantOf ?phone ;
+               sp:hasPrice ?price .
+      ?price sp:priceValue ?priceValue ;
+             sp:currency "EUR" .
+    }
+    GROUP BY ?phone
+  }
+
+  # Battery sentiment
+  OPTIONAL {
+    SELECT ?phone (COUNT(?review) AS ?posBat)
+    WHERE {
+      ?review sp:reviewOf ?phone ;
+              sp:hasPositiveSentimentTag spv:Battery .
+    }
+    GROUP BY ?phone
+  }
+
+  OPTIONAL {
+    SELECT ?phone (COUNT(?review) AS ?negBat)
+    WHERE {
+      ?review sp:reviewOf ?phone ;
+              sp:hasNegativeSentimentTag spv:Battery .
+    }
+    GROUP BY ?phone
+  }
+
+  # Camera sentiment
+  OPTIONAL {
+    SELECT ?phone (COUNT(?review) AS ?posCam)
+    WHERE {
+      ?review sp:reviewOf ?phone ;
+              sp:hasPositiveSentimentTag spv:Camera .
+    }
+    GROUP BY ?phone
+  }
+
+  OPTIONAL {
+    SELECT ?phone (COUNT(?review) AS ?negCam)
+    WHERE {
+      ?review sp:reviewOf ?phone ;
+              sp:hasNegativeSentimentTag spv:Camera .
+    }
+    GROUP BY ?phone
+  }
+
+  # Apply user criteria filters
+  FILTER(?batteryCapacity >= 5000)
+  FILTER(?avgPrice <= 800)
+  FILTER(?mainCameraMP >= 48)
+}
+ORDER BY DESC(?totalScore) ?avgPrice
+LIMIT 10
