@@ -1,0 +1,195 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sp: <http://example.org/smartphone#> .
+@prefix spv: <http://example.org/smartphone/vocab/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+<http://example.org/smartphone> a owl:Ontology ;
+    rdfs:label "Smartphone Ontology"@en ;
+    rdfs:comment "OWL ontology for smartphone specifications and use-case based recommendations."@en ;
+    owl:versionInfo "2.0" .
+
+
+sp:Device a owl:Class ;
+    rdfs:label "Device"@en .
+
+sp:Phone a owl:Class ;
+    rdfs:label "Phone"@en ;
+    rdfs:subClassOf sp:Device .
+
+sp:Smartphone a owl:Class ;
+    rdfs:label "Smartphone"@en ;
+    rdfs:subClassOf sp:Phone .
+
+sp:Brand a owl:Class ;
+    rdfs:label "Brand"@en .
+
+sp:Variant a owl:Class ;
+    rdfs:label "Variant"@en ;
+    rdfs:comment "Storage/RAM configuration of a phone"@en .
+
+sp:User a owl:Class ;
+    rdfs:label "User"@en ;
+    rdfs:comment "Synthetic user with use-case interests"@en .
+
+
+
+sp:LargeBatteryPhone a owl:Class ;
+    rdfs:label "Large Battery Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:Smartphone
+            [ a owl:Restriction ; owl:onProperty sp:batteryCapacityMah ;
+              owl:someValuesFrom [ a rdfs:Datatype ; owl:onDatatype xsd:integer ;
+                  owl:withRestrictions ( [ xsd:minInclusive 5000 ] ) ] ]
+        )
+    ] .
+
+sp:FiveGPhone a owl:Class ;
+    rdfs:label "5G Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:Smartphone
+            [ a owl:Restriction ; owl:onProperty sp:supports5G ; owl:hasValue true ]
+        )
+    ] .
+
+sp:HighResolutionCameraPhone a owl:Class ;
+    rdfs:label "High Resolution Camera Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:Smartphone
+            [ a owl:Restriction ; owl:onProperty sp:mainCameraMP ;
+              owl:someValuesFrom [ a rdfs:Datatype ; owl:onDatatype xsd:integer ;
+                  owl:withRestrictions ( [ xsd:minInclusive 100 ] ) ] ]
+        )
+    ] .
+
+sp:InMarketPhone a owl:Class ;
+    rdfs:label "In Market Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    rdfs:comment "Phone with at least one variant that has a price"@en .
+
+
+sp:hasBrand a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "has brand"@en ;
+    rdfs:domain sp:Device ;
+    rdfs:range sp:Brand ;
+    owl:inverseOf sp:manufactures .
+
+sp:manufactures a owl:ObjectProperty ;
+    rdfs:label "manufactures"@en ;
+    rdfs:domain sp:Brand ;
+    rdfs:range sp:Device .
+
+sp:hasVariant a owl:ObjectProperty ;
+    rdfs:label "has variant"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range sp:Variant ;
+    owl:inverseOf sp:variantOf .
+
+sp:variantOf a owl:ObjectProperty ;
+    rdfs:label "variant of"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range sp:Phone .
+
+sp:interestedIn a owl:ObjectProperty ;
+    rdfs:label "interested in"@en ;
+    rdfs:comment "User is interested in a use-case or price segment"@en ;
+    rdfs:domain sp:User ;
+    rdfs:range skos:Concept .
+
+sp:likes a owl:ObjectProperty ;
+    rdfs:label "likes"@en ;
+    rdfs:comment "User likes a phone based on shared use-case interests"@en ;
+    rdfs:domain sp:User ;
+    rdfs:range sp:Phone .
+
+
+sp:phoneName a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "phone name"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:releaseYear a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "release year"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:displayType a owl:DatatypeProperty ;
+    rdfs:label "display type"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:refreshRateHz a owl:DatatypeProperty ;
+    rdfs:label "refresh rate (Hz)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:batteryCapacityMah a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "battery capacity (mAh)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:mainCameraMP a owl:DatatypeProperty ;
+    rdfs:label "main camera (megapixels)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
+sp:processorName a owl:DatatypeProperty ;
+    rdfs:label "processor name"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:string .
+
+sp:supports5G a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "supports 5G"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:boolean .
+
+
+sp:storageGB a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "storage (GB)"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range xsd:integer .
+
+sp:ramGB a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "RAM (GB)"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range xsd:integer .
+
+
+sp:priceEUR a owl:DatatypeProperty ;
+    rdfs:label "price (EUR)"@en ;
+    rdfs:comment "Average price in Euros"@en ;
+    rdfs:domain sp:Variant ;
+    rdfs:range xsd:decimal .
+
+
+sp:userId a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "user ID"@en ;
+    rdfs:domain sp:User ;
+    rdfs:range xsd:string .
+
+sp:persona a owl:DatatypeProperty ;
+    rdfs:label "persona"@en ;
+    rdfs:comment "User persona type (e.g., photographer, gamer, business)"@en ;
+    rdfs:domain sp:User ;
+    rdfs:range xsd:string .
+
+sp:brandName a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "brand name"@en ;
+    rdfs:domain sp:Brand ;
+    rdfs:range xsd:string .
+
+
+sp:Smartphone skos:closeMatch wd:Q19723451 .
+sp:Brand skos:exactMatch wd:Q431289 .

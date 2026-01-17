@@ -1,0 +1,105 @@
+@base <http://example.org/smartphone/mapping/> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sp: <http://example.org/smartphone#> .
+@prefix spv: <http://example.org/smartphone/vocab/> .
+
+<#SmartphoneMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/phones.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ;
+        rr:class sp:Smartphone
+    ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "phone_name" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:phoneName ; rr:objectMap [ rml:reference "phone_name" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:releaseYear ; rr:objectMap [ rml:reference "year" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:hasBrand ; rr:objectMap [ rr:template "http://example.org/smartphone/instance/brand/{brand}" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:displayType ; rr:objectMap [ rml:reference "display_type" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:refreshRateHz ; rr:objectMap [ rml:reference "refresh_rate_hz" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:processorName ; rr:objectMap [ rml:reference "chipset" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:mainCameraMP ; rr:objectMap [ rml:reference "main_camera_mp" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:batteryCapacityMah ; rr:objectMap [ rml:reference "battery_mah" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:supports5G ; rr:objectMap [ rml:reference "supports_5g" ; rr:datatype xsd:boolean ] ] .
+
+
+<#BrandMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/phones.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/brand/{brand}" ;
+        rr:class sp:Brand
+    ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "brand" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:brandName ; rr:objectMap [ rml:reference "brand" ] ] .
+
+
+<#VariantMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/variants.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/variant/{variant_id}" ;
+        rr:class sp:Variant
+    ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "variant_text" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:storageGB ; rr:objectMap [ rml:reference "storage_gb" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:variantOf ; rr:objectMap [ rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ] ] .
+
+
+<#PriceEURMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/eur_prices.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.*"
+    ] ;
+    rr:subjectMap [ rr:template "http://example.org/smartphone/instance/phone/{@key}" ] ;
+    rr:predicateObjectMap [ rr:predicate sp:priceEUR ; rr:objectMap [ rml:reference "$" ; rr:datatype xsd:decimal ] ] .
+
+
+<#UserMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/users/user_usecase_labels.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/user/{user_id}" ;
+        rr:class sp:User
+    ] ;
+    rr:predicateObjectMap [ rr:predicate sp:userId ; rr:objectMap [ rml:reference "user_id" ] ] .
+
+
+<#UserInterestMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/users/user_usecase_labels.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [ rr:template "http://example.org/smartphone/instance/user/{user_id}" ] ;
+    rr:predicateObjectMap [
+        rr:predicate sp:interestedIn ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/vocab/{usecase}" ]
+    ] .
+
+
+<#UserPhoneLikesMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/users/user_phone_labels.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [ rr:template "http://example.org/smartphone/instance/user/{user_id}" ] ;
+    rr:predicateObjectMap [
+        rr:predicate sp:likes ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ]
+    ] .

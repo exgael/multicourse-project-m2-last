@@ -1,48 +1,46 @@
 from pathlib import Path
 import subprocess
 from functools import wraps
-from typing import Callable, Any
+from collections.abc import Callable
+from typing import Any
 
-# ROOT DICRECTORY
 ROOT_DIR: Path = Path(__file__).parent.parent
+OUTPUT: Path = ROOT_DIR / "output"
+TEMP: Path = ROOT_DIR / OUTPUT / "temp"
+KG_DIR: Path = ROOT_DIR / "kg"
+
+DATA_DIR: Path = ROOT_DIR / "data"
+PHONES_JSON: Path = DATA_DIR / "phones.json"
+PRICES_JSON: Path = DATA_DIR / "prices.json"
+EUR_PRICES_FILE: Path = OUTPUT / "eur_prices.json"
+VARIANTS_JSON: Path = DATA_DIR / "variants.json"
+
+RML_MAPPER_JAR: Path = ROOT_DIR / "rmlmapper.jar"
+RML_MAPPING: Path = KG_DIR / "rml" / "mapper.ttl"
+
+
+FINAL_KG_TTL: Path = OUTPUT / "final_knowledge_graph.ttl"
+
+KG_SCHEMA_DIR: Path = KG_DIR / "schema"
+KG_SKOS_TTL: Path = KG_SCHEMA_DIR / "skos.ttl"
+KG_BASE_TTL: Path = KG_SCHEMA_DIR / "smartphone.ttl"
+KG_SHACL_TTL: Path = KG_SCHEMA_DIR / "shapes.ttl"
+
+KG_DATA_DIR: Path = TEMP / "kg_data"
+FACTS_TTL: Path = KG_DATA_DIR / "facts.ttl"
+CONSTRUCTED_TTL: Path = KG_DATA_DIR / "constructed.ttl"
+INFERRED_TTL: Path = KG_DATA_DIR / "inferred.ttl"
+LINKAGE_TTL: Path = KG_DATA_DIR / "linkage.ttl"
+ALIGNMENT_TTL: Path = KG_DATA_DIR / "alignment.ttl"
 
 
 def step(func: Callable[..., Any]) -> Callable[..., Any]:
-    """Decorator to print step name before execution."""
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         print(f"\n[{func.__name__}]")
         return func(*args, **kwargs)
     return wrapper
 
-# DATA FILES
-DATA_DIR: Path = ROOT_DIR / "data"
-PHONES_JSON: Path = DATA_DIR / "phones.json"
-PRICES_JSON: Path = DATA_DIR / "prices.json"
-REVIEWS_JSON: Path = DATA_DIR / "reviews.json"
-USERS_JSON: Path = DATA_DIR / "users.json"
-VARIANTS_JSON: Path = DATA_DIR / "variants.json"
-REVIEW_TAGS_JSON: Path = DATA_DIR / "review_tags.json"
-
-# RML MAPPER
-RML_MAPPER_JAR: Path = ROOT_DIR / "rmlmapper.jar"
-RML_MAPPING: Path = ROOT_DIR / "mapper" / "data.ttl"
-
-# KNOWLEDGE GRAPH FILES
-KG_DIR: Path = ROOT_DIR / "knowledge_graph"
-FINAL_KG_TTL: Path = KG_DIR / "final_knowledge_graph.ttl"
-## SCHEMA
-KG_SCHEMA_DIR: Path = KG_DIR / "schema"
-KG_SKOS_TTL: Path = KG_SCHEMA_DIR / "skos.ttl"
-KG_BASE_TTL: Path = KG_SCHEMA_DIR / "smartphone.ttl"
-KG_SHACL_TTL: Path = KG_SCHEMA_DIR / "shapes.ttl"
-## DATA
-KG_DATA_DIR: Path = KG_DIR / "data"
-FACTS_TTL: Path = KG_DATA_DIR / "facts.ttl"
-CONSTRUCTED_TTL: Path = KG_DATA_DIR / "constructed.ttl"
-INFERRED_TTL: Path = KG_DATA_DIR / "inferred.ttl"
-LINKAGE_TTL: Path = KG_DATA_DIR / "linkage.ttl"
-ALIGNMENT_TTL: Path = KG_DATA_DIR / "alignment.ttl"
 
 class Pipeline:
     def __init__(self, skip_preprocess: bool = False, only_facts: bool = False):
@@ -56,23 +54,25 @@ class Pipeline:
         subprocess.run(cmd, check=True, cwd=ROOT_DIR)
 
     @step
-    def gen_review_tags(self) -> None:
-        from preprocess.analyse_reviews import analyse_reviews
-        from preprocess.flatten_review_tags import flatten_review_tags
+    def process_prices(self) -> None:
+        from preprocess.process_prices import process_prices
+        process_prices(prices_file=PRICES_JSON, eur_prices_file=EUR_PRICES_FILE)
 
-        analyse_reviews(
-            input_path=REVIEWS_JSON,
-            output_path=REVIEW_TAGS_JSON,
-            model="qwen2.5:latest"
+    @step
+    def gen_user_data(self) -> None:
+        from preprocess.generate_usecase_data import generate_users
+        generate_users(
+            phones_file=PHONES_JSON,
+            eur_prices_file=EUR_PRICES_FILE,
+            output_dir=OUTPUT / "users",
         )
-        flatten_review_tags()
 
     @step
     def gen_facts(self) -> None:
         from facts_mapper.generate_facts import generate_facts
         generate_facts(
-            mapping=RML_MAPPING, 
-            output=FACTS_TTL, 
+            mapping=RML_MAPPING,
+            output=FACTS_TTL,
             rml_mapper_jar=RML_MAPPER_JAR
         )
 
@@ -130,7 +130,7 @@ class Pipeline:
 
     @step
     def finalize(self) -> None:
-        # write both schema and data to final KG
+        OUTPUT.mkdir(parents=True, exist_ok=True)
         with open(FINAL_KG_TTL, "w", encoding="utf-8") as final_file:
             for ttl_file in [
                 KG_BASE_TTL,
@@ -147,19 +147,19 @@ class Pipeline:
                         final_file.write(f.read())
                         final_file.write("\n\n")
 
+        # Delete TEMP directory
+        import shutil
+        if TEMP.exists():
+            shutil.rmtree(TEMP)
+
     def run(self) -> None:
-        # Preprocessing
-        self.gen_review_tags()
-
-        # Facts generation
+        self.process_prices()
+        self.gen_user_data()
         self.gen_facts()
-
-        # RDF enrichment
         self.materialize_by_construct_and_inference()
         self.link()
-
-        # Finalize KG
         self.finalize()
+
 
 if __name__ == "__main__":
     Pipeline().run()

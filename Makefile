@@ -1,9 +1,5 @@
-clean_generated_data:
-	rm -f data/review_tags.json
+clean:
+	rm -rf output
 
-build_kg:
+run:
 	uv run "src/kg_build_pipeline.py"
-
-clean_kg:
-	rm -f knowledge_graph/final_knowledge_graph.ttl
-	rm -rf knowledge_graph/data

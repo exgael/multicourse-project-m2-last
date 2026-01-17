@@ -1,0 +1,55 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# CQ5: Search phones by multiple criteria with flexible filters
+# Question: Find phones matching specific technical requirements and use-cases
+
+SELECT ?phoneName ?brandName
+       ?batteryCapacity ?mainCameraMP ?ramGB ?storageGB
+       ?avgPrice ?usecases
+WHERE {
+  {
+    SELECT ?phone ?phoneName ?brandName
+           ?batteryCapacity ?mainCameraMP ?ramGB ?storageGB
+           (AVG(?priceValue) AS ?avgPrice)
+    WHERE {
+      ?phone a sp:Smartphone ;
+             sp:phoneName ?phoneName ;
+             sp:hasBrand ?brand ;
+             sp:batteryCapacityMah ?batteryCapacity ;
+             sp:mainCameraMP ?mainCameraMP .
+
+      ?brand sp:brandName ?brandName .
+
+      # Optional specs
+      OPTIONAL { ?phone sp:ramGB ?ramGB . }
+      OPTIONAL { ?phone sp:storageGB ?storageGB . }
+      OPTIONAL { ?phone sp:supports5G ?has5G . }
+
+      # Price
+      OPTIONAL {
+        ?phone sp:priceEUR ?priceValue .
+      }
+
+      # Filters: Battery >= 5000mAh, Camera >= 48MP, 5G support
+      FILTER(?batteryCapacity >= 5000)
+      FILTER(?mainCameraMP >= 48)
+      FILTER(BOUND(?has5G) && ?has5G = true)
+    }
+    GROUP BY ?phone ?phoneName ?brandName ?batteryCapacity ?mainCameraMP ?ramGB ?storageGB
+    HAVING (!BOUND(?avgPrice) || ?avgPrice <= 1000)
+  }
+
+  # Get use-cases
+  {
+    SELECT ?phone (GROUP_CONCAT(DISTINCT ?usecaseName; separator=", ") AS ?usecases)
+    WHERE {
+      ?phone sp:suitableFor ?usecase .
+      BIND(STRAFTER(STR(?usecase), "vocab/") AS ?usecaseName)
+    }
+    GROUP BY ?phone
+  }
+}
+ORDER BY ?avgPrice DESC(?batteryCapacity)
+LIMIT 20

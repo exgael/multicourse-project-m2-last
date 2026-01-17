@@ -1,0 +1,17 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+
+# CQ6: Update user interests (DELETE/INSERT)
+# Question: How do we update a user's interests when their preferences change?
+
+DELETE {
+  ?user sp:interestedIn spv:Budget .
+}
+INSERT {
+  ?user sp:interestedIn spv:Flagship ;
+        sp:interestedIn spv:Photography .
+}
+WHERE {
+  ?user sp:userId "gamer_0000" ;
+        sp:interestedIn spv:Budget .
+}

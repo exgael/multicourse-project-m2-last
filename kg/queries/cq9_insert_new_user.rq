@@ -1,0 +1,15 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX spinst: <http://example.org/smartphone/instance/>
+
+# CQ9: Insert a new user with interests
+# Question: How do we create a new user in the knowledge graph?
+
+INSERT DATA {
+  spinst:user/new_user_0001 a sp:User ;
+                             sp:userId "new_user_0001" ;
+                             sp:persona "professional" ;
+                             sp:interestedIn spv:Business ;
+                             sp:interestedIn spv:Photography ;
+                             sp:interestedIn spv:Flagship .
+}
