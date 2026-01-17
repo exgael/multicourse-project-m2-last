@@ -1,0 +1,15 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Brand linking to DBpedia (automatic via Spotlight)
+
+<http://example.org/smartphone/instance/brand/Apple> owl:sameAs <http://dbpedia.org/resource/Apple_Inc.> .
+<http://example.org/smartphone/instance/brand/Asus> owl:sameAs <http://dbpedia.org/resource/Asus> .
+<http://example.org/smartphone/instance/brand/Google> owl:sameAs <http://dbpedia.org/resource/Google> .
+<http://example.org/smartphone/instance/brand/Huawei> owl:sameAs <http://dbpedia.org/resource/Huawei> .
+<http://example.org/smartphone/instance/brand/Motorola> owl:sameAs <http://dbpedia.org/resource/Motorola> .
+<http://example.org/smartphone/instance/brand/OnePlus> owl:sameAs <http://dbpedia.org/resource/OnePlus> .
+<http://example.org/smartphone/instance/brand/Oppo> owl:sameAs <http://dbpedia.org/resource/Oppo> .
+<http://example.org/smartphone/instance/brand/Realme> owl:sameAs <http://dbpedia.org/resource/Realme> .
+<http://example.org/smartphone/instance/brand/Samsung> owl:sameAs <http://dbpedia.org/resource/Samsung> .
+<http://example.org/smartphone/instance/brand/Sony> owl:sameAs <http://dbpedia.org/resource/Sony> .
+<http://example.org/smartphone/instance/brand/Xiaomi> owl:sameAs <http://dbpedia.org/resource/Xiaomi> .

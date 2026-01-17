@@ -46,7 +46,7 @@ sp:Price a owl:Class ;
 
 # endregion
 
-# region INFERRED CLASSES
+# region INFERRED CLASSES Or Sparkql CONSTRUCT
 
 sp:LargeBatteryPhone a owl:Class ;
     rdfs:label "Large Battery Phone"@en ;
@@ -84,6 +84,11 @@ sp:HighResolutionCameraPhone a owl:Class ;
                   owl:withRestrictions ( [ xsd:minInclusive 100 ] ) ] ]
         )
     ] .
+
+sp:InMarketPhone a owl:Class ;
+    rdfs:label "In Market Phone"@en ;
+    rdfs:subClassOf sp:Smartphone ;
+    rdfs:comment "Phone with at least one variant that has a price"@en .
 
 # endregion
 

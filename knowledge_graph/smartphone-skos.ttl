@@ -5,176 +5,106 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix sp: <http://example.org/smartphone#> .
 @prefix spv: <http://example.org/smartphone/vocab/> .
-@prefix wd: <http://www.wikidata.org/entity/> .
 
 # region CONCEPT SCHEME
 spv:SmartphoneVocabulary a skos:ConceptScheme ;
     skos:prefLabel "Smartphone Recommendation Vocabulary"@en ;
-    skos:prefLabel "Vocabulaire de recommandation smartphone"@fr ;
-    dct:description "SKOS vocabulary for smartphone features, use cases, and recommendations"@en ;
+    dct:description "SKOS vocabulary for smartphone features, use cases, and price segments"@en ;
     skos:hasTopConcept spv:Feature, spv:UseCase, spv:PriceSegment .
 # endregion
 
-# region TOP CONCEPTS
+# region FEATURES
 spv:Feature a skos:Concept ;
     skos:prefLabel "Feature"@en ;
-    skos:prefLabel "Caractéristique"@fr ;
     skos:topConceptOf spv:SmartphoneVocabulary ;
     skos:definition "A technical feature or specification"@en .
 
-spv:UseCase a skos:Concept ;
-    skos:prefLabel "Use Case"@en ;
-    skos:prefLabel "Cas d'usage"@fr ;
-    skos:topConceptOf spv:SmartphoneVocabulary ;
-    skos:definition "User intent or primary usage scenario"@en .
-
-spv:PriceSegment a skos:Concept ;
-    skos:prefLabel "Price Segment"@en ;
-    skos:prefLabel "Segment de prix"@fr ;
-    skos:topConceptOf spv:SmartphoneVocabulary ;
-    skos:definition "Market segment based on price range"@en .
-# endregion
-
-# region FEATURES
 spv:Camera a skos:Concept ;
     skos:prefLabel "Camera"@en ;
-    skos:prefLabel "Appareil photo"@fr ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Photo and video capture quality"@en .
 
 spv:Display a skos:Concept ;
     skos:prefLabel "Display"@en ;
-    skos:prefLabel "Ecran"@fr ;
     skos:altLabel "Screen"@en ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Screen quality, resolution, refresh rate"@en .
 
 spv:Battery a skos:Concept ;
     skos:prefLabel "Battery"@en ;
-    skos:prefLabel "Batterie"@fr ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Battery life and charging"@en .
 
 spv:Performance a skos:Concept ;
     skos:prefLabel "Performance"@en ;
     skos:altLabel "Processor"@en ;
-    skos:altLabel "Chipset"@en ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Processing power, speed, responsiveness"@en .
 
 spv:Storage a skos:Concept ;
     skos:prefLabel "Storage"@en ;
-    skos:prefLabel "Stockage"@fr ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Internal storage capacity"@en .
 
-spv:Connectivity a skos:Concept ;
-    skos:prefLabel "Connectivity"@en ;
-    skos:prefLabel "Connectivite"@fr ;
-    skos:altLabel "5G"@en ;
-    skos:altLabel "NFC"@en ;
+spv:Build a skos:Concept ;
+    skos:prefLabel "Build"@en ;
+    skos:altLabel "Design"@en ;
     skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
-
-spv:BuildQuality a skos:Concept ;
-    skos:prefLabel "Build Quality"@en ;
-    skos:prefLabel "Qualite de fabrication"@fr ;
-    skos:altLabel "Water Resistance"@en ;
-    skos:altLabel "IP68"@en ;
-    skos:broader spv:Feature ;
-    skos:inScheme spv:SmartphoneVocabulary .
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Build quality, design, durability"@en .
 # endregion
 
 # region USE CASES
-spv:PhotographyEnthusiast a skos:Concept ;
-    skos:prefLabel "Photography Enthusiast"@en ;
-    skos:prefLabel "Passione de photo"@fr ;
-    skos:broader spv:UseCase ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Users who prioritize camera quality and photo features"@en ;
-    skos:related spv:Camera .
+spv:UseCase a skos:Concept ;
+    skos:prefLabel "Use Case"@en ;
+    skos:topConceptOf spv:SmartphoneVocabulary ;
+    skos:definition "User intent or primary usage scenario"@en .
 
-spv:MobileGamer a skos:Concept ;
-    skos:prefLabel "Mobile Gamer"@en ;
-    skos:prefLabel "Joueur mobile"@fr ;
+spv:Photography a skos:Concept ;
+    skos:prefLabel "Photography"@en ;
     skos:broader spv:UseCase ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Users who play games and need high performance"@en ;
-    skos:related spv:Performance, spv:Display, spv:Battery .
+    skos:definition "Taking photos and videos"@en .
 
-spv:BusinessUser a skos:Concept ;
-    skos:prefLabel "Business User"@en ;
-    skos:prefLabel "Utilisateur professionnel"@fr ;
+spv:Gaming a skos:Concept ;
+    skos:prefLabel "Gaming"@en ;
     skos:broader spv:UseCase ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Users focused on productivity and reliability"@en ;
-    skos:related spv:Battery, spv:Connectivity .
+    skos:definition "Playing mobile games"@en .
 
-spv:ContentCreator a skos:Concept ;
-    skos:prefLabel "Content Creator"@en ;
-    skos:prefLabel "Createur de contenu"@fr ;
+spv:EverydayUse a skos:Concept ;
+    skos:prefLabel "Everyday Use"@en ;
     skos:broader spv:UseCase ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Users creating video/photo content for social media"@en ;
-    skos:related spv:Camera, spv:Display, spv:Storage .
-
-spv:BudgetConscious a skos:Concept ;
-    skos:prefLabel "Budget Conscious"@en ;
-    skos:prefLabel "Petit budget"@fr ;
-    skos:broader spv:UseCase ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Users seeking best value for money"@en ;
-    skos:related spv:Budget .
-
-spv:EverydayUser a skos:Concept ;
-    skos:prefLabel "Everyday User"@en ;
-    skos:prefLabel "Utilisateur quotidien"@fr ;
-    skos:broader spv:UseCase ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "General users with balanced needs"@en ;
-    skos:related spv:MidRange, spv:Battery .
+    skos:definition "General daily usage"@en .
 # endregion
 
 # region PRICE SEGMENTS
+spv:PriceSegment a skos:Concept ;
+    skos:prefLabel "Price Segment"@en ;
+    skos:topConceptOf spv:SmartphoneVocabulary ;
+    skos:definition "Market segment based on price range"@en .
+
 spv:Flagship a skos:Concept ;
     skos:prefLabel "Flagship"@en ;
-    skos:prefLabel "Haut de gamme"@fr ;
     skos:broader spv:PriceSegment ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Premium segment, typically >800 EUR"@en .
+    skos:definition "Premium segment, higher prices"@en .
 
 spv:MidRange a skos:Concept ;
     skos:prefLabel "Mid-Range"@en ;
-    skos:prefLabel "Milieu de gamme"@fr ;
     skos:broader spv:PriceSegment ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Middle segment, typically 300-800 EUR"@en .
+    skos:definition "Middle segment, average prices"@en .
 
 spv:Budget a skos:Concept ;
     skos:prefLabel "Budget"@en ;
-    skos:prefLabel "Entree de gamme"@fr ;
     skos:broader spv:PriceSegment ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Entry-level segment, typically <300 EUR"@en .
+    skos:definition "Entry-level segment, lower prices"@en .
 # endregion
-
-# region LOD ALIGNMENTS
-
-spv:Camera skos:exactMatch wd:Q15328 .
-    # optical device for recording or transmitting photographic images or videos
-spv:Display skos:exactMatch wd:Q6021804 .
-    # electrically controlled display with no moving parts
-spv:Battery skos:exactMatch wd:Q267298 .
-    # rechargeable battery
-spv:Performance skos:closeMatch wd:Q1197550 .
-    # computer performance
-spv:Storage skos:closeMatch wd:Q66221 .
-    # digital data storage
-spv:Connectivity skos:exactMatch wd:Q1429228 .
-    # connectivity
-spv:BuildQuality skos:closeMatch wd:Q206615 .
-    # build quality / durability
-
-# endregion
-
-

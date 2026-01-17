@@ -20,7 +20,6 @@
     ] ;
     rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "phone_name" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:phoneName ; rr:objectMap [ rml:reference "phone_name" ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:gsmarenaUrl ; rr:objectMap [ rml:reference "url" ; rr:datatype xsd:anyURI ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:releaseYear ; rr:objectMap [ rml:reference "year" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:hasBrand ; rr:objectMap [ rr:template "http://example.org/smartphone/instance/brand/{brand}" ] ] ;
     # Display
@@ -126,7 +125,6 @@
     ] ;
     rr:predicateObjectMap [ rr:predicate sp:reviewText ; rr:objectMap [ rml:reference "text" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:reviewDate ; rr:objectMap [ rml:reference "date" ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:userLocation ; rr:objectMap [ rml:reference "location" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:reviewOf ; rr:objectMap [ rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:writtenBy ; rr:objectMap [ rr:template "http://example.org/smartphone/instance/user/{user_id}" ] ] .
 
