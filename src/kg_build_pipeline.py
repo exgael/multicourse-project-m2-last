@@ -13,6 +13,7 @@ DATA_DIR: Path = ROOT_DIR / "data"
 PHONES_JSON: Path = DATA_DIR / "phones.json"
 PRICES_JSON: Path = DATA_DIR / "prices.json"
 EUR_PRICES_FILE: Path = OUTPUT / "data" / "eur_prices.json"
+MERGED_PHONES_FILE: Path = OUTPUT / "data" / "phones_merged.json"
 USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 VARIANTS_JSON: Path = DATA_DIR / "variants.json"
 
@@ -60,12 +61,28 @@ class Pipeline:
         process_prices(prices_file=PRICES_JSON, eur_prices_file=EUR_PRICES_FILE)
 
     @step
+    def merge_phones(self) -> None:
+        #   The dependency chain:
+        #   prices.json ──────────────────┐
+        #                                 ├──► eur_prices.json ──┐
+        #                                 │                      │
+        #   phones.json ──────────────────┼──────────────────────┼──► phones_merged.json
+        #                                 │                      │
+        #   variants.json ────────────────┴──────────────────────┘
+
+        from preprocess.merge_phones import merge_phones
+        merge_phones(
+            phones_file=PHONES_JSON,
+            variants_file=VARIANTS_JSON,
+            prices_file=EUR_PRICES_FILE,
+            output_file=MERGED_PHONES_FILE,
+        )
+
+    @step
     def gen_user_data(self) -> None:
         from preprocess.generate_usecase_data import generate_users
         generate_users(
-            phones_file=PHONES_JSON,
-            variants_file=VARIANTS_JSON,
-            eur_prices_file=EUR_PRICES_FILE,
+            merged_phones_file=MERGED_PHONES_FILE,
             output_dir=USER_DATA_DIR,
         )
 
@@ -107,9 +124,8 @@ class Pipeline:
                 PREFIX sp: <http://example.org/smartphone#>
                 CONSTRUCT { ?phone a sp:InMarketPhone }
                 WHERE {
-                    ?phone a sp:Smartphone .
-                    ?variant sp:variantOf ?phone ;
-                            sp:hasPrice ?price .
+                    ?phone a sp:Smartphone ;
+                           sp:priceEUR ?price .
                 }
             """),
         ]
@@ -161,6 +177,7 @@ class Pipeline:
 
     def run(self) -> None:
         self.process_prices()
+        self.merge_phones()
         self.gen_user_data()
         self.gen_facts()
         self.materialize_by_construct_and_inference()

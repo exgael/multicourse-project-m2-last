@@ -6,6 +6,24 @@ from collections.abc import Callable
 from typing import Any
 from pydantic import BaseModel, Field, ConfigDict
 
+    # "phone_id": "apple_apple_iphone_11_64gb_4gb",
+    # "base_phone_id": "apple_apple_iphone_11",
+    # "brand": "Apple",
+    # "phone_name": "Apple iPhone 11",
+    # "year": 2019,
+    # "display_type": "Liquid Retina IPS LCD, 625 nits (typ)",
+    # "screen_size_inches": 6.1,
+    # "refresh_rate_hz": null,
+    # "chipset": "Apple A13 Bionic (7 nm+)",
+    # "main_camera_mp": 12,
+    # "selfie_camera_mp": 12,
+    # "battery_mah": 3110,
+    # "supports_5g": false,
+    # "nfc": true,
+    # "storage_gb": 64,
+    # "ram_gb": 4,
+    # "price_eur": 171.45
+
 class UseCaseDefinition(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -42,15 +60,17 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         desc="Taking photos and videos with good quality camera",
         skos_uri="spv:Photography",
         rules=lambda p: (
-            (p.get("main_camera_mp") or 0) >= 50 and
-            ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))
+            (p.get("main_camera_mp") or 0) >= 100 and
+            ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or "")) and
+            (p.get("storage_gb") or 0) >= 512 
         )
     ),
     # Additional use cases for expanded dataset
     "Vlogging": UseCaseDefinition(
         desc="Video blogging and selfie-focused content creation",
         skos_uri="spv:Vlogging",
-        rules=lambda p: (p.get("selfie_camera_mp") or 0) >= 48
+        rules=lambda p: (p.get("selfie_camera_mp") or 0) >= 48 and
+            (p.get("storage_gb") or 0) >= 256
     ),
     # Gaming
     "Gaming": UseCaseDefinition(
@@ -58,7 +78,9 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:Gaming",
         rules=lambda p: (
             (p.get("refresh_rate_hz") or 60) >= 144 and
-            (p.get("battery_mah") or 0) >= 5000
+            (p.get("battery_mah") or 0) >= 5000 and
+            (p.get("ram_gb") or 0) >= 16 and
+            (p.get("storage_gb") or 0) >= 256
         )
     ),
     # Other use cases
@@ -66,40 +88,45 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         desc="Work and productivity phone",
         skos_uri="spv:Business",
         rules=lambda p: (
-            (p.get("battery_mah") or 0) >= 5000 and
-            (p.get("main_camera_mp") or 0) >= 48
+            (p.get("year") or 2025) >= 2024 and
+            (p.get("battery_mah") or 0) >= 7000 and
+            (p.get("main_camera_mp") or 0) >= 48 and
+            p.get("nfc") is True and
+            p.get("supports_5g") is True
         )
     ),
     "EverydayUse": UseCaseDefinition(
         desc="General daily usage",
         skos_uri="spv:EverydayUse",
         rules=lambda p: (
-            (p.get("year") or 2025) >= 2020 and
+            (p.get("year") or 2025) >= 2019 and
             (p.get("battery_mah") or 0) >= 3500 and
-            (p.get("main_camera_mp") or 0) >= 12 and
-            (p.get("selfie_camera_mp") or 0) >= 20
+            (p.get("main_camera_mp") or 0) >= 20 and
+            (p.get("selfie_camera_mp") or 0) >= 12  and
+            p.get("nfc") is True and
+            p.get("supports_5g") is True
         )
     ),
     # Price segments
     "Flagship": UseCaseDefinition(
         desc="Premium segment, higher prices",
         skos_uri="spv:Flagship",
-        rules=lambda p: p.get("_base_price_eur", 0) > 900
+        rules=lambda p: (p.get("price_eur") or 0) > 900
     ),
     "MidRange": UseCaseDefinition(
         desc="Middle segment, average prices",
         skos_uri="spv:MidRange",
-        rules=lambda p: 400 <= p.get("_base_price_eur", 0) <= 900
+        rules=lambda p: 400 <= (p.get("price_eur") or 0) <= 900
     ),
     "Budget": UseCaseDefinition(
         desc="Entry-level segment, lower prices",
         skos_uri="spv:Budget",
-        rules=lambda p: 0 < p.get("_base_price_eur", 0) < 400
+        rules=lambda p: 0 < (p.get("price_eur") or 0) < 400
     ),
     "AfterMarket": UseCaseDefinition(
         desc="Discontinued phones, no retail price",
         skos_uri="spv:AfterMarket",
-        rules=lambda p: p.get("_base_price_eur", 0) == 0
+        rules=lambda p: (p.get("price_eur") or 0) == 0
     ),
 
     "Minimalist": UseCaseDefinition(
@@ -139,53 +166,11 @@ USER_PERSONAS: list[UserPersona] = [
 ]
 
 
-def load_phone_prices(eur_prices_file: Path) -> dict[str, float]:
-    print("Loading EUR prices...")
-    with open(eur_prices_file, "r", encoding="utf-8") as f:
-        variant_prices: dict[str, float] = json.load(f)
-
-    print(f"Loaded prices for {len(variant_prices)} variants")
-    return variant_prices
-
-
-def load_variants(variants_file: Path) -> dict[str, list[dict[str, Any]]]:
-    """Load variants and group by phone_id."""
-    print("Loading variants...")
-    with open(variants_file, "r", encoding="utf-8") as f:
-        variants: list[dict[str, Any]] = json.load(f)
-
-    phone_variants: dict[str, list[dict[str, Any]]] = {}
-    for v in variants:
-        phone_id = v.get("phone_id")
-        if phone_id:
-            if phone_id not in phone_variants:
-                phone_variants[phone_id] = []
-            phone_variants[phone_id].append(v)
-
-    print(f"Loaded {len(variants)} variants for {len(phone_variants)} phones")
-    return phone_variants
-
-
-def load_phones(phones_file: Path, variants_file: Path, eur_prices_file: Path) -> list[dict[str, Any]]:
-    print("Loading phones...")
-    with open(phones_file, "r", encoding="utf-8") as f:
+def load_phones(merged_phones_file: Path) -> list[dict[str, Any]]:
+    """Load merged phones (already includes storage/RAM/price)."""
+    print(f"Loading merged phones from {merged_phones_file}...")
+    with open(merged_phones_file, "r", encoding="utf-8") as f:
         phones: list[dict[str, Any]] = json.load(f)
-
-    variant_prices = load_phone_prices(eur_prices_file)
-    phone_variants = load_variants(variants_file)
-
-    for phone in phones:
-        phone_id = phone["phone_id"]
-        variants = phone_variants.get(phone_id, [])
-
-        # Get max storage and RAM from variants
-        phone["_max_storage_gb"] = max((v.get("storage_gb") or 0 for v in variants), default=0)
-        phone["_max_ram_gb"] = max((v.get("ram_gb") or 0 for v in variants), default=0)
-
-        # Get base (minimum) price from variants
-        prices = [variant_prices.get(v["variant_id"], 0) for v in variants if variant_prices.get(v["variant_id"])]
-        phone["_base_price_eur"] = min(prices) if prices else 0
-
     print(f"Loaded {len(phones)} phones")
     return phones
 
@@ -307,9 +292,7 @@ def print_summary(stats: DatasetStats) -> None:
 
 
 def generate_users(
-        phones_file: Path,
-        variants_file: Path,
-        eur_prices_file: Path,
+        merged_phones_file: Path,
         output_dir: Path,
         num_users: int = 500,
         random_seed: int = 42,
@@ -320,6 +303,6 @@ def generate_users(
         return
 
     random.seed(random_seed)
-    phones: list[dict[str, Any]] = load_phones(phones_file, variants_file, eur_prices_file)
+    phones: list[dict[str, Any]] = load_phones(merged_phones_file)
     users: list[SyntheticUser] = generate_synthetic_users(num_users)
     create_training_labels(phones, users, output_dir)

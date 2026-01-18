@@ -9,7 +9,7 @@
 
 <#SmartphoneMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "data/phones.json" ;
+        rml:source "output/data/phones_merged.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
@@ -28,12 +28,16 @@
     rr:predicateObjectMap [ rr:predicate sp:selfieCameraMP ; rr:objectMap [ rml:reference "selfie_camera_mp" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:batteryCapacityMah ; rr:objectMap [ rml:reference "battery_mah" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:supports5G ; rr:objectMap [ rml:reference "supports_5g" ; rr:datatype xsd:boolean ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:supportsNFC ; rr:objectMap [ rml:reference "nfc" ; rr:datatype xsd:boolean ] ] .
+    rr:predicateObjectMap [ rr:predicate sp:supportsNFC ; rr:objectMap [ rml:reference "nfc" ; rr:datatype xsd:boolean ] ] ;
+    # Variant data now on phone directly
+    rr:predicateObjectMap [ rr:predicate sp:storageGB ; rr:objectMap [ rml:reference "storage_gb" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:priceEUR ; rr:objectMap [ rml:reference "price_eur" ; rr:datatype xsd:decimal ] ] .
 
 
 <#BrandMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "data/phones.json" ;
+        rml:source "output/data/phones_merged.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
@@ -43,32 +47,6 @@
     ] ;
     rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "brand" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:brandName ; rr:objectMap [ rml:reference "brand" ] ] .
-
-
-<#VariantMapping> a rr:TriplesMap ;
-    rml:logicalSource [
-        rml:source "data/variants.json" ;
-        rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$[*]"
-    ] ;
-    rr:subjectMap [
-        rr:template "http://example.org/smartphone/instance/variant/{variant_id}" ;
-        rr:class sp:Variant
-    ] ;
-    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "variant_text" ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:storageGB ; rr:objectMap [ rml:reference "storage_gb" ; rr:datatype xsd:integer ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:variantOf ; rr:objectMap [ rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ] ] .
-
-
-<#PriceEURMapping> a rr:TriplesMap ;
-    rml:logicalSource [
-        rml:source "output/data/eur_prices.json" ;
-        rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.*"
-    ] ;
-    rr:subjectMap [ rr:template "http://example.org/smartphone/instance/phone/{@key}" ] ;
-    rr:predicateObjectMap [ rr:predicate sp:priceEUR ; rr:objectMap [ rml:reference "$" ; rr:datatype xsd:decimal ] ] .
 
 
 <#UserMapping> a rr:TriplesMap ;

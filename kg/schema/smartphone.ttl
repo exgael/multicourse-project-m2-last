@@ -27,10 +27,6 @@ sp:Smartphone a owl:Class ;
 sp:Brand a owl:Class ;
     rdfs:label "Brand"@en .
 
-sp:Variant a owl:Class ;
-    rdfs:label "Variant"@en ;
-    rdfs:comment "Storage/RAM configuration of a phone"@en .
-
 sp:User a owl:Class ;
     rdfs:label "User"@en ;
     rdfs:comment "Synthetic user with use-case interests"@en .
@@ -85,17 +81,6 @@ sp:manufactures a owl:ObjectProperty ;
     rdfs:label "manufactures"@en ;
     rdfs:domain sp:Brand ;
     rdfs:range sp:Device .
-
-sp:hasVariant a owl:ObjectProperty ;
-    rdfs:label "has variant"@en ;
-    rdfs:domain sp:Phone ;
-    rdfs:range sp:Variant ;
-    owl:inverseOf sp:variantOf .
-
-sp:variantOf a owl:ObjectProperty ;
-    rdfs:label "variant of"@en ;
-    rdfs:domain sp:Variant ;
-    rdfs:range sp:Phone .
 
 sp:interestedIn a owl:ObjectProperty ;
     rdfs:label "interested in"@en ;
@@ -162,19 +147,18 @@ sp:supportsNFC a owl:DatatypeProperty, owl:FunctionalProperty ;
 
 sp:storageGB a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "storage (GB)"@en ;
-    rdfs:domain sp:Variant ;
+    rdfs:domain sp:Phone ;
     rdfs:range xsd:integer .
 
 sp:ramGB a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "RAM (GB)"@en ;
-    rdfs:domain sp:Variant ;
+    rdfs:domain sp:Phone ;
     rdfs:range xsd:integer .
-
 
 sp:priceEUR a owl:DatatypeProperty ;
     rdfs:label "price (EUR)"@en ;
-    rdfs:comment "Average price in Euros"@en ;
-    rdfs:domain sp:Variant ;
+    rdfs:comment "Price in Euros"@en ;
+    rdfs:domain sp:Phone ;
     rdfs:range xsd:decimal .
 
 
