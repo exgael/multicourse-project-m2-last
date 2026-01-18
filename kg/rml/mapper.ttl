@@ -61,7 +61,7 @@
 
 <#PriceEURMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/eur_prices.json" ;
+        rml:source "output/data/eur_prices.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$.*"
     ] ;
@@ -71,7 +71,7 @@
 
 <#UserMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/users/user_usecase_labels.csv" ;
+        rml:source "output/data/users/user_usecase_labels.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
     rr:subjectMap [
@@ -83,7 +83,7 @@
 
 <#UserInterestMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/users/user_usecase_labels.csv" ;
+        rml:source "output/data/users/user_usecase_labels.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
     rr:subjectMap [ rr:template "http://example.org/smartphone/instance/user/{user_id}" ] ;
@@ -95,7 +95,7 @@
 
 <#UserPhoneLikesMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/users/user_phone_labels.csv" ;
+        rml:source "output/data/users/user_phone_labels.csv" ;
         rml:referenceFormulation ql:CSV
     ] ;
     rr:subjectMap [ rr:template "http://example.org/smartphone/instance/user/{user_id}" ] ;

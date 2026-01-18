@@ -12,7 +12,8 @@ KG_DIR: Path = ROOT_DIR / "kg"
 DATA_DIR: Path = ROOT_DIR / "data"
 PHONES_JSON: Path = DATA_DIR / "phones.json"
 PRICES_JSON: Path = DATA_DIR / "prices.json"
-EUR_PRICES_FILE: Path = OUTPUT / "eur_prices.json"
+EUR_PRICES_FILE: Path = OUTPUT / "data" / "eur_prices.json"
+USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 VARIANTS_JSON: Path = DATA_DIR / "variants.json"
 
 RML_MAPPER_JAR: Path = ROOT_DIR / "rmlmapper.jar"
@@ -64,7 +65,7 @@ class Pipeline:
         generate_users(
             phones_file=PHONES_JSON,
             eur_prices_file=EUR_PRICES_FILE,
-            output_dir=OUTPUT / "users",
+            output_dir=USER_DATA_DIR,
         )
 
     @step
@@ -129,7 +130,12 @@ class Pipeline:
         )
 
     @step
-    def finalize(self) -> None:
+    def train_recommendation_model(self) -> None:
+        from recommandation.train import train_model
+        train_model()
+
+    @step
+    def cleanup(self) -> None:
         OUTPUT.mkdir(parents=True, exist_ok=True)
         with open(FINAL_KG_TTL, "w", encoding="utf-8") as final_file:
             for ttl_file in [
@@ -158,7 +164,8 @@ class Pipeline:
         self.gen_facts()
         self.materialize_by_construct_and_inference()
         self.link()
-        self.finalize()
+        self.train_recommendation_model()
+        self.cleanup()
 
 
 if __name__ == "__main__":

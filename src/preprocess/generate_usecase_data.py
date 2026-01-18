@@ -258,7 +258,7 @@ def generate_users(
         max_user_phone_samples: int = 5
     ) -> None:
     # If data already exists, skip generation
-    if output_dir.exists() and any(output_dir.iterdir()):
+    if (output_dir / "users").exists() and any((output_dir / "users").iterdir()):
         print(f"Data already exists in {output_dir}, skipping generation.")
         return
 

@@ -1,12 +1,3 @@
-"""
-Train PyKEEN link prediction model directly from the knowledge graph.
-
-Loads triples from output/final_knowledge_graph.ttl including:
-- Phone specs (batteryCapacityMah, mainCameraMP, etc.)
-- User interests (interestedIn use-cases)
-- User-phone likes
-"""
-
 from pathlib import Path
 from rdflib import Graph, Namespace
 from pykeen.pipeline import pipeline
@@ -177,8 +168,11 @@ def discretize_value(property_name: str, value: str) -> str:
     return value
 
 
-def train_model(training: TriplesFactory, testing: TriplesFactory, validation: TriplesFactory) -> None:
+def train_model() -> None:
     """Train TransE model for link prediction."""
+
+    training, testing, validation = load_triples_from_kg()
+
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
     result = pipeline(
@@ -204,12 +198,3 @@ def train_model(training: TriplesFactory, testing: TriplesFactory, validation: T
     print(f"  Hits@1: {result.metric_results.get_metric('hits_at_1'):.4f}")
     print(f"  Hits@3: {result.metric_results.get_metric('hits_at_3'):.4f}")
     print(f"  Hits@10: {result.metric_results.get_metric('hits_at_10'):.4f}")
-
-
-if __name__ == "__main__":
-    print("LINK PREDICTION TRAINING FROM KNOWLEDGE GRAPH")
-    print()
-
-    training, testing, validation = load_triples_from_kg()
-    print()
-    train_model(training, testing, validation)
