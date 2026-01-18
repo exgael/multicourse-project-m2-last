@@ -25,6 +25,7 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
     all_triples: list[tuple[str, str, str]] = []
 
     # Extract phone datatype properties as triples
+    # Removed: mainCameraMP, selfieCameraMP (not useful for use-case classification)
     phone_spec_query = """
     PREFIX sp: <http://example.org/smartphone#>
 
@@ -37,16 +38,8 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             BIND("batteryCapacityMah" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
-            ?phone sp:mainCameraMP ?val .
-            BIND("mainCameraMP" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
             ?phone sp:refreshRateHz ?val .
             BIND("refreshRateHz" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
-            ?phone sp:selfieCameraMP ?val .
-            BIND("selfieCameraMP" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
             ?phone sp:supports5G ?val .
@@ -56,6 +49,10 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             ?phone sp:supportsNFC ?val .
             BIND("supportsNFC" AS ?property)
             BIND(STR(?val) AS ?value)
+        } UNION {
+            ?phone sp:priceEUR ?val .
+            BIND("priceEUR" AS ?property)
+            BIND(STR(?val) AS ?value)
         }
     }
     """
@@ -64,9 +61,13 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
         phone_id = str(row.phone_id)
         prop = str(row.property)
         value = str(row.value)
-        # Discretize numeric values into bins for better embeddings
-        if prop in ["batteryCapacityMah", "mainCameraMP", "selfieCameraMP", "refreshRateHz"]:
-            value = discretize_value(prop, value)
+        # Discretize continuous values
+        if prop == "priceEUR":
+            value = discretize_price(value)
+        elif prop == "batteryCapacityMah":
+            value = discretize_battery(value)
+        elif prop == "refreshRateHz":
+            value = discretize_refresh_rate(value)
         all_triples.append((phone_id, prop, value))
 
     print(f"Extracted {len(all_triples)} phone spec triples")
@@ -161,55 +162,45 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
     return training, testing, validation
 
 
-def discretize_value(property_name: str, value: str) -> str:
+def discretize_price(value: str) -> str:
+    """Discretize price into segments matching SKOS concepts."""
     try:
-        num_value = float(value)
+        price = float(value)
     except ValueError:
-        return value
+        return "price_budget"
 
-    if property_name == "batteryCapacityMah":
-        if num_value >= 8000:
-            return "battery_8000plus"
-        elif num_value >= 6000:
-            return "battery_6000to8000"
-        elif num_value >= 4000:
-            return "battery_4000to6000"
-        else:
-            return "battery_below4000"
+    if price > 900:
+        return "price_flagship"
+    elif price >= 400:
+        return "price_midrange"
+    else:
+        return "price_budget"
 
-    elif property_name == "mainCameraMP":
-        if num_value >= 200:
-            return "camera_200plus"
-        elif num_value >= 100:
-            return "camera_100to200"
-        elif num_value >= 48:
-            return "camera_48to100"
-        else:
-            return "camera_below48"
 
-    elif property_name == "selfieCameraMP":
-        if num_value >= 48:
-            return "selfie_48plus"
-        elif num_value >= 32:
-            return "selfie_32to48"
-        elif num_value >= 12:
-            return "selfie_12to32"
-        else:
-            return "selfie_below12"
+def discretize_battery(value: str) -> str:
+    """Discretize battery capacity - aligned with use-case rules (Gaming/EverydayUse need >= 4500)."""
+    try:
+        mah = int(float(value))
+    except ValueError:
+        return "battery_small"
 
-    elif property_name == "refreshRateHz":
-        if num_value >= 144:
-            return "refresh_144hzplus"
-        if num_value >= 120:
-            return "refresh_120to144hz"
-        elif num_value >= 90:
-            return "refresh_90to120hz"
-        elif num_value >= 60:
-            return "refresh_60to90hz"
-        else:
-            return "refresh_below60hz"
+    if mah >= 4500:
+        return "battery_large"  # Matches Gaming/EverydayUse threshold
+    else:
+        return "battery_small"
 
-    return value
+
+def discretize_refresh_rate(value: str) -> str:
+    """Discretize refresh rate - aligned with Gaming use-case (>= 144Hz)."""
+    try:
+        hz = int(float(value))
+    except ValueError:
+        return "refresh_standard"
+
+    if hz >= 144:
+        return "refresh_gaming"  # Matches Gaming threshold
+    else:
+        return "refresh_standard"
 
 
 def train_model() -> None:

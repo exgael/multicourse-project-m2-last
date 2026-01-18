@@ -78,9 +78,11 @@ def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, outp
             variants_by_phone[v.phone_id] = []
         variants_by_phone[v.phone_id].append(v)
 
-    # Merge
+    # Merge (only phones with prices)
     merged: list[MergedPhone] = []
     phones_with_variants = 0
+    variants_with_price = 0
+    variants_without_price = 0
     phones_without_variants = 0
 
     for phone in phones:
@@ -89,6 +91,11 @@ def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, outp
         if phone_variants:
             phones_with_variants += 1
             for v in phone_variants:
+                price = prices.get(v.variant_id)
+                if price is None or price <= 0:
+                    variants_without_price += 1
+                    continue  # Skip variants without price
+                variants_with_price += 1
                 merged.append(MergedPhone(
                     phone_id=v.variant_id,
                     base_phone_id=phone.phone_id,
@@ -106,33 +113,20 @@ def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, outp
                     nfc=phone.nfc,
                     storage_gb=v.storage_gb,
                     ram_gb=v.ram_gb,
-                    price_eur=prices.get(v.variant_id),
+                    price_eur=price,
                 ))
         else:
+            # Phones without variants have no price data, skip them
             phones_without_variants += 1
-            merged.append(MergedPhone(
-                phone_id=phone.phone_id,
-                base_phone_id=phone.phone_id,
-                brand=phone.brand,
-                phone_name=phone.phone_name,
-                year=phone.year,
-                display_type=phone.display_type,
-                screen_size_inches=phone.screen_size_inches,
-                refresh_rate_hz=phone.refresh_rate_hz,
-                chipset=phone.chipset,
-                main_camera_mp=phone.main_camera_mp,
-                selfie_camera_mp=phone.selfie_camera_mp,
-                battery_mah=phone.battery_mah,
-                supports_5g=phone.supports_5g,
-                nfc=phone.nfc,
-            ))
 
     # Save merged data
     output_file.parent.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump([m.model_dump() for m in merged], f, indent=2)
 
-    print(f"Merged {len(phones)} phones into {len(merged)} entries")
-    print(f"  - {phones_with_variants} phones had variants")
-    print(f"  - {phones_without_variants} phones without variants")
+    print(f"Merged {len(phones)} base phones into {len(merged)} entries (only with prices)")
+    print(f"  - {phones_with_variants} base phones had variants")
+    print(f"  - {variants_with_price} variants with price (included)")
+    print(f"  - {variants_without_price} variants without price (skipped)")
+    print(f"  - {phones_without_variants} phones without variants (skipped)")
     print(f"Saved to {output_file}")

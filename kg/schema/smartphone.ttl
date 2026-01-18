@@ -167,12 +167,6 @@ sp:userId a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:domain sp:User ;
     rdfs:range xsd:string .
 
-sp:persona a owl:DatatypeProperty ;
-    rdfs:label "persona"@en ;
-    rdfs:comment "User persona type (e.g., photographer, gamer, business)"@en ;
-    rdfs:domain sp:User ;
-    rdfs:range xsd:string .
-
 sp:brandName a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "brand name"@en ;
     rdfs:domain sp:Brand ;
