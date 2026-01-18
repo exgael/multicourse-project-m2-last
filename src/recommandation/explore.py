@@ -86,7 +86,7 @@ def explore(keywords: list[str], top_k: int = 15) -> None:
             phones.append((entity.replace("instance/phone/", ""), sim_val))
         elif any(entity.startswith(p) for p in ["casual", "pro_", "business", "student", "creator",
                                                    "traveler", "poweruser", "minimalist", "vlogger",
-                                                   "influencer", "collector", "retro_lover", "senior", "backup_phone"]):
+                                                   "influencer", "collector", "retro_lover", "senior", "budget_seeker"]):
             users.append((entity, sim_val))
         elif entity in ["ProGaming", "CasualGaming", "ProPhotography", "CasualPhotography",
                         "Business", "EverydayUse", "Flagship", "MidRange", "Budget",

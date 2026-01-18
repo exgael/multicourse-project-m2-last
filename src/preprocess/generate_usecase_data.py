@@ -17,7 +17,7 @@ class UseCaseDefinition(BaseModel):
 class UserPersona(BaseModel):
     name_prefix: str = Field(description="Prefix for user ID generation")
     primary: str = Field(description="Primary use-case interest")
-    secondary: list[str] = Field(description="Secondary use-case interests")
+    price_segment: str = Field(description="Price segment interest")
 
 
 class SyntheticUser(BaseModel):
@@ -141,31 +141,31 @@ USE_CASES: dict[str, UseCaseDefinition] = {
 
 USER_PERSONAS: list[UserPersona] = [
     # Photography-focused personas
-    UserPersona(name_prefix="casual_photographer", primary="CasualPhotography", secondary=["MidRange"]),
-    UserPersona(name_prefix="pro_photographer", primary="ProPhotography", secondary=["Flagship"]),
+    UserPersona(name_prefix="casual_photographer", primary="CasualPhotography", price_segment="MidRange"),
+    UserPersona(name_prefix="pro_photographer", primary="ProPhotography", price_segment="Flagship"),
     # Gaming-focused personas
-    UserPersona(name_prefix="casual_gamer", primary="CasualGaming", secondary=["MidRange"]),
-    UserPersona(name_prefix="pro_gamer", primary="ProGaming", secondary=["Flagship"]),
+    UserPersona(name_prefix="casual_gamer", primary="CasualGaming", price_segment="MidRange"),
+    UserPersona(name_prefix="pro_gamer", primary="ProGaming", price_segment="Flagship"),
     # Business and productivity personas
-    UserPersona(name_prefix="business", primary="Business", secondary=["MidRange"]),
-    UserPersona(name_prefix="professional", primary="Business", secondary=["ProPhotography", "Flagship"]),
+    UserPersona(name_prefix="business", primary="Business", price_segment="MidRange"),
+    UserPersona(name_prefix="professional", primary="Business", price_segment="Flagship"),
     # Everyday users
-    UserPersona(name_prefix="casual", primary="EverydayUse", secondary=["Budget"]),
-    UserPersona(name_prefix="student", primary="EverydayUse", secondary=["Budget", "CasualPhotography"]),
-    UserPersona(name_prefix="minimalist", primary="EverydayUse", secondary=["Budget"]),
+    UserPersona(name_prefix="casual", primary="EverydayUse", price_segment="Budget"),
+    UserPersona(name_prefix="student", primary="EverydayUse", price_segment="MidRange"),
+    UserPersona(name_prefix="minimalist", primary="EverydayUse", price_segment="Budget"),
     # Power users and creators
-    UserPersona(name_prefix="creator", primary="ProPhotography", secondary=["ProGaming", "Flagship"]),
-    UserPersona(name_prefix="traveler", primary="CasualPhotography", secondary=["EverydayUse", "MidRange"]),
-    UserPersona(name_prefix="poweruser", primary="ProGaming", secondary=["Flagship", "Business"]),
+    UserPersona(name_prefix="creator", primary="ProPhotography", price_segment="MidRange"),
+    UserPersona(name_prefix="traveler", primary="CasualPhotography", price_segment="Budget"),
+    UserPersona(name_prefix="poweruser", primary="ProGaming", price_segment="MidRange"),
     # Vlogging personas (selfie-focused)
-    UserPersona(name_prefix="vlogger", primary="Vlogging", secondary=["ProPhotography", "MidRange"]),
-    UserPersona(name_prefix="influencer", primary="Vlogging", secondary=["Flagship", "ProPhotography"]),
+    UserPersona(name_prefix="vlogger", primary="Vlogging", price_segment="MidRange"),
+    UserPersona(name_prefix="influencer", primary="Vlogging", price_segment="Flagship"),
     # Vintage/retro phone enthusiasts
-    UserPersona(name_prefix="collector", primary="VintageCollector", secondary=["AfterMarket"]),
-    UserPersona(name_prefix="retro_lover", primary="VintageCollector", secondary=["AfterMarket", "BasicPhone"]),
+    UserPersona(name_prefix="collector", primary="VintageCollector", price_segment="AfterMarket"),
+    UserPersona(name_prefix="retro_lover", primary="BasicPhone", price_segment="AfterMarket"),
     # Basic phone users (seniors, minimalists who want simple)
-    UserPersona(name_prefix="senior", primary="BasicPhone", secondary=["AfterMarket"]),
-    UserPersona(name_prefix="backup_phone", primary="BasicPhone", secondary=["Budget", "AfterMarket"]),
+    UserPersona(name_prefix="senior", primary="BasicPhone", price_segment="AfterMarket"),
+    UserPersona(name_prefix="budget_seeker", primary="EverydayUse", price_segment="AfterMarket"),
 ]
 
 
@@ -230,17 +230,13 @@ def classify_phone_usecases(phone: dict[str, Any]) -> list[str]:
     return usecases
 
 
-def generate_synthetic_users(num_users: int, secondary_interest_probability: float) -> list[SyntheticUser]:
+def generate_synthetic_users(num_users: int) -> list[SyntheticUser]:
     users: list[SyntheticUser] = []
 
     for i in range(num_users):
         persona = random.choice(USER_PERSONAS)
         user_id = f"{persona.name_prefix}_{i:04d}"
-        interests = [persona.primary]
-
-        for secondary in persona.secondary:
-            if random.random() < secondary_interest_probability:
-                interests.append(secondary)
+        interests = [persona.primary, persona.price_segment]
 
         users.append(SyntheticUser(
             user_id=user_id,
@@ -347,7 +343,6 @@ def generate_users(
         output_dir: Path,
         num_users: int = 500,
         random_seed: int = 42,
-        secondary_interest_probability: float = 0.5,
     ) -> None:
     # If data already exists, skip generation
     if (output_dir / "users").exists() and any((output_dir / "users").iterdir()):
@@ -356,5 +351,5 @@ def generate_users(
 
     random.seed(random_seed)
     phones: list[dict[str, Any]] = load_phones(phones_file, variants_file, eur_prices_file)
-    users: list[SyntheticUser] = generate_synthetic_users(num_users, secondary_interest_probability)
+    users: list[SyntheticUser] = generate_synthetic_users(num_users)
     create_training_labels(phones, users, output_dir)
