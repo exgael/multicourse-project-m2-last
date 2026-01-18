@@ -84,13 +84,14 @@ def explore(keywords: list[str], top_k: int = 15) -> None:
             specs.append((entity, sim_val))
         elif entity.startswith("instance/phone/"):
             phones.append((entity.replace("instance/phone/", ""), sim_val))
-        elif any(entity.startswith(p) for p in ["casual", "pro_", "business", "student", "creator",
+        elif any(entity.startswith(p) for p in ["photographer", "pro_", "gamer", "business",
+                                                   "professional", "casual", "student", "creator",
                                                    "traveler", "poweruser", "vlogger", "influencer",
                                                    "senior", "simple_user", "budget_seeker"]):
             users.append((entity, sim_val))
-        elif entity in ["ProGaming", "CasualGaming", "ProPhotography", "CasualPhotography",
-                        "Business", "EverydayUse", "Flagship", "MidRange", "Budget",
-                        "AfterMarket", "Vlogging", "Minimalist"]:
+        elif entity in ["Gaming", "Photography", "Business", "EverydayUse",
+                        "Flagship", "MidRange", "Budget", "AfterMarket",
+                        "Vlogging", "Minimalist"]:
             usecases.append((entity, sim_val))
 
     # Sort by similarity
@@ -134,9 +135,9 @@ def list_concepts(tf) -> None:
     """List available concepts in the model."""
     entity_to_id = tf.entity_to_id
 
-    usecases = ["ProGaming", "CasualGaming", "ProPhotography", "CasualPhotography",
-                "Business", "EverydayUse", "Flagship", "MidRange", "Budget",
-                "AfterMarket", "Vlogging", "Minimalist"]
+    usecases = ["Gaming", "Photography", "Business", "EverydayUse",
+                "Vlogging", "Minimalist",
+                "Flagship", "MidRange", "Budget", "AfterMarket"]
 
     specs = [e for e in entity_to_id.keys() if e.startswith(("battery", "camera", "selfie", "refresh", "true", "false"))]
 

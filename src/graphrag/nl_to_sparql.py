@@ -19,77 +19,30 @@ OLLAMA_MODEL = "llama3.2"
 
 # Schema context for the LLM
 ONTOLOGY_CONTEXT = """
-# Smartphone Knowledge Graph Schema
+# Smartphone KG - SPARQL Guide
 
-## Prefixes
+## Required Prefixes
 PREFIX sp: <http://example.org/smartphone#>
 PREFIX spv: <http://example.org/smartphone/vocab/>
-PREFIX spi: <http://example.org/smartphone/instance/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-## Classes
-- sp:Smartphone - A smartphone device
-- sp:Brand - Phone manufacturer (e.g., Apple, Samsung)
-- sp:Variant - Storage/RAM configuration of a phone
-- sp:User - Synthetic user with preferences
+## Phone Properties
+- sp:phoneName (string) - Phone name, ALWAYS select this
+- sp:batteryCapacityMah (integer) - Battery mAh
+- sp:mainCameraMP (integer) - Camera megapixels
+- sp:refreshRateHz (integer) - Screen refresh rate Hz
+- sp:releaseYear (integer) - Year released
+- sp:supports5G (boolean) - 5G support
+- sp:supportsNFC (boolean) - NFC support
+- sp:displayType (string) - e.g. "Super AMOLED", use CONTAINS for matching
+- sp:hasBrand -> Brand
 
-## Defined Classes (inferred)
-- sp:LargeBatteryPhone - Smartphone with battery >= 5000mAh
-- sp:FiveGPhone - Smartphone with 5G support
-- sp:HighResolutionCameraPhone - Smartphone with camera >= 100MP
+## Brand Properties
+- sp:brandName (string) - e.g. "Samsung", "Apple"
 
-## Object Properties
-- sp:hasBrand (Smartphone -> Brand) - Phone's manufacturer
-- sp:manufactures (Brand -> Smartphone) - Inverse of hasBrand
-- sp:hasVariant (Phone -> Variant) - Phone's storage configurations
-- sp:variantOf (Variant -> Phone) - Inverse of hasVariant
-- sp:interestedIn (User -> skos:Concept) - User's use-case interests
-- sp:likes (User -> Smartphone) - User likes a phone
-- sp:suitableFor (Smartphone -> skos:Concept) - Phone is suitable for a use-case
+## Use Cases (spv: namespace)
+spv:Photography, spv:Gaming, spv:Business, spv:EverydayUse, spv:Vlogging, spv:Minimalist
 
-## Datatype Properties
-- sp:phoneName (xsd:string) - Phone model name
-- sp:brandName (xsd:string) - Brand name
-- sp:releaseYear (xsd:integer) - Year of release
-- sp:batteryCapacityMah (xsd:integer) - Battery in mAh
-- sp:mainCameraMP (xsd:integer) - Main camera megapixels
-- sp:selfieCameraMP (xsd:integer) - Selfie camera megapixels
-- sp:refreshRateHz (xsd:integer) - Screen refresh rate
-- sp:supports5G (xsd:boolean) - Has 5G support
-- sp:supportsNFC (xsd:boolean) - Has NFC support
-- sp:processorName (xsd:string) - Processor/chipset name
-- sp:displayType (xsd:string) - Display technology (AMOLED, LCD, etc.)
-- sp:storageGB (xsd:integer) - Storage in GB (on Variant)
-- sp:ramGB (xsd:integer) - RAM in GB (on Variant)
-- sp:priceEUR (xsd:decimal) - Price in Euros (on Variant)
-- sp:userId (xsd:string) - User identifier
-- sp:persona (xsd:string) - User persona type
-
-## SKOS Concepts (Use Cases) - spv: namespace
-- spv:Photography, spv:CasualPhotography, spv:ProPhotography
-- spv:Gaming, spv:CasualGaming, spv:ProGaming
-- spv:Business, spv:EverydayUse, spv:Vlogging
-- spv:VintageCollector, spv:BasicPhone
-
-## SKOS Concepts (Price Segments) - spv: namespace
-- spv:Flagship (> 900 EUR)
-- spv:MidRange (400-900 EUR)
-- spv:Budget (< 400 EUR)
-- spv:AfterMarket (no current price)
-
-## Instance URI patterns
-- Phones: spi:phone/{phone_id} (e.g., spi:phone/apple_apple_iphone_15_pro)
-- Brands: spi:brand/{brand_name} (e.g., spi:brand/Apple)
-- Users: spi:user/{user_id} (e.g., spi:user/gamer_0001)
-- Variants: spi:variant/{variant_id}
-
-## Example Queries
-
-# Find all Samsung phones with battery > 5000mAh
-PREFIX sp: <http://example.org/smartphone#>
+## Example 1: Samsung phones with big battery
 SELECT ?phoneName ?battery WHERE {
   ?phone a sp:Smartphone ;
          sp:phoneName ?phoneName ;
@@ -99,20 +52,17 @@ SELECT ?phoneName ?battery WHERE {
   FILTER(?battery > 5000)
 }
 
-# Find phones suitable for gaming
-PREFIX sp: <http://example.org/smartphone#>
-PREFIX spv: <http://example.org/smartphone/vocab/>
+## Example 2: Top cameras
+SELECT ?phoneName ?mp WHERE {
+  ?phone sp:phoneName ?phoneName ;
+         sp:mainCameraMP ?mp .
+} ORDER BY DESC(?mp) LIMIT 5
+
+## Example 3: Phones with AMOLED display
 SELECT ?phoneName WHERE {
   ?phone sp:phoneName ?phoneName ;
-         sp:suitableFor spv:Gaming .
-}
-
-# Get user interests
-PREFIX sp: <http://example.org/smartphone#>
-SELECT ?userId ?interest WHERE {
-  ?user sp:userId ?userId ;
-        sp:interestedIn ?uc .
-  BIND(STRAFTER(STR(?uc), "vocab/") AS ?interest)
+         sp:displayType ?display .
+  FILTER(CONTAINS(?display, "AMOLED"))
 }
 """
 
@@ -336,13 +286,11 @@ def interactive_mode():
 def demo():
     """Run demo with sample questions."""
     questions = [
-        "What Samsung phones have a battery capacity greater than 5000mAh?",
-        "Show me all phones suitable for gaming",
-        "What are the top 5 phones with the best camera (highest megapixels)?",
-        "Which brands manufacture phones with 5G support?",
-        "Find phones released in 2023 with AMOLED display",
-        "What phones does user gamer_0001 like?",
-        "List all flagship phones (price > 900 EUR)",
+        "What Samsung phones have a battery greater than 5000mAh?",
+        "What are the top 5 phones with the best camera?",
+        "Find phones with AMOLED display",
+        "Which phones have a refresh rate of at least 144Hz?",
+        "Show me Apple phones released in 2024",
     ]
     
     print("=" * 60)

@@ -37,22 +37,13 @@ class DatasetStats(BaseModel):
     persona_distribution: dict[str, int]
 
 USE_CASES: dict[str, UseCaseDefinition] = {
-    # Photography hierarchy
-    "CasualPhotography": UseCaseDefinition(
-        desc="Casual photo taking with good quality camera",
-        skos_uri="spv:CasualPhotography",
+    # Photography
+    "Photography": UseCaseDefinition(
+        desc="Taking photos and videos with good quality camera",
+        skos_uri="spv:Photography",
         rules=lambda p: (
             (p.get("main_camera_mp") or 0) >= 50 and
             ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))
-        )
-    ),
-    "ProPhotography": UseCaseDefinition(
-        desc="Professional-grade photography with high resolution camera",
-        skos_uri="spv:ProPhotography",
-        rules=lambda p: (
-            (p.get("main_camera_mp") or 0) >= 100 and
-            ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))and
-            (p.get("_max_storage_gb") or 0) >= 512
         )
     ),
     # Additional use cases for expanded dataset
@@ -61,26 +52,13 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:Vlogging",
         rules=lambda p: (p.get("selfie_camera_mp") or 0) >= 48
     ),
-    # Gaming hierarchy
-    "CasualGaming": UseCaseDefinition(
-        desc="Casual mobile gaming with smooth experience",
-        skos_uri="spv:CasualGaming",
-        rules=lambda p: (
-            (p.get("refresh_rate_hz") or 60) >= 90 and
-            (p.get("battery_mah") or 0) >= 4000
-        )
-    ),
-    "ProGaming": UseCaseDefinition(
-        desc="Competitive mobile gaming with high performance",
-        skos_uri="spv:ProGaming",
+    # Gaming
+    "Gaming": UseCaseDefinition(
+        desc="Mobile gaming with smooth experience",
+        skos_uri="spv:Gaming",
         rules=lambda p: (
             (p.get("refresh_rate_hz") or 60) >= 144 and
-            (p.get("screen_size_inches") or 0) >= 6.5 and
-            (p.get("battery_mah") or 0) >= 5000 and
-            (p.get("_max_storage_gb") or 0) >= 512 and
-            (p.get("_max_ram_gb") or 0) >= 16 and
-            p.get("nfc") is not True and
-            p.get("supports_5g") is not True
+            (p.get("battery_mah") or 0) >= 5000
         )
     ),
     # Other use cases
@@ -135,23 +113,22 @@ USE_CASES: dict[str, UseCaseDefinition] = {
 }
 
 USER_PERSONAS: list[UserPersona] = [
-    # Photography-focused personas
-    UserPersona(name_prefix="casual_photographer", primary="CasualPhotography", price_segment="MidRange"),
-    UserPersona(name_prefix="pro_photographer", primary="ProPhotography", price_segment="Flagship"),
-    # Gaming-focused personas
-    UserPersona(name_prefix="casual_gamer", primary="CasualGaming", price_segment="MidRange"),
-    UserPersona(name_prefix="pro_gamer", primary="ProGaming", price_segment="Flagship"),
+    # Photography-focused personas (price segment differentiates casual vs pro)
+    UserPersona(name_prefix="photographer", primary="Photography", price_segment="MidRange"),
+    UserPersona(name_prefix="pro_photographer", primary="Photography", price_segment="Flagship"),
+    # Gaming-focused personas (price segment differentiates casual vs pro)
+    UserPersona(name_prefix="gamer", primary="Gaming", price_segment="MidRange"),
+    UserPersona(name_prefix="pro_gamer", primary="Gaming", price_segment="Flagship"),
     # Business and productivity personas
     UserPersona(name_prefix="business", primary="Business", price_segment="MidRange"),
     UserPersona(name_prefix="professional", primary="Business", price_segment="Flagship"),
     # Everyday users
     UserPersona(name_prefix="casual", primary="EverydayUse", price_segment="Budget"),
     UserPersona(name_prefix="student", primary="EverydayUse", price_segment="MidRange"),
-    UserPersona(name_prefix="minimalist", primary="EverydayUse", price_segment="Budget"),
     # Power users and creators
-    UserPersona(name_prefix="creator", primary="ProPhotography", price_segment="MidRange"),
-    UserPersona(name_prefix="traveler", primary="CasualPhotography", price_segment="Budget"),
-    UserPersona(name_prefix="poweruser", primary="ProGaming", price_segment="MidRange"),
+    UserPersona(name_prefix="creator", primary="Photography", price_segment="MidRange"),
+    UserPersona(name_prefix="traveler", primary="Photography", price_segment="Budget"),
+    UserPersona(name_prefix="poweruser", primary="Gaming", price_segment="MidRange"),
     # Vlogging personas (selfie-focused)
     UserPersona(name_prefix="vlogger", primary="Vlogging", price_segment="MidRange"),
     UserPersona(name_prefix="influencer", primary="Vlogging", price_segment="Flagship"),
