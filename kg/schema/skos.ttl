@@ -19,57 +19,24 @@ spv:UseCase a skos:Concept ;
     skos:topConceptOf spv:SmartphoneVocabulary ;
     skos:definition "User intent or primary usage scenario"@en .
 
-# Photography hierarchy
+# Photography
 spv:Photography a skos:Concept ;
     skos:prefLabel "Photography"@en ;
     skos:altLabel "Camera"@en, "Photo"@en ;
     skos:broader spv:UseCase ;
-    skos:narrower spv:CasualPhotography, spv:ProPhotography ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Taking photos and videos"@en .
-
-spv:CasualPhotography a skos:Concept ;
-    skos:prefLabel "Casual Photography"@en ;
-    skos:altLabel "Everyday Photos"@en ;
-    skos:broader spv:Photography ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Casual photo taking with good quality camera (>= 50MP, OLED display)"@en ;
+    skos:definition "Taking photos and videos with good quality camera"@en ;
     skos:scopeNote "Requires main camera >= 50MP and AMOLED/OLED display"@en .
 
-spv:ProPhotography a skos:Concept ;
-    skos:prefLabel "Professional Photography"@en ;
-    skos:altLabel "Pro Camera"@en, "Content Creation"@en ;
-    skos:broader spv:Photography ;
-    skos:related spv:ProGaming ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Professional-grade photography with high resolution camera (>= 100MP)"@en ;
-    skos:scopeNote "Requires main camera >= 100MP and AMOLED/OLED display"@en .
-
-# Gaming hierarchy
+# Gaming
 spv:Gaming a skos:Concept ;
     skos:prefLabel "Gaming"@en ;
     skos:altLabel "Mobile Gaming"@en, "Gamer"@en ;
     skos:broader spv:UseCase ;
-    skos:narrower spv:CasualGaming, spv:ProGaming ;
+    skos:related spv:Flagship ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Playing mobile games"@en .
-
-spv:CasualGaming a skos:Concept ;
-    skos:prefLabel "Casual Gaming"@en ;
-    skos:altLabel "Light Gaming"@en ;
-    skos:broader spv:Gaming ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Casual mobile gaming with smooth experience"@en ;
+    skos:definition "Playing mobile games"@en ;
     skos:scopeNote "Requires refresh rate >= 90Hz and battery >= 4000mAh"@en .
-
-spv:ProGaming a skos:Concept ;
-    skos:prefLabel "Professional Gaming"@en ;
-    skos:altLabel "Competitive Gaming"@en, "Esports"@en ;
-    skos:broader spv:Gaming ;
-    skos:related spv:ProPhotography, spv:Flagship ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Competitive mobile gaming with high performance requirements"@en ;
-    skos:scopeNote "Requires refresh rate >= 120Hz, screen >= 6.5 inches, battery >= 5000mAh, storage >= 256GB, RAM >= 12GB"@en .
 
 # Vlogging
 spv:Vlogging a skos:Concept ;

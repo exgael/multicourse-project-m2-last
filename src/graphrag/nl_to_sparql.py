@@ -19,7 +19,7 @@ OLLAMA_MODEL = "llama3.2"
 
 # Schema context for the LLM
 ONTOLOGY_CONTEXT = """
-# Smartphone Knowledge Graph Schema
+# Smartphone KG - SPARQL Guide
 
 ## Prefixes (ALWAYS include in queries)
 PREFIX sp: <http://example.org/smartphone#>
