@@ -17,6 +17,13 @@ uv sync
 ```
 ## Build Knowledge Graph
 
+### Requires RML MAPPER
+
+Download from: https://github.com/RMLio/rmlmapper-java/releases
+And put jar at the root of the folder. Called `rmlmapper.jar`
+
+### Build
+
 1. Convert prices to eur
 2. Generate users
 3. Generate facts
