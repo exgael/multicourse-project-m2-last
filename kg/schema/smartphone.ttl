@@ -140,6 +140,11 @@ sp:mainCameraMP a owl:DatatypeProperty ;
     rdfs:domain sp:Phone ;
     rdfs:range xsd:integer .
 
+sp:selfieCameraMP a owl:DatatypeProperty ;
+    rdfs:label "selfie camera (megapixels)"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:integer .
+
 sp:processorName a owl:DatatypeProperty ;
     rdfs:label "processor name"@en ;
     rdfs:domain sp:Phone ;
@@ -150,6 +155,10 @@ sp:supports5G a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:domain sp:Phone ;
     rdfs:range xsd:boolean .
 
+sp:supportsNFC a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "supports NFC"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range xsd:boolean .
 
 sp:storageGB a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "storage (GB)"@en ;

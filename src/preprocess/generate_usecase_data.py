@@ -87,9 +87,10 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         desc="General daily usage",
         skos_uri="spv:EverydayUse",
         rules=lambda p: (
-            (p.get("year") or 2025) >= 2024 and
+            (p.get("year") or 2025) >= 2020 and
             (p.get("battery_mah") or 0) >= 3500 and
-            (p.get("main_camera_mp") or 0) >= 12
+            (p.get("main_camera_mp") or 0) >= 12 and
+            (p.get("selfie_camera_mp") or 0) >= 20
         )
     ),
     # Price segments
@@ -108,21 +109,63 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:Budget",
         rules=lambda p: 0 < p.get("_base_price_eur", 0) < 400
     ),
+    "AfterMarket": UseCaseDefinition(
+        desc="Discontinued phones, no retail price",
+        skos_uri="spv:AfterMarket",
+        rules=lambda p: p.get("_base_price_eur", 0) == 0
+    ),
+    # Additional use cases for expanded dataset
+    "Vlogging": UseCaseDefinition(
+        desc="Video blogging and selfie-focused content creation",
+        skos_uri="spv:Vlogging",
+        rules=lambda p: (p.get("selfie_camera_mp") or 0) >= 48
+    ),
+    "VintageCollector": UseCaseDefinition(
+        desc="Interest in classic and vintage phones",
+        skos_uri="spv:VintageCollector",
+        rules=lambda p: (
+            (p.get("year") or 2025) < 2015 and
+            p.get("nfc") is not True and
+            p.get("supports_5g") is not True
+        )
+    ),
+    "BasicPhone": UseCaseDefinition(
+        desc="Simple phones for basic calling and texting",
+        skos_uri="spv:BasicPhone",
+        rules=lambda p: (
+            (p.get("year") or 2025) < 2020 and
+            (p.get("_base_price_eur") or 0) == 0
+        )
+    ),
 }
 
 USER_PERSONAS: list[UserPersona] = [
+    # Photography-focused personas
     UserPersona(name_prefix="casual_photographer", primary="CasualPhotography", secondary=["MidRange"]),
     UserPersona(name_prefix="pro_photographer", primary="ProPhotography", secondary=["Flagship"]),
+    # Gaming-focused personas
     UserPersona(name_prefix="casual_gamer", primary="CasualGaming", secondary=["MidRange"]),
     UserPersona(name_prefix="pro_gamer", primary="ProGaming", secondary=["Flagship"]),
+    # Business and productivity personas
     UserPersona(name_prefix="business", primary="Business", secondary=["MidRange"]),
-    UserPersona(name_prefix="casual", primary="EverydayUse", secondary=["Budget"]),
     UserPersona(name_prefix="professional", primary="Business", secondary=["ProPhotography", "Flagship"]),
+    # Everyday users
+    UserPersona(name_prefix="casual", primary="EverydayUse", secondary=["Budget"]),
     UserPersona(name_prefix="student", primary="EverydayUse", secondary=["Budget", "CasualPhotography"]),
+    UserPersona(name_prefix="minimalist", primary="EverydayUse", secondary=["Budget"]),
+    # Power users and creators
     UserPersona(name_prefix="creator", primary="ProPhotography", secondary=["ProGaming", "Flagship"]),
     UserPersona(name_prefix="traveler", primary="CasualPhotography", secondary=["EverydayUse", "MidRange"]),
     UserPersona(name_prefix="poweruser", primary="ProGaming", secondary=["Flagship", "Business"]),
-    UserPersona(name_prefix="minimalist", primary="EverydayUse", secondary=["Budget"]),
+    # Vlogging personas (selfie-focused)
+    UserPersona(name_prefix="vlogger", primary="Vlogging", secondary=["ProPhotography", "MidRange"]),
+    UserPersona(name_prefix="influencer", primary="Vlogging", secondary=["Flagship", "ProPhotography"]),
+    # Vintage/retro phone enthusiasts
+    UserPersona(name_prefix="collector", primary="VintageCollector", secondary=["AfterMarket"]),
+    UserPersona(name_prefix="retro_lover", primary="VintageCollector", secondary=["AfterMarket", "BasicPhone"]),
+    # Basic phone users (seniors, minimalists who want simple)
+    UserPersona(name_prefix="senior", primary="BasicPhone", secondary=["AfterMarket"]),
+    UserPersona(name_prefix="backup_phone", primary="BasicPhone", secondary=["Budget", "AfterMarket"]),
 ]
 
 
@@ -212,8 +255,6 @@ def create_training_labels(
     phones: list[dict[str, Any]],
     users: list[SyntheticUser],
     output_dir: Path,
-    min_user_phone_samples: int = 1,
-    max_user_phone_samples: int = 5
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -249,10 +290,9 @@ def create_training_labels(
             for interest in user.interests:
                 matching_phones.update(usecase_phones[interest])
 
-            num_samples = min(
-                len(matching_phones),
-                random.randint(min_user_phone_samples, max_user_phone_samples)
-            )
+            # Gaussian: mean=2, std=2 (3σ reaches 8)
+            raw_samples = int(random.gauss(2, 2))
+            num_samples = max(1, min(len(matching_phones), raw_samples))
             sampled_phones = random.sample(list(matching_phones), num_samples)
 
             for phone_id in sampled_phones:
@@ -308,8 +348,6 @@ def generate_users(
         num_users: int = 500,
         random_seed: int = 42,
         secondary_interest_probability: float = 0.5,
-        min_user_phone_samples: int = 1,
-        max_user_phone_samples: int = 5
     ) -> None:
     # If data already exists, skip generation
     if (output_dir / "users").exists() and any((output_dir / "users").iterdir()):
@@ -319,10 +357,4 @@ def generate_users(
     random.seed(random_seed)
     phones: list[dict[str, Any]] = load_phones(phones_file, variants_file, eur_prices_file)
     users: list[SyntheticUser] = generate_synthetic_users(num_users, secondary_interest_probability)
-    create_training_labels(
-        phones, 
-        users, 
-        output_dir,
-        min_user_phone_samples,
-        max_user_phone_samples
-    )
+    create_training_labels(phones, users, output_dir)

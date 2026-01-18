@@ -25,8 +25,10 @@
     rr:predicateObjectMap [ rr:predicate sp:refreshRateHz ; rr:objectMap [ rml:reference "refresh_rate_hz" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:processorName ; rr:objectMap [ rml:reference "chipset" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:mainCameraMP ; rr:objectMap [ rml:reference "main_camera_mp" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:selfieCameraMP ; rr:objectMap [ rml:reference "selfie_camera_mp" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:batteryCapacityMah ; rr:objectMap [ rml:reference "battery_mah" ; rr:datatype xsd:integer ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:supports5G ; rr:objectMap [ rml:reference "supports_5g" ; rr:datatype xsd:boolean ] ] .
+    rr:predicateObjectMap [ rr:predicate sp:supports5G ; rr:objectMap [ rml:reference "supports_5g" ; rr:datatype xsd:boolean ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:supportsNFC ; rr:objectMap [ rml:reference "nfc" ; rr:datatype xsd:boolean ] ] .
 
 
 <#BrandMapping> a rr:TriplesMap ;

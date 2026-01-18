@@ -90,6 +90,36 @@ spv:EverydayUse a skos:Concept ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "General daily usage"@en ;
     skos:scopeNote "Requires recent release (>= 2024), battery >= 3500mAh, camera >= 12MP"@en .
+
+# Vlogging
+spv:Vlogging a skos:Concept ;
+    skos:prefLabel "Vlogging"@en ;
+    skos:altLabel "Content Creator"@en, "Selfie"@en, "Video Blogger"@en ;
+    skos:broader spv:UseCase ;
+    skos:related spv:ProPhotography ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Video blogging and selfie-focused content creation"@en ;
+    skos:scopeNote "Requires selfie camera >= 48MP"@en .
+
+# Vintage/Collector
+spv:VintageCollector a skos:Concept ;
+    skos:prefLabel "Vintage Collector"@en ;
+    skos:altLabel "Retro"@en, "Classic"@en, "Nostalgia"@en ;
+    skos:broader spv:UseCase ;
+    skos:related spv:AfterMarket ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Interest in classic and vintage phones for collection or nostalgia"@en ;
+    skos:scopeNote "Phones released before 2015"@en .
+
+# Basic Phone
+spv:BasicPhone a skos:Concept ;
+    skos:prefLabel "Basic Phone"@en ;
+    skos:altLabel "Simple Phone"@en, "Senior Phone"@en, "Minimalist"@en ;
+    skos:broader spv:UseCase ;
+    skos:related spv:Budget, spv:AfterMarket ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Simple phones for basic calling and texting, suitable for seniors or minimalists"@en ;
+    skos:scopeNote "Limited smartphone features, focus on simplicity"@en .
 # endregion
 
 # region PRICE SEGMENTS
@@ -105,7 +135,7 @@ spv:Flagship a skos:Concept ;
     skos:related spv:ProGaming, spv:ProPhotography ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "Premium segment with top-tier specifications"@en ;
-    skos:scopeNote "Price > 1200 EUR"@en .
+    skos:scopeNote "Price > 900 EUR"@en .
 
 spv:MidRange a skos:Concept ;
     skos:prefLabel "Mid-Range"@en ;
@@ -114,7 +144,7 @@ spv:MidRange a skos:Concept ;
     skos:related spv:Business ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "Middle segment with balanced price-performance"@en ;
-    skos:scopeNote "Price between 600-1200 EUR"@en .
+    skos:scopeNote "Price between 400-900 EUR"@en .
 
 spv:Budget a skos:Concept ;
     skos:prefLabel "Budget"@en ;
@@ -123,5 +153,13 @@ spv:Budget a skos:Concept ;
     skos:related spv:EverydayUse ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "Entry-level segment with lower prices"@en ;
-    skos:scopeNote "Price < 600 EUR"@en .
+    skos:scopeNote "Price < 400 EUR"@en .
+
+spv:AfterMarket a skos:Concept ;
+    skos:prefLabel "After Market"@en ;
+    skos:altLabel "Discontinued"@en, "Legacy"@en, "No Price"@en ;
+    skos:broader spv:PriceSegment ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Phones no longer sold at retail, available only on secondary market"@en ;
+    skos:scopeNote "No current retail price available"@en .
 # endregion

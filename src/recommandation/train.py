@@ -45,8 +45,16 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             BIND("refreshRateHz" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
+            ?phone sp:selfieCameraMP ?val .
+            BIND("selfieCameraMP" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
             ?phone sp:supports5G ?val .
             BIND("supports5G" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            ?phone sp:supportsNFC ?val .
+            BIND("supportsNFC" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
             ?phone sp:releaseYear ?val .
@@ -61,7 +69,7 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
         prop = str(row.property)
         value = str(row.value)
         # Discretize numeric values into bins for better embeddings
-        if prop in ["batteryCapacityMah", "mainCameraMP", "refreshRateHz", "releaseYear"]:
+        if prop in ["batteryCapacityMah", "mainCameraMP", "selfieCameraMP", "refreshRateHz", "releaseYear"]:
             value = discretize_value(prop, value)
         all_triples.append((phone_id, prop, value))
 
@@ -158,42 +166,52 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
 
 
 def discretize_value(property_name: str, value: str) -> str:
-    """
-    Discretize numeric values into bins for better embeddings.
-
-    Examples:
-    - batteryCapacityMah: 5000 -> "battery_5000+"
-    - mainCameraMP: 108 -> "camera_100+"
-    - refreshRateHz: 120 -> "refresh_120hz"
-    """
     try:
         num_value = float(value)
     except ValueError:
         return value
 
     if property_name == "batteryCapacityMah":
-        if num_value >= 5000:
-            return "battery_5000plus"
+        if num_value >= 8000:
+            return "battery_8000plus"
+        elif num_value >= 6000:
+            return "battery_6000to8000"
         elif num_value >= 4000:
-            return "battery_4000to5000"
+            return "battery_4000to6000"
         else:
             return "battery_below4000"
 
     elif property_name == "mainCameraMP":
-        if num_value >= 100:
-            return "camera_100plus"
+        if num_value >= 200:
+            return "camera_200plus"
+        elif num_value >= 100:
+            return "camera_100to200"
         elif num_value >= 48:
             return "camera_48to100"
         else:
             return "camera_below48"
 
+    elif property_name == "selfieCameraMP":
+        if num_value >= 48:
+            return "selfie_48plus"
+        elif num_value >= 32:
+            return "selfie_32to48"
+        elif num_value >= 12:
+            return "selfie_12to32"
+        else:
+            return "selfie_below12"
+
     elif property_name == "refreshRateHz":
+        if num_value >= 144:
+            return "refresh_144hzplus"
         if num_value >= 120:
-            return "refresh_120hzplus"
+            return "refresh_120to144hz"
         elif num_value >= 90:
             return "refresh_90to120hz"
+        elif num_value >= 60:
+            return "refresh_60to90hz"
         else:
-            return "refresh_below90hz"
+            return "refresh_below60hz"
 
     elif property_name == "releaseYear":
         return f"year_{int(num_value)}"
