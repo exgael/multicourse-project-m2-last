@@ -71,6 +71,16 @@ spv:ProGaming a skos:Concept ;
     skos:definition "Competitive mobile gaming with high performance requirements"@en ;
     skos:scopeNote "Requires refresh rate >= 120Hz, screen >= 6.5 inches, battery >= 5000mAh, storage >= 256GB, RAM >= 12GB"@en .
 
+# Vlogging
+spv:Vlogging a skos:Concept ;
+    skos:prefLabel "Vlogging"@en ;
+    skos:altLabel "Content Creator"@en, "Selfie"@en, "Video Blogger"@en ;
+    skos:broader spv:UseCase ;
+    skos:related spv:ProPhotography ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Video blogging and selfie-focused content creation"@en ;
+    skos:scopeNote "Requires selfie camera >= 48MP"@en .
+
 # Business
 spv:Business a skos:Concept ;
     skos:prefLabel "Business"@en ;
@@ -91,35 +101,16 @@ spv:EverydayUse a skos:Concept ;
     skos:definition "General daily usage"@en ;
     skos:scopeNote "Requires recent release (>= 2024), battery >= 3500mAh, camera >= 12MP"@en .
 
-# Vlogging
-spv:Vlogging a skos:Concept ;
-    skos:prefLabel "Vlogging"@en ;
-    skos:altLabel "Content Creator"@en, "Selfie"@en, "Video Blogger"@en ;
-    skos:broader spv:UseCase ;
-    skos:related spv:ProPhotography ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Video blogging and selfie-focused content creation"@en ;
-    skos:scopeNote "Requires selfie camera >= 48MP"@en .
-
-# Vintage/Collector
-spv:VintageCollector a skos:Concept ;
-    skos:prefLabel "Vintage Collector"@en ;
-    skos:altLabel "Retro"@en, "Classic"@en, "Nostalgia"@en ;
+# Minimalist phone
+spv:Minimalist a skos:Concept ;
+    skos:prefLabel "Minimalist"@en ;
+    skos:altLabel "Simple Phone"@en, "Basic Phone"@en ;
     skos:broader spv:UseCase ;
     skos:related spv:AfterMarket ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Interest in classic and vintage phones for collection or nostalgia"@en ;
-    skos:scopeNote "Phones released before 2015"@en .
+    skos:definition "Simple phones without modern connectivity features"@en ;
+    skos:scopeNote "No NFC, no 5G support"@en .
 
-# Basic Phone
-spv:BasicPhone a skos:Concept ;
-    skos:prefLabel "Basic Phone"@en ;
-    skos:altLabel "Simple Phone"@en, "Senior Phone"@en, "Minimalist"@en ;
-    skos:broader spv:UseCase ;
-    skos:related spv:Budget, spv:AfterMarket ;
-    skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Simple phones for basic calling and texting, suitable for seniors or minimalists"@en ;
-    skos:scopeNote "Limited smartphone features, focus on simplicity"@en .
 # endregion
 
 # region PRICE SEGMENTS

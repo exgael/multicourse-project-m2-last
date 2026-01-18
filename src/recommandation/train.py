@@ -56,10 +56,6 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             ?phone sp:supportsNFC ?val .
             BIND("supportsNFC" AS ?property)
             BIND(STR(?val) AS ?value)
-        } UNION {
-            ?phone sp:releaseYear ?val .
-            BIND("releaseYear" AS ?property)
-            BIND(STR(?val) AS ?value)
         }
     }
     """
@@ -69,7 +65,7 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
         prop = str(row.property)
         value = str(row.value)
         # Discretize numeric values into bins for better embeddings
-        if prop in ["batteryCapacityMah", "mainCameraMP", "selfieCameraMP", "refreshRateHz", "releaseYear"]:
+        if prop in ["batteryCapacityMah", "mainCameraMP", "selfieCameraMP", "refreshRateHz"]:
             value = discretize_value(prop, value)
         all_triples.append((phone_id, prop, value))
 
@@ -212,9 +208,6 @@ def discretize_value(property_name: str, value: str) -> str:
             return "refresh_60to90hz"
         else:
             return "refresh_below60hz"
-
-    elif property_name == "releaseYear":
-        return f"year_{int(num_value)}"
 
     return value
 
