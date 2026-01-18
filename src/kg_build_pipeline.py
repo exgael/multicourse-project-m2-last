@@ -135,7 +135,7 @@ class Pipeline:
         train_model()
 
     @step
-    def cleanup(self) -> None:
+    def combine_files(self) -> None:
         OUTPUT.mkdir(parents=True, exist_ok=True)
         with open(FINAL_KG_TTL, "w", encoding="utf-8") as final_file:
             for ttl_file in [
@@ -164,8 +164,8 @@ class Pipeline:
         self.gen_facts()
         self.materialize_by_construct_and_inference()
         self.link()
+        self.combine_files()
         self.train_recommendation_model()
-        self.cleanup()
 
 
 if __name__ == "__main__":
