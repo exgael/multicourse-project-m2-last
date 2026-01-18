@@ -51,7 +51,8 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:ProPhotography",
         rules=lambda p: (
             (p.get("main_camera_mp") or 0) >= 100 and
-            ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))
+            ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))and
+            (p.get("_max_storage_gb") or 0) >= 512
         )
     ),
     # Additional use cases for expanded dataset
@@ -73,11 +74,13 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         desc="Competitive mobile gaming with high performance",
         skos_uri="spv:ProGaming",
         rules=lambda p: (
-            (p.get("refresh_rate_hz") or 60) >= 120 and
+            (p.get("refresh_rate_hz") or 60) >= 144 and
             (p.get("screen_size_inches") or 0) >= 6.5 and
             (p.get("battery_mah") or 0) >= 5000 and
             (p.get("_max_storage_gb") or 0) >= 512 and
-            (p.get("_max_ram_gb") or 0) >= 16
+            (p.get("_max_ram_gb") or 0) >= 16 and
+            p.get("nfc") is not True and
+            p.get("supports_5g") is not True
         )
     ),
     # Other use cases
