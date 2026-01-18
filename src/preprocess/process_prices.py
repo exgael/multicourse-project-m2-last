@@ -1,97 +1,87 @@
 from pathlib import Path
 import json
 import re
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from typing import Any
 
 
-class PriceConfig(BaseModel):
-    prices_file: Path
-    eur_prices_file: Path
-    currency_to_eur: dict[str, float] = Field(default={
-        "EUR": 1.0,
-        "GBP": 1.17,
-        "USD": 0.92,
-        "INR": 0.011,
-    })
-    currency_symbols: dict[str, str] = Field(default={
-        "₹": "INR",
-        "£": "GBP",
-        "€": "EUR",
-        "$": "USD",
-    })
+CURRENCY_SYMBOLS: dict[str, str] = {
+    "₹": "INR",
+    "£": "GBP",
+    "€": "EUR",
+    "$": "USD",
+}
+
+CURRENCY_TO_EUR: dict[str, float] = {
+    "EUR": 1.0,
+    "GBP": 1.17,
+    "USD": 0.92,
+    "INR": 0.011,
+    "CAD": 0.67,
+}
 
 
-def parse_raw_price(raw: str, config: PriceConfig) -> tuple[str, float] | None:
-    if not raw:
+class PriceEntry(BaseModel):
+    price_id: str
+    variant_id: str
+    phone_id: str
+    currency: str = ""
+    value: float | None = None
+    store: str = ""
+    raw: str = ""
+
+    def to_eur(self) -> float | None:
+        if self.currency and self.value is not None:
+            rate: float | None = CURRENCY_TO_EUR.get(self.currency)
+            if rate:
+                return round(self.value * rate, 2)
+        elif not self.currency and self.raw:
+            parsed: tuple[str, float] | None = self._parse_raw()
+            if parsed:
+                curr, val = parsed
+                rate: float | None = CURRENCY_TO_EUR.get(curr)
+                if rate:
+                    return round(val * rate, 2)
         return None
 
-    for symbol, currency in config.currency_symbols.items():
-        if symbol in raw:
-            price_str = re.sub(r'[^\d.]', '', raw)
-            try:
-                value = float(price_str)
-                return currency, value
-            except ValueError:
-                continue
-
-    return None
-
-
-def convert_to_eur(currency: str, value: float, config: PriceConfig) -> float | None:
-    rate: float | None = config.currency_to_eur.get(currency)
-    if rate is None:
+    def _parse_raw(self) -> tuple[str, float] | None:
+        for symbol, currency in CURRENCY_SYMBOLS.items():
+            if symbol in self.raw:
+                price_str: str = re.sub(r'[^\d.]', '', self.raw)
+                try:
+                    return currency, float(price_str)
+                except ValueError:
+                    continue
         return None
-    return value * rate
 
 
 def process_prices(prices_file: Path, eur_prices_file: Path) -> dict[str, float]:
-    config = PriceConfig(prices_file=prices_file, eur_prices_file=eur_prices_file)
+    with open(prices_file, "r") as f:
+        prices_data: list[Any] = json.load(f)
 
-    with open(config.prices_file, "r") as f:
-        prices_data = json.load(f)
+    prices: list[PriceEntry] = [PriceEntry(**entry) for entry in prices_data]
 
+    # Extract EUR prices
     eur_prices: dict[str, list[float]] = {}
-
-    for price_entry in prices_data:
-        phone_id = price_entry.get("phone_id")
-        if not phone_id:
-            continue
-
-        currency = price_entry.get("currency", "")
-        value = price_entry.get("value")
-        raw = price_entry.get("raw", "")
-
-        eur_value = None
-
-        if currency and value is not None:
-            eur_value = convert_to_eur(currency, value, config)
-        elif currency == "" and raw:
-            parsed = parse_raw_price(raw, config)
-            if parsed:
-                curr, val = parsed
-                eur_value = convert_to_eur(curr, val, config)
-
+    for price in prices:
+        eur_value: float | None = price.to_eur()
         if eur_value:
-            if phone_id not in eur_prices:
-                eur_prices[phone_id] = []
-            eur_prices[phone_id].append(round(eur_value, 2))
+            if price.variant_id not in eur_prices:
+                eur_prices[price.variant_id] = []
+            eur_prices[price.variant_id].append(eur_value)
 
-    phone_avg_prices = {phone_id: round(sum(prices) / len(prices), 2)
-                        for phone_id, prices in eur_prices.items()}
+    # Average prices for each variant
+    variant_avg_prices: dict[str, float] = {
+        variant_id: round(sum(vals) / len(vals), 2)
+        for variant_id, vals in eur_prices.items()
+    }
 
-    config.eur_prices_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(config.eur_prices_file, "w") as f:
-        json.dump(phone_avg_prices, f, indent=2, ensure_ascii=False)
+    # Write output file
+    eur_prices_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(eur_prices_file, "w") as f:
+        json.dump(variant_avg_prices, f, indent=2, ensure_ascii=False)
 
-    print(f"Processed {len(prices_data)} price entries -> {len(phone_avg_prices)} phones with EUR prices")
-    print(f"Output: {config.eur_prices_file}")
+    print(f"Processed {len(prices)} price entries -> {len(variant_avg_prices)} variants with EUR prices")
+    print(f"Output: {eur_prices_file}")
 
-    return phone_avg_prices
-
-
-if __name__ == "__main__":
-    ROOT_DIR = Path(__file__).parent.parent.parent
-    process_prices(
-        prices_file=ROOT_DIR / "data" / "prices.json",
-        eur_prices_file=ROOT_DIR / "data" / "eur_prices.json"
-    )
+    return variant_avg_prices
