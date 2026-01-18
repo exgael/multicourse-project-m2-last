@@ -67,10 +67,8 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 ## SKOS Use-Case Concepts (spv: namespace)
 Users can be interested in these use-cases:
-- spv:CasualPhotography - Camera >= 50MP + OLED display
-- spv:ProPhotography - Camera >= 100MP + OLED + storage >= 512GB
-- spv:CasualGaming - Refresh >= 90Hz + battery >= 4000mAh
-- spv:ProGaming - Refresh >= 144Hz + screen >= 6.5" + battery >= 5000mAh
+- spv:Photography - Camera >= 100MP + OLED + storage >= 512GB
+- spv:Gaming - Refresh >= 144Hz + screen >= 6.5" + battery >= 5000mAh
 - spv:Business - Battery >= 5000mAh + camera >= 48MP
 - spv:EverydayUse - Year >= 2020 + battery >= 3500mAh
 - spv:Vlogging - Selfie camera >= 48MP
