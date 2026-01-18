@@ -80,17 +80,17 @@ def explore(keywords: list[str], top_k: int = 15) -> None:
         if entity in valid_keywords:
             continue
 
-        if entity.startswith(("battery", "camera", "selfie", "refresh", "year_", "true", "false")):
+        if entity.startswith(("battery", "camera", "selfie", "refresh", "true", "false")):
             specs.append((entity, sim_val))
         elif entity.startswith("instance/phone/"):
             phones.append((entity.replace("instance/phone/", ""), sim_val))
         elif any(entity.startswith(p) for p in ["casual", "pro_", "business", "student", "creator",
-                                                   "traveler", "poweruser", "minimalist", "vlogger",
-                                                   "influencer", "collector", "retro_lover", "senior", "budget_seeker"]):
+                                                   "traveler", "poweruser", "vlogger", "influencer",
+                                                   "senior", "simple_user", "budget_seeker"]):
             users.append((entity, sim_val))
         elif entity in ["ProGaming", "CasualGaming", "ProPhotography", "CasualPhotography",
                         "Business", "EverydayUse", "Flagship", "MidRange", "Budget",
-                        "AfterMarket", "Vlogging", "VintageCollector", "BasicPhone"]:
+                        "AfterMarket", "Vlogging", "Minimalist"]:
             usecases.append((entity, sim_val))
 
     # Sort by similarity
@@ -136,9 +136,9 @@ def list_concepts(tf) -> None:
 
     usecases = ["ProGaming", "CasualGaming", "ProPhotography", "CasualPhotography",
                 "Business", "EverydayUse", "Flagship", "MidRange", "Budget",
-                "AfterMarket", "Vlogging", "VintageCollector", "BasicPhone"]
+                "AfterMarket", "Vlogging", "Minimalist"]
 
-    specs = [e for e in entity_to_id.keys() if e.startswith(("battery", "camera", "selfie", "refresh", "year_", "true", "false"))]
+    specs = [e for e in entity_to_id.keys() if e.startswith(("battery", "camera", "selfie", "refresh", "true", "false"))]
 
     print("Available concepts to explore:")
     print()

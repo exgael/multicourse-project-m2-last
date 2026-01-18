@@ -54,6 +54,12 @@ USE_CASES: dict[str, UseCaseDefinition] = {
             ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))
         )
     ),
+    # Additional use cases for expanded dataset
+    "Vlogging": UseCaseDefinition(
+        desc="Video blogging and selfie-focused content creation",
+        skos_uri="spv:Vlogging",
+        rules=lambda p: (p.get("selfie_camera_mp") or 0) >= 48
+    ),
     # Gaming hierarchy
     "CasualGaming": UseCaseDefinition(
         desc="Casual mobile gaming with smooth experience",
@@ -114,27 +120,13 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:AfterMarket",
         rules=lambda p: p.get("_base_price_eur", 0) == 0
     ),
-    # Additional use cases for expanded dataset
-    "Vlogging": UseCaseDefinition(
-        desc="Video blogging and selfie-focused content creation",
-        skos_uri="spv:Vlogging",
-        rules=lambda p: (p.get("selfie_camera_mp") or 0) >= 48
-    ),
-    "VintageCollector": UseCaseDefinition(
-        desc="Interest in classic and vintage phones",
-        skos_uri="spv:VintageCollector",
+
+    "Minimalist": UseCaseDefinition(
+        desc="Simple phones without modern connectivity",
+        skos_uri="spv:Minimalist",
         rules=lambda p: (
-            (p.get("year") or 2025) < 2015 and
             p.get("nfc") is not True and
             p.get("supports_5g") is not True
-        )
-    ),
-    "BasicPhone": UseCaseDefinition(
-        desc="Simple phones for basic calling and texting",
-        skos_uri="spv:BasicPhone",
-        rules=lambda p: (
-            (p.get("year") or 2025) < 2020 and
-            (p.get("_base_price_eur") or 0) == 0
         )
     ),
 }
@@ -160,11 +152,9 @@ USER_PERSONAS: list[UserPersona] = [
     # Vlogging personas (selfie-focused)
     UserPersona(name_prefix="vlogger", primary="Vlogging", price_segment="MidRange"),
     UserPersona(name_prefix="influencer", primary="Vlogging", price_segment="Flagship"),
-    # Vintage/retro phone enthusiasts
-    UserPersona(name_prefix="collector", primary="VintageCollector", price_segment="AfterMarket"),
-    UserPersona(name_prefix="retro_lover", primary="BasicPhone", price_segment="AfterMarket"),
-    # Basic phone users (seniors, minimalists who want simple)
-    UserPersona(name_prefix="senior", primary="BasicPhone", price_segment="AfterMarket"),
+    # Minimalist phone users
+    UserPersona(name_prefix="senior", primary="Minimalist", price_segment="AfterMarket"),
+    UserPersona(name_prefix="simple_user", primary="Minimalist", price_segment="Budget"),
     UserPersona(name_prefix="budget_seeker", primary="EverydayUse", price_segment="AfterMarket"),
 ]
 
