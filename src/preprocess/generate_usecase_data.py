@@ -37,25 +37,46 @@ class DatasetStats(BaseModel):
     persona_distribution: dict[str, int]
 
 USE_CASES: dict[str, UseCaseDefinition] = {
-    "Photography": UseCaseDefinition(
-        desc="Taking photos and videos",
-        skos_uri="spv:Photography",
+    # Photography hierarchy
+    "CasualPhotography": UseCaseDefinition(
+        desc="Casual photo taking with good quality camera",
+        skos_uri="spv:CasualPhotography",
         rules=lambda p: (
-            (p.get("main_camera_mp") or 0) >= 48 and
+            (p.get("main_camera_mp") or 0) >= 50 and
             ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))
         )
     ),
-    "Gaming": UseCaseDefinition(
-        desc="Playing mobile games",
-        skos_uri="spv:Gaming",
+    "ProPhotography": UseCaseDefinition(
+        desc="Professional-grade photography with high resolution camera",
+        skos_uri="spv:ProPhotography",
         rules=lambda p: (
-            ((p.get("main_camera_mp") or 0) >= 40 or "gaming" in (p.get("chipset") or "").lower()) and
-            (p.get("battery_mah") or 0) >= 4000 and
-            (p.get("refresh_rate_hz") or 60) >= 90
+            (p.get("main_camera_mp") or 0) >= 100 and
+            ("AMOLED" in (p.get("display_type") or "") or "OLED" in (p.get("display_type") or ""))
         )
     ),
+    # Gaming hierarchy
+    "CasualGaming": UseCaseDefinition(
+        desc="Casual mobile gaming with smooth experience",
+        skos_uri="spv:CasualGaming",
+        rules=lambda p: (
+            (p.get("refresh_rate_hz") or 60) >= 90 and
+            (p.get("battery_mah") or 0) >= 4000
+        )
+    ),
+    "ProGaming": UseCaseDefinition(
+        desc="Competitive mobile gaming with high performance",
+        skos_uri="spv:ProGaming",
+        rules=lambda p: (
+            (p.get("refresh_rate_hz") or 60) >= 120 and
+            (p.get("screen_size_inches") or 0) >= 6.5 and
+            (p.get("battery_mah") or 0) >= 5000 and
+            (p.get("_max_storage_gb") or 0) >= 512 and
+            (p.get("_max_ram_gb") or 0) >= 16
+        )
+    ),
+    # Other use cases
     "Business": UseCaseDefinition(
-        desc="Work phone",
+        desc="Work and productivity phone",
         skos_uri="spv:Business",
         rules=lambda p: (
             (p.get("battery_mah") or 0) >= 5000 and
@@ -71,33 +92,36 @@ USE_CASES: dict[str, UseCaseDefinition] = {
             (p.get("main_camera_mp") or 0) >= 12
         )
     ),
+    # Price segments
     "Flagship": UseCaseDefinition(
         desc="Premium segment, higher prices",
         skos_uri="spv:Flagship",
-        rules=lambda p: p.get("_base_price_eur", 0) > 1200
+        rules=lambda p: p.get("_base_price_eur", 0) > 900
     ),
     "MidRange": UseCaseDefinition(
         desc="Middle segment, average prices",
         skos_uri="spv:MidRange",
-        rules=lambda p: 600 <= p.get("_base_price_eur", 0) <= 1200
+        rules=lambda p: 400 <= p.get("_base_price_eur", 0) <= 900
     ),
     "Budget": UseCaseDefinition(
         desc="Entry-level segment, lower prices",
         skos_uri="spv:Budget",
-        rules=lambda p: 0 < p.get("_base_price_eur", 0) < 600
+        rules=lambda p: 0 < p.get("_base_price_eur", 0) < 400
     ),
 }
 
 USER_PERSONAS: list[UserPersona] = [
-    UserPersona(name_prefix="photographer", primary="Photography", secondary=["Flagship"]),
-    UserPersona(name_prefix="gamer", primary="Gaming", secondary=["Flagship"]),
+    UserPersona(name_prefix="casual_photographer", primary="CasualPhotography", secondary=["MidRange"]),
+    UserPersona(name_prefix="pro_photographer", primary="ProPhotography", secondary=["Flagship"]),
+    UserPersona(name_prefix="casual_gamer", primary="CasualGaming", secondary=["MidRange"]),
+    UserPersona(name_prefix="pro_gamer", primary="ProGaming", secondary=["Flagship"]),
     UserPersona(name_prefix="business", primary="Business", secondary=["MidRange"]),
     UserPersona(name_prefix="casual", primary="EverydayUse", secondary=["Budget"]),
-    UserPersona(name_prefix="professional", primary="Business", secondary=["Photography", "Flagship"]),
-    UserPersona(name_prefix="student", primary="EverydayUse", secondary=["Budget", "Photography"]),
-    UserPersona(name_prefix="creator", primary="Photography", secondary=["Gaming", "Flagship"]),
-    UserPersona(name_prefix="traveler", primary="Photography", secondary=["EverydayUse", "MidRange"]),
-    UserPersona(name_prefix="poweruser", primary="Gaming", secondary=["Flagship", "Business"]),
+    UserPersona(name_prefix="professional", primary="Business", secondary=["ProPhotography", "Flagship"]),
+    UserPersona(name_prefix="student", primary="EverydayUse", secondary=["Budget", "CasualPhotography"]),
+    UserPersona(name_prefix="creator", primary="ProPhotography", secondary=["ProGaming", "Flagship"]),
+    UserPersona(name_prefix="traveler", primary="CasualPhotography", secondary=["EverydayUse", "MidRange"]),
+    UserPersona(name_prefix="poweruser", primary="ProGaming", secondary=["Flagship", "Business"]),
     UserPersona(name_prefix="minimalist", primary="EverydayUse", secondary=["Budget"]),
 ]
 
@@ -105,20 +129,49 @@ USER_PERSONAS: list[UserPersona] = [
 def load_phone_prices(eur_prices_file: Path) -> dict[str, float]:
     print("Loading EUR prices...")
     with open(eur_prices_file, "r", encoding="utf-8") as f:
-        phone_prices: dict[str, float] = json.load(f)
+        variant_prices: dict[str, float] = json.load(f)
 
-    print(f"Loaded prices for {len(phone_prices)} phones")
-    return phone_prices
+    print(f"Loaded prices for {len(variant_prices)} variants")
+    return variant_prices
 
 
-def load_phones(phones_file: Path, eur_prices_file: Path) -> list[dict[str, Any]]:
+def load_variants(variants_file: Path) -> dict[str, list[dict[str, Any]]]:
+    """Load variants and group by phone_id."""
+    print("Loading variants...")
+    with open(variants_file, "r", encoding="utf-8") as f:
+        variants: list[dict[str, Any]] = json.load(f)
+
+    phone_variants: dict[str, list[dict[str, Any]]] = {}
+    for v in variants:
+        phone_id = v.get("phone_id")
+        if phone_id:
+            if phone_id not in phone_variants:
+                phone_variants[phone_id] = []
+            phone_variants[phone_id].append(v)
+
+    print(f"Loaded {len(variants)} variants for {len(phone_variants)} phones")
+    return phone_variants
+
+
+def load_phones(phones_file: Path, variants_file: Path, eur_prices_file: Path) -> list[dict[str, Any]]:
     print("Loading phones...")
     with open(phones_file, "r", encoding="utf-8") as f:
         phones: list[dict[str, Any]] = json.load(f)
 
-    phone_prices = load_phone_prices(eur_prices_file)
+    variant_prices = load_phone_prices(eur_prices_file)
+    phone_variants = load_variants(variants_file)
+
     for phone in phones:
-        phone["_base_price_eur"] = phone_prices.get(phone["phone_id"], 0)
+        phone_id = phone["phone_id"]
+        variants = phone_variants.get(phone_id, [])
+
+        # Get max storage and RAM from variants
+        phone["_max_storage_gb"] = max((v.get("storage_gb") or 0 for v in variants), default=0)
+        phone["_max_ram_gb"] = max((v.get("ram_gb") or 0 for v in variants), default=0)
+
+        # Get base (minimum) price from variants
+        prices = [variant_prices.get(v["variant_id"], 0) for v in variants if variant_prices.get(v["variant_id"])]
+        phone["_base_price_eur"] = min(prices) if prices else 0
 
     print(f"Loaded {len(phones)} phones")
     return phones
@@ -249,10 +302,11 @@ def print_summary(stats: DatasetStats) -> None:
 
 def generate_users(
         phones_file: Path,
+        variants_file: Path,
         eur_prices_file: Path,
         output_dir: Path,
-        num_users: int = 500, 
-        random_seed: int = 42, 
+        num_users: int = 500,
+        random_seed: int = 42,
         secondary_interest_probability: float = 0.5,
         min_user_phone_samples: int = 1,
         max_user_phone_samples: int = 5
@@ -263,7 +317,7 @@ def generate_users(
         return
 
     random.seed(random_seed)
-    phones: list[dict[str, Any]] = load_phones(phones_file, eur_prices_file)
+    phones: list[dict[str, Any]] = load_phones(phones_file, variants_file, eur_prices_file)
     users: list[SyntheticUser] = generate_synthetic_users(num_users, secondary_interest_probability)
     create_training_labels(
         phones, 

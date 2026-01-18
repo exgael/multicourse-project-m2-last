@@ -19,29 +19,77 @@ spv:UseCase a skos:Concept ;
     skos:topConceptOf spv:SmartphoneVocabulary ;
     skos:definition "User intent or primary usage scenario"@en .
 
+# Photography hierarchy
 spv:Photography a skos:Concept ;
     skos:prefLabel "Photography"@en ;
+    skos:altLabel "Camera"@en, "Photo"@en ;
     skos:broader spv:UseCase ;
+    skos:narrower spv:CasualPhotography, spv:ProPhotography ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "Taking photos and videos"@en .
 
+spv:CasualPhotography a skos:Concept ;
+    skos:prefLabel "Casual Photography"@en ;
+    skos:altLabel "Everyday Photos"@en ;
+    skos:broader spv:Photography ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Casual photo taking with good quality camera (>= 50MP, OLED display)"@en ;
+    skos:scopeNote "Requires main camera >= 50MP and AMOLED/OLED display"@en .
+
+spv:ProPhotography a skos:Concept ;
+    skos:prefLabel "Professional Photography"@en ;
+    skos:altLabel "Pro Camera"@en, "Content Creation"@en ;
+    skos:broader spv:Photography ;
+    skos:related spv:ProGaming ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Professional-grade photography with high resolution camera (>= 100MP)"@en ;
+    skos:scopeNote "Requires main camera >= 100MP and AMOLED/OLED display"@en .
+
+# Gaming hierarchy
 spv:Gaming a skos:Concept ;
     skos:prefLabel "Gaming"@en ;
+    skos:altLabel "Mobile Gaming"@en, "Gamer"@en ;
     skos:broader spv:UseCase ;
+    skos:narrower spv:CasualGaming, spv:ProGaming ;
     skos:inScheme spv:SmartphoneVocabulary ;
     skos:definition "Playing mobile games"@en .
 
+spv:CasualGaming a skos:Concept ;
+    skos:prefLabel "Casual Gaming"@en ;
+    skos:altLabel "Light Gaming"@en ;
+    skos:broader spv:Gaming ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Casual mobile gaming with smooth experience"@en ;
+    skos:scopeNote "Requires refresh rate >= 90Hz and battery >= 4000mAh"@en .
+
+spv:ProGaming a skos:Concept ;
+    skos:prefLabel "Professional Gaming"@en ;
+    skos:altLabel "Competitive Gaming"@en, "Esports"@en ;
+    skos:broader spv:Gaming ;
+    skos:related spv:ProPhotography, spv:Flagship ;
+    skos:inScheme spv:SmartphoneVocabulary ;
+    skos:definition "Competitive mobile gaming with high performance requirements"@en ;
+    skos:scopeNote "Requires refresh rate >= 120Hz, screen >= 6.5 inches, battery >= 5000mAh, storage >= 256GB, RAM >= 12GB"@en .
+
+# Business
 spv:Business a skos:Concept ;
     skos:prefLabel "Business"@en ;
+    skos:altLabel "Work Phone"@en, "Professional"@en ;
     skos:broader spv:UseCase ;
+    skos:related spv:MidRange ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Work phone"@en .
+    skos:definition "Work and productivity phone"@en ;
+    skos:scopeNote "Requires battery >= 5000mAh and camera >= 48MP for document scanning"@en .
 
+# Everyday Use
 spv:EverydayUse a skos:Concept ;
     skos:prefLabel "Everyday Use"@en ;
+    skos:altLabel "Daily Driver"@en, "Basic Use"@en ;
     skos:broader spv:UseCase ;
+    skos:related spv:Budget ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "General daily usage"@en .
+    skos:definition "General daily usage"@en ;
+    skos:scopeNote "Requires recent release (>= 2024), battery >= 3500mAh, camera >= 12MP"@en .
 # endregion
 
 # region PRICE SEGMENTS
@@ -52,19 +100,28 @@ spv:PriceSegment a skos:Concept ;
 
 spv:Flagship a skos:Concept ;
     skos:prefLabel "Flagship"@en ;
+    skos:altLabel "Premium"@en, "High-End"@en ;
     skos:broader spv:PriceSegment ;
+    skos:related spv:ProGaming, spv:ProPhotography ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Premium segment, higher prices"@en .
+    skos:definition "Premium segment with top-tier specifications"@en ;
+    skos:scopeNote "Price > 1200 EUR"@en .
 
 spv:MidRange a skos:Concept ;
     skos:prefLabel "Mid-Range"@en ;
+    skos:altLabel "Mid-Tier"@en ;
     skos:broader spv:PriceSegment ;
+    skos:related spv:Business ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Middle segment, average prices"@en .
+    skos:definition "Middle segment with balanced price-performance"@en ;
+    skos:scopeNote "Price between 600-1200 EUR"@en .
 
 spv:Budget a skos:Concept ;
     skos:prefLabel "Budget"@en ;
+    skos:altLabel "Entry-Level"@en, "Affordable"@en ;
     skos:broader spv:PriceSegment ;
+    skos:related spv:EverydayUse ;
     skos:inScheme spv:SmartphoneVocabulary ;
-    skos:definition "Entry-level segment, lower prices"@en .
+    skos:definition "Entry-level segment with lower prices"@en ;
+    skos:scopeNote "Price < 600 EUR"@en .
 # endregion

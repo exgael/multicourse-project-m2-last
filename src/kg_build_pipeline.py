@@ -64,6 +64,7 @@ class Pipeline:
         from preprocess.generate_usecase_data import generate_users
         generate_users(
             phones_file=PHONES_JSON,
+            variants_file=VARIANTS_JSON,
             eur_prices_file=EUR_PRICES_FILE,
             output_dir=USER_DATA_DIR,
         )

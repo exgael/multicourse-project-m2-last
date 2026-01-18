@@ -18,10 +18,11 @@ def load_triples_factory() -> TriplesFactory:
 
 
 def load_phones() -> dict[str, str]:
+    """Load phone names, keyed by entity ID format (instance/phone/phone_id)."""
     phones_file = DATA_DIR / "phones.json"
     with open(phones_file, "r") as f:
         phones = json.load(f)
-    return {p["phone_id"]: p["phone_name"] for p in phones}
+    return {f"instance/phone/{p['phone_id']}": p["phone_name"] for p in phones}
 
 
 def recommend(user_id: str, top_k: int = 10) -> None:
@@ -39,7 +40,7 @@ def recommend(user_id: str, top_k: int = 10) -> None:
     user_idx = entity_to_id[user_id]
     likes_rel_idx = relation_to_id["likes"]
 
-    all_phone_ids = [e for e in entity_to_id.keys() if "_" in e and e.startswith(tuple(["samsung", "apple", "google", "xiaomi", "oneplus", "oppo", "realme", "motorola", "asus", "sony", "huawei"]))]
+    all_phone_ids = [e for e in entity_to_id.keys() if e.startswith("instance/phone/")]
     phone_indices = torch.tensor([entity_to_id[pid] for pid in all_phone_ids], dtype=torch.long)
 
     h = torch.full((len(phone_indices),), user_idx, dtype=torch.long)
@@ -60,6 +61,12 @@ def recommend(user_id: str, top_k: int = 10) -> None:
 
 
 def recommend_by_interests(interests: list[str], top_k: int = 10) -> None:
+    """
+    Recommend phones based on use-case interests.
+
+    Uses proper link prediction: predicts (phone, suitableFor, interest) triples.
+    The model learned suitableFor from user behavior data.
+    """
     model = load_model()
     phone_names = load_phones()
     tf = load_triples_factory()
@@ -67,29 +74,42 @@ def recommend_by_interests(interests: list[str], top_k: int = 10) -> None:
     entity_to_id = tf.entity_to_id
     relation_to_id = tf.relation_to_id
 
+    # Validate suitableFor relation exists
+    if "suitableFor" not in relation_to_id:
+        print("Error: 'suitableFor' relation not in model. Retrain the model.")
+        return
+
+    # Validate interests exist in the model
+    valid_interests = [i for i in interests if i in entity_to_id]
+    if not valid_interests:
+        print(f"None of the interests {interests} found in model")
+        return
+
+    # Get all phone IDs (format: instance/phone/brand_model)
+    all_phone_ids = [e for e in entity_to_id.keys() if e.startswith("instance/phone/")]
+
+    if not all_phone_ids:
+        print("No phones found in model")
+        return
+
     suitable_rel_idx = relation_to_id["suitableFor"]
+    aggregate_scores: dict[str, float] = {pid: 0.0 for pid in all_phone_ids}
 
-    all_phone_ids = [e for e in entity_to_id.keys() if "_" in e and e.startswith(tuple(["samsung", "apple", "google", "xiaomi", "oneplus", "oppo", "realme", "motorola", "asus", "sony", "huawei"]))]
+    phone_indices = torch.tensor([entity_to_id[pid] for pid in all_phone_ids], dtype=torch.long)
 
-    aggregate_scores = {}
-
-    for interest in interests:
-        if interest not in entity_to_id:
-            print(f"Interest '{interest}' not found")
-            continue
-
+    # For each interest, score all phones on (phone, suitableFor, interest)
+    for interest in valid_interests:
         interest_idx = entity_to_id[interest]
-        phone_indices_tensor = torch.tensor([entity_to_id[pid] for pid in all_phone_ids], dtype=torch.long)
 
-        h = phone_indices_tensor
-        r = torch.full((len(phone_indices_tensor),), suitable_rel_idx, dtype=torch.long)
-        t = torch.full((len(phone_indices_tensor),), interest_idx, dtype=torch.long)
+        h = phone_indices
+        r = torch.full((len(phone_indices),), suitable_rel_idx, dtype=torch.long)
+        t = torch.full((len(phone_indices),), interest_idx, dtype=torch.long)
 
         hrt_batch = torch.stack([h, r, t], dim=1)
         scores = model.score_hrt(hrt_batch).squeeze()
 
         for phone_id, score in zip(all_phone_ids, scores):
-            aggregate_scores[phone_id] = aggregate_scores.get(phone_id, 0) + score.item()
+            aggregate_scores[phone_id] += score.item()
 
     sorted_phones = sorted(aggregate_scores.items(), key=lambda x: x[1], reverse=True)[:top_k]
 

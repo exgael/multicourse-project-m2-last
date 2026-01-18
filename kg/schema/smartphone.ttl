@@ -74,11 +74,6 @@ sp:HighResolutionCameraPhone a owl:Class ;
         )
     ] .
 
-sp:InMarketPhone a owl:Class ;
-    rdfs:label "In Market Phone"@en ;
-    rdfs:subClassOf sp:Smartphone ;
-    rdfs:comment "Phone with at least one variant that has a price"@en .
-
 
 sp:hasBrand a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:label "has brand"@en ;

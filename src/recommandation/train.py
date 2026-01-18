@@ -108,6 +108,39 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
         user_phone_count += 1
 
     print(f"Extracted {user_phone_count} user-phone like triples")
+
+    # Derive suitableFor triples from user data
+    # Logic: if user likes phone AND user interestedIn usecase → phone suitableFor usecase
+    user_interests: dict[str, set[str]] = {}
+    user_phones: dict[str, set[str]] = {}
+
+    for row in g.query(user_interest_query):
+        user_id = str(row.user_id)
+        usecase = str(row.usecase)
+        if user_id not in user_interests:
+            user_interests[user_id] = set()
+        user_interests[user_id].add(usecase)
+
+    for row in g.query(user_phone_query):
+        user_id = str(row.user_id)
+        phone_id = str(row.phone_id)
+        if user_id not in user_phones:
+            user_phones[user_id] = set()
+        user_phones[user_id].add(phone_id)
+
+    # Derive: phone suitableFor usecase
+    suitable_for_triples: set[tuple[str, str, str]] = set()
+    for user_id in user_interests:
+        if user_id not in user_phones:
+            continue
+        for phone_id in user_phones[user_id]:
+            for usecase in user_interests[user_id]:
+                suitable_for_triples.add((phone_id, "suitableFor", usecase))
+
+    for triple in suitable_for_triples:
+        all_triples.append(triple)
+
+    print(f"Derived {len(suitable_for_triples)} phone-usecase suitableFor triples")
     print(f"Total training triples: {len(all_triples)}")
 
     # Create PyKEEN triples factory
