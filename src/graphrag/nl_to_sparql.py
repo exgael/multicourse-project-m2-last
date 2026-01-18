@@ -89,6 +89,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 ## Example Queries
 
 # Find all Samsung phones with battery > 5000mAh
+PREFIX sp: <http://example.org/smartphone#>
 SELECT ?phoneName ?battery WHERE {
   ?phone a sp:Smartphone ;
          sp:phoneName ?phoneName ;
@@ -99,12 +100,15 @@ SELECT ?phoneName ?battery WHERE {
 }
 
 # Find phones suitable for gaming
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
 SELECT ?phoneName WHERE {
   ?phone sp:phoneName ?phoneName ;
          sp:suitableFor spv:Gaming .
 }
 
 # Get user interests
+PREFIX sp: <http://example.org/smartphone#>
 SELECT ?userId ?interest WHERE {
   ?user sp:userId ?userId ;
         sp:interestedIn ?uc .
@@ -117,12 +121,16 @@ SYSTEM_PROMPT = """You are a SPARQL query generator for a smartphone knowledge g
 Given a natural language question, generate a valid SPARQL query that answers it.
 
 IMPORTANT RULES:
-1. Use ONLY the prefixes, classes, and properties defined in the schema
-2. Always include necessary PREFIX declarations at the start
+1. ALWAYS start with PREFIX declarations:
+   PREFIX sp: <http://example.org/smartphone#>
+   PREFIX spv: <http://example.org/smartphone/vocab/>
+2. Use ONLY the prefixes, classes, and properties defined in the schema
 3. Use proper SPARQL syntax
-4. For text matching, use case-insensitive FILTER with CONTAINS or LCASE
-5. Return ONLY the SPARQL query, no explanations
-6. If the question cannot be answered with the schema, return a query that returns empty results with a comment explaining why
+4. ALWAYS include sp:phoneName when selecting phone information
+5. Use SELECT DISTINCT to avoid duplicates
+6. For text matching, use case-insensitive FILTER with CONTAINS or LCASE
+7. ORDER BY and LIMIT must come AFTER the closing brace of WHERE
+8. Return ONLY the SPARQL query, no explanations
 
 Schema:
 {schema}
