@@ -17,16 +17,19 @@ uv sync
 ```
 ## Build Knowledge Graph
 
-1. Generate facts
-2. Combine both ontologie and facts
-3. Materialize inverse relation + classes that should be inferred.
+1. Convert prices to eur
+2. Generate users
+3. Generate facts
+4. Materialize inverse relation + classes that should be inferred.
+5. Linkage
+6. Combine everything into Kg
 
 ```sh
-make build_kg
+make run
 ```
 
-or 
+## Clean up
 
 ```sh
-uv run src/kg_build_pipeline.py
+make clean
 ```
