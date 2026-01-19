@@ -50,8 +50,9 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             BIND("supportsNFC" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
-            ?phone sp:priceEUR ?val .
-            BIND("priceEUR" AS ?property)
+            ?offering sp:forPhone ?phone ;
+                      sp:priceValue ?val .
+            BIND("priceValue" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
             ?phone sp:ramGB ?val .
@@ -70,7 +71,7 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
         prop = str(row.property)
         value = str(row.value)
         # Discretize continuous values
-        if prop == "priceEUR":
+        if prop == "priceValue":
             value = discretize_price(value)
         elif prop == "batteryCapacityMah":
             value = discretize_battery(value)

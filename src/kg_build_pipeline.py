@@ -13,6 +13,7 @@ DATA_DIR: Path = ROOT_DIR / "data"
 PHONES_JSON: Path = DATA_DIR / "phones.json"
 PRICES_JSON: Path = DATA_DIR / "prices.json"
 EUR_PRICES_FILE: Path = OUTPUT / "data" / "eur_prices.json"
+STORE_PRICES_FILE: Path = OUTPUT / "data" / "store_prices.json"
 MERGED_PHONES_FILE: Path = OUTPUT / "data" / "phones_merged.json"
 USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 VARIANTS_JSON: Path = DATA_DIR / "variants.json"
@@ -58,7 +59,11 @@ class Pipeline:
     @step
     def process_prices(self) -> None:
         from preprocess.process_prices import process_prices
-        process_prices(prices_file=PRICES_JSON, eur_prices_file=EUR_PRICES_FILE)
+        process_prices(
+            prices_file=PRICES_JSON,
+            eur_prices_file=EUR_PRICES_FILE,
+            store_prices_file=STORE_PRICES_FILE,
+        )
 
     @step
     def merge_phones(self) -> None:
@@ -124,8 +129,9 @@ class Pipeline:
                 PREFIX sp: <http://example.org/smartphone#>
                 CONSTRUCT { ?phone a sp:InMarketPhone }
                 WHERE {
-                    ?phone a sp:Smartphone ;
-                           sp:priceEUR ?price .
+                    ?phone a sp:Smartphone .
+                    ?offering sp:forPhone ?phone ;
+                              sp:priceValue ?price .
                 }
             """),
         ]
@@ -170,10 +176,10 @@ class Pipeline:
                         final_file.write(f.read())
                         final_file.write("\n\n")
 
-        # Delete TEMP directory
-        import shutil
-        if TEMP.exists():
-            shutil.rmtree(TEMP)
+        # # Delete TEMP directory
+        # import shutil
+        # if TEMP.exists():
+        #     shutil.rmtree(TEMP)
 
     def run(self) -> None:
         self.process_prices()

@@ -27,6 +27,14 @@ sp:Smartphone a owl:Class ;
 sp:Brand a owl:Class ;
     rdfs:label "Brand"@en .
 
+sp:Store a owl:Class ;
+    rdfs:label "Store"@en ;
+    rdfs:comment "A retail store or marketplace that offers phones"@en .
+
+sp:PriceOffering a owl:Class ;
+    rdfs:label "Price Offering"@en ;
+    rdfs:comment "A price offering for a phone at a specific store"@en .
+
 sp:User a owl:Class ;
     rdfs:label "User"@en ;
     rdfs:comment "Synthetic user with use-case interests"@en .
@@ -94,6 +102,18 @@ sp:likes a owl:ObjectProperty ;
     rdfs:domain sp:User ;
     rdfs:range sp:Phone .
 
+sp:forPhone a owl:ObjectProperty ;
+    rdfs:label "for phone"@en ;
+    rdfs:comment "Links a price offering to the phone it is for"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range sp:Phone .
+
+sp:offeredBy a owl:ObjectProperty ;
+    rdfs:label "offered by"@en ;
+    rdfs:comment "Links a price offering to the store offering it"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range sp:Store .
+
 
 sp:phoneName a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "phone name"@en ;
@@ -155,11 +175,6 @@ sp:ramGB a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:domain sp:Phone ;
     rdfs:range xsd:integer .
 
-sp:priceEUR a owl:DatatypeProperty ;
-    rdfs:label "price (EUR)"@en ;
-    rdfs:comment "Price in Euros"@en ;
-    rdfs:domain sp:Phone ;
-    rdfs:range xsd:decimal .
 
 
 sp:userId a owl:DatatypeProperty, owl:FunctionalProperty ;
@@ -171,6 +186,17 @@ sp:brandName a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:label "brand name"@en ;
     rdfs:domain sp:Brand ;
     rdfs:range xsd:string .
+
+sp:storeName a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "store name"@en ;
+    rdfs:domain sp:Store ;
+    rdfs:range xsd:string .
+
+sp:priceValue a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "price value"@en ;
+    rdfs:comment "Price value in EUR"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range xsd:decimal .
 
 
 sp:Smartphone skos:closeMatch wd:Q19723451 .
