@@ -93,7 +93,7 @@ class Pipeline:
 
     @step
     def gen_user_data(self) -> None:
-        from preprocess.generate_usecase_data import generate_users
+        from preprocess.generate_users import generate_users
         generate_users(
             phone_configurations_file=CONFIGURATIONS_FILE,
             output_dir=USER_DATA_DIR,

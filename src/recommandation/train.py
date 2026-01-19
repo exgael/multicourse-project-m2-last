@@ -24,50 +24,62 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
 
     all_triples: list[tuple[str, str, str]] = []
 
-    # Extract phone datatype properties as triples
-    # Removed: mainCameraMP, selfieCameraMP (not useful for use-case classification)
-    phone_spec_query = """
+    # Extract PhoneConfiguration properties as triples
+    # PhoneConfiguration has: ramGB, storageGB, linked to BasePhone (with specs)
+    # PriceOffering links to PhoneConfiguration
+    config_spec_query = """
     PREFIX sp: <http://example.org/smartphone#>
 
-    SELECT ?phone_id ?property ?value WHERE {
-        ?phone a sp:Smartphone .
-        BIND(STRAFTER(STR(?phone), "phone/") AS ?phone_id)
+    SELECT ?config_id ?property ?value WHERE {
+        ?config a sp:PhoneConfiguration .
+        BIND(STRAFTER(STR(?config), "config/") AS ?config_id)
 
         {
-            ?phone sp:batteryCapacityMah ?val .
-            BIND("batteryCapacityMah" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
-            ?phone sp:refreshRateHz ?val .
-            BIND("refreshRateHz" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
-            ?phone sp:supports5G ?val .
-            BIND("supports5G" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
-            ?phone sp:supportsNFC ?val .
-            BIND("supportsNFC" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
-            ?offering sp:forPhone ?phone ;
-                      sp:priceValue ?val .
-            BIND("priceValue" AS ?property)
-            BIND(STR(?val) AS ?value)
-        } UNION {
-            ?phone sp:ramGB ?val .
+            # RAM from configuration
+            ?config sp:ramGB ?val .
             BIND("ramGB" AS ?property)
             BIND(STR(?val) AS ?value)
         } UNION {
-            ?phone sp:storageGB ?val .
+            # Storage from configuration
+            ?config sp:storageGB ?val .
             BIND("storageGB" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            # Battery from base phone
+            ?config sp:hasBasePhone ?basephone .
+            ?basephone sp:batteryCapacityMah ?val .
+            BIND("batteryCapacityMah" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            # Refresh rate from base phone
+            ?config sp:hasBasePhone ?basephone .
+            ?basephone sp:refreshRateHz ?val .
+            BIND("refreshRateHz" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            # 5G support from base phone
+            ?config sp:hasBasePhone ?basephone .
+            ?basephone sp:supports5G ?val .
+            BIND("supports5G" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            # NFC support from base phone
+            ?config sp:hasBasePhone ?basephone .
+            ?basephone sp:supportsNFC ?val .
+            BIND("supportsNFC" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            # Price from PriceOffering (use minimum price across stores)
+            ?offering sp:forConfiguration ?config ;
+                      sp:priceValue ?val .
+            BIND("priceValue" AS ?property)
             BIND(STR(?val) AS ?value)
         }
     }
     """
 
-    for row in g.query(phone_spec_query):
-        phone_id = str(row.phone_id)
+    for row in g.query(config_spec_query):
+        config_id = str(row.config_id)
         prop = str(row.property)
         value = str(row.value)
         # Discretize continuous values
@@ -81,9 +93,9 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             value = discretize_ram(value)
         elif prop == "storageGB":
             value = discretize_storage(value)
-        all_triples.append((phone_id, prop, value))
+        all_triples.append((config_id, prop, value))
 
-    print(f"Extracted {len(all_triples)} phone spec triples")
+    print(f"Extracted {len(all_triples)} configuration spec triples")
 
     # Extract user interests
     user_interest_query = """
@@ -106,31 +118,31 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
 
     print(f"Extracted {user_interest_count} user interest triples")
 
-    # Extract user-phone likes
-    user_phone_query = """
+    # Extract user-configuration likes (users like PhoneConfigurations)
+    user_config_query = """
     PREFIX sp: <http://example.org/smartphone#>
 
-    SELECT ?user_id ?phone_id WHERE {
+    SELECT ?user_id ?config_id WHERE {
         ?user a sp:User ;
               sp:userId ?user_id ;
-              sp:likes ?phone .
-        BIND(STRAFTER(STR(?phone), "phone/") AS ?phone_id)
+              sp:likes ?config .
+        BIND(STRAFTER(STR(?config), "config/") AS ?config_id)
     }
     """
 
-    user_phone_count = 0
-    for row in g.query(user_phone_query):
+    user_config_count = 0
+    for row in g.query(user_config_query):
         user_id = str(row.user_id)
-        phone_id = str(row.phone_id)
-        all_triples.append((user_id, "likes", phone_id))
-        user_phone_count += 1
+        config_id = str(row.config_id)
+        all_triples.append((user_id, "likes", config_id))
+        user_config_count += 1
 
-    print(f"Extracted {user_phone_count} user-phone like triples")
+    print(f"Extracted {user_config_count} user-configuration like triples")
 
     # Derive suitableFor triples from user data
-    # Logic: if user likes phone AND user interestedIn usecase → phone suitableFor usecase
+    # Logic: if user likes config AND user interestedIn usecase → config suitableFor usecase
     user_interests: dict[str, set[str]] = {}
-    user_phones: dict[str, set[str]] = {}
+    user_configs: dict[str, set[str]] = {}
 
     for row in g.query(user_interest_query):
         user_id = str(row.user_id)
@@ -139,26 +151,26 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             user_interests[user_id] = set()
         user_interests[user_id].add(usecase)
 
-    for row in g.query(user_phone_query):
+    for row in g.query(user_config_query):
         user_id = str(row.user_id)
-        phone_id = str(row.phone_id)
-        if user_id not in user_phones:
-            user_phones[user_id] = set()
-        user_phones[user_id].add(phone_id)
+        config_id = str(row.config_id)
+        if user_id not in user_configs:
+            user_configs[user_id] = set()
+        user_configs[user_id].add(config_id)
 
-    # Derive: phone suitableFor usecase
+    # Derive: config suitableFor usecase
     suitable_for_triples: set[tuple[str, str, str]] = set()
     for user_id in user_interests:
-        if user_id not in user_phones:
+        if user_id not in user_configs:
             continue
-        for phone_id in user_phones[user_id]:
+        for config_id in user_configs[user_id]:
             for usecase in user_interests[user_id]:
-                suitable_for_triples.add((phone_id, "suitableFor", usecase))
+                suitable_for_triples.add((config_id, "suitableFor", usecase))
 
     for triple in suitable_for_triples:
         all_triples.append(triple)
 
-    print(f"Derived {len(suitable_for_triples)} phone-usecase suitableFor triples")
+    print(f"Derived {len(suitable_for_triples)} config-usecase suitableFor triples")
     print(f"Total training triples: {len(all_triples)}")
 
     # Create PyKEEN triples factory

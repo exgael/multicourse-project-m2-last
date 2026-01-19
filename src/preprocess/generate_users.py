@@ -29,37 +29,63 @@ class DatasetStats(BaseModel):
     usecase_phone_counts: dict[str, int]
 
 
-# Functional use-cases
+# Functional use-cases aligned with SKOS vocabulary (kg/schema/skos.ttl)
 USE_CASES: dict[str, UseCaseDefinition] = {
     "Gaming": UseCaseDefinition(
-        desc="Mobile gaming with smooth experience",
+        desc="Mobile gaming with smooth performance",
         skos_uri="spv:Gaming",
         rules=lambda p: (
             (p.get("refresh_rate_hz") or 60) >= 144 and
-            (p.get("battery_mah") or 0) >= 4500 and 
             (p.get("ram_gb") or 0) >= 16 and
-            (p.get("storage_gb") or 0) >= 256 and 
-            (p.get("screen_size_inches") or 0) >= 6.5 and
-            p.get("supports_5g") is True
-
+            (p.get("battery_mah") or 0) >= 4500 and
+            p.get("supports_5g") is True and
+            (p.get("storage_gb") or 0) >= 256
+        )
+    ),
+    "Photography": UseCaseDefinition(
+        desc="High-quality photos with professional-grade camera",
+        skos_uri="spv:Photography",
+        rules=lambda p: (
+            (p.get("main_camera_mp") or 0) >= 108 and
+            ("AMOLED" in (p.get("display_type") or "") or
+             "OLED" in (p.get("display_type") or "")) and
+            (p.get("storage_gb") or 0) >= 256
+        )
+    ),
+    "Vlogging": UseCaseDefinition(
+        desc="Video blogging and selfie-focused content creation",
+        skos_uri="spv:Vlogging",
+        rules=lambda p: (
+            (p.get("selfie_camera_mp") or 0) >= 32 and
+            (p.get("main_camera_mp") or 0) >= 50
+        )
+    ),
+    "Business": UseCaseDefinition(
+        desc="Work and productivity phone with reliable connectivity",
+        skos_uri="spv:Business",
+        rules=lambda p: (
+            p.get("nfc") is True and
+            p.get("supports_5g") is True and
+            (p.get("battery_mah") or 0) >= 5000 and
+            (p.get("storage_gb") or 0) >= 256
         )
     ),
     "EverydayUse": UseCaseDefinition(
-        desc="General daily usage - modern phone with NFC and 5G",
+        desc="General daily usage with modern connectivity",
         skos_uri="spv:EverydayUse",
         rules=lambda p: (
             p.get("nfc") is True and
             p.get("supports_5g") is True and
-            (p.get("battery_mah") or 0) >= 4500
+            (p.get("battery_mah") or 0) >= 4000
         )
     ),
-    "Minimalist": UseCaseDefinition(
-        desc="Simple phones without modern connectivity",
-        skos_uri="spv:Minimalist",
+    "MinimalistUse": UseCaseDefinition(
+        desc="Affordable phones for basic smartphone needs",
+        skos_uri="spv:MinimalistUse",
         rules=lambda p: (
-            p.get("nfc") is not True and
-            p.get("supports_5g") is not True and  
-            (p.get("screen_size_inches") or 0) <= 4
+            (p.get("supports_5g") or False) is False and
+            (p.get("ram_gb") or 0) <= 8 and 
+            (p.get("storage_gb") or 0) <= 64
         )
     ),
 }
