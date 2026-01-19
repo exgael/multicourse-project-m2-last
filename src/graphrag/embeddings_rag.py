@@ -1,8 +1,5 @@
 """
-GraphRAG Embeddings Module - Using Real Phone Embeddings
-
-This module implements a TRUE RAG approach using Knowledge Graph embeddings
-learned by PyKEEN (RotatE model) with REAL phone entities.
+GraphRAG Embeddings Module - Using Phone Embeddings
 
 The model contains:
 - Real phones (Samsung Galaxy S24, iPhone 16, etc.) with embeddings
@@ -22,7 +19,6 @@ KEY ADVANTAGE OVER SQL:
 - Embeddings capture latent relationships learned from user behavior
 - "Phones similar to what gamers like" - uses collaborative filtering via embeddings
 - "Premium and futuristic" - semantic meaning, not exact filters
-- Fuzzy matching based on learned patterns, not hard-coded rules
 """
 
 from dataclasses import dataclass
@@ -688,19 +684,6 @@ def demo():
         # Casual description - semantic understanding
         "Something reliable for everyday use with good battery",
     ]
-    
-    print("=" * 60)
-    print("GraphRAG Demo: Real Phone Embeddings (RotatE)")
-    print("=" * 60)
-    print("\nThis model has embeddings for REAL phones learned from:")
-    print("  - User preferences (who likes which phones)")
-    print("  - Use-case suitability (Gaming, Photography, Vlogging, Business, EverydayUse, MinimalistUse)")
-    print("  - Price segments (Flagship, MidRange, Budget)")
-    print("  - Phone specifications (battery, camera, refresh rate)")
-    print("\nEmbeddings capture patterns that SQL cannot:")
-    print("  ✗ SQL: WHERE use_case = 'gaming' (no such column)")
-    print("  ✓ Embeddings: phones similar to 'Gaming' use-case in vector space")
-    print("=" * 60)
     
     try:
         rag = KGEmbeddingsRAG()
