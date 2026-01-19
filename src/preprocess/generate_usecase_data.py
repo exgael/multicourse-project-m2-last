@@ -65,10 +65,10 @@ USE_CASES: dict[str, UseCaseDefinition] = {
 }
 
 
-def load_phones(merged_phones_file: Path) -> list[dict[str, Any]]:
+def load_phones(phone_configurations_file: Path) -> list[dict[str, Any]]:
     """Load merged phones (already includes storage/RAM/price)."""
-    print(f"Loading merged phones from {merged_phones_file}...")
-    with open(merged_phones_file, "r", encoding="utf-8") as f:
+    print(f"Loading merged phones from {phone_configurations_file}...")
+    with open(phone_configurations_file, "r", encoding="utf-8") as f:
         phones: list[dict[str, Any]] = json.load(f)
     print(f"Loaded {len(phones)} phones")
     return phones
@@ -186,7 +186,7 @@ def print_summary(stats: DatasetStats) -> None:
 
 
 def generate_users(
-    merged_phones_file: Path,
+    phone_configurations_file: Path,
     output_dir: Path,
     num_users: int = 500,
     random_seed: int = 42,
@@ -197,7 +197,7 @@ def generate_users(
         return
 
     random.seed(random_seed)
-    phones: list[dict[str, Any]] = load_phones(merged_phones_file)
+    phones: list[dict[str, Any]] = load_phones(phone_configurations_file)
 
     # Find valid usecases (those with at least one phone)
     valid_usecases: list[str] = []

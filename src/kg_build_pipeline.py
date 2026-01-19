@@ -16,7 +16,7 @@ VARIANTS_JSON: Path = DATA_DIR / "variants.json"
 REVIEW_TAGS_JSON: Path = DATA_DIR / "review_tags.json"
 
 STORE_PRICES_FILE: Path = OUTPUT / "data" / "store_prices.json"
-CONFIGURATIONS_FILE: Path = OUTPUT / "data" / "phones_merged.json"  # keeps filename for RML compat
+CONFIGURATIONS_FILE: Path = OUTPUT / "data" / "phones_configuration.json"
 REVIEW_SENTIMENTS_FILE: Path = OUTPUT / "data" / "review_sentiments.json"
 USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 
@@ -95,7 +95,7 @@ class Pipeline:
     def gen_user_data(self) -> None:
         from preprocess.generate_usecase_data import generate_users
         generate_users(
-            merged_phones_file=CONFIGURATIONS_FILE,
+            phone_configurations_file=CONFIGURATIONS_FILE,
             output_dir=USER_DATA_DIR,
         )
 

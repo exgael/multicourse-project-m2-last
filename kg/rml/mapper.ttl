@@ -9,12 +9,12 @@
 
 
 # =============================================================================
-# BasePhone Mapping (specs from phones_merged.json)
+# BasePhone Mapping
 # =============================================================================
 
 <#BasePhoneMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/data/phones_merged.json" ;
+        rml:source "output/data/phones_configuration.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
@@ -42,7 +42,7 @@
 
 <#PhoneConfigurationMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/data/phones_merged.json" ;
+        rml:source "output/data/phones_configuration.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
@@ -65,7 +65,7 @@
 
 <#BrandMapping> a rr:TriplesMap ;
     rml:logicalSource [
-        rml:source "output/data/phones_merged.json" ;
+        rml:source "output/data/phones_configuration.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
