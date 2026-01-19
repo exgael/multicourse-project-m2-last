@@ -103,14 +103,19 @@ class KGEmbeddingsRAG:
         self.id_to_entity = {v: k for k, v in self.entity_to_id.items()}
         self.relation_to_id = tf.relation_to_id
         
-        # Extract embeddings
-        self.entity_embeddings = self.model.entity_representations[0](
-            indices=None
-        ).detach().cpu().numpy()
+        # Extract embeddings - handle complex embeddings (RotatE) by taking real part
+        raw_embeddings = self.model.entity_representations[0](indices=None).detach().cpu()
+        if raw_embeddings.is_complex():
+            # RotatE uses complex embeddings - convert to real by concatenating real and imaginary parts
+            self.entity_embeddings = torch.cat([raw_embeddings.real, raw_embeddings.imag], dim=-1).numpy()
+        else:
+            self.entity_embeddings = raw_embeddings.numpy()
         
-        self.relation_embeddings = self.model.relation_representations[0](
-            indices=None
-        ).detach().cpu().numpy()
+        raw_rel_embeddings = self.model.relation_representations[0](indices=None).detach().cpu()
+        if raw_rel_embeddings.is_complex():
+            self.relation_embeddings = torch.cat([raw_rel_embeddings.real, raw_rel_embeddings.imag], dim=-1).numpy()
+        else:
+            self.relation_embeddings = raw_rel_embeddings.numpy()
         
         print(f"  Loaded {len(self.entity_to_id)} entity embeddings (dim={self.entity_embeddings.shape[1]})")
         print(f"  Loaded {len(self.relation_to_id)} relation embeddings")
@@ -121,10 +126,10 @@ class KGEmbeddingsRAG:
         # Load phone specs from KG
         self._load_phone_specs_from_kg()
         
-        # Extract use-cases from entities
+        # Extract use-cases from entities (filter out non-string entities like nan)
         self.use_cases = [e for e in self.entity_to_id.keys() 
-                         if not e.startswith("instance/") and not "_" in e[:10]
-                         and e not in ["true", "false"]]
+                         if isinstance(e, str) and not e.startswith("instance/") 
+                         and "_" not in e[:10] and e not in ["true", "false"]]
         
         print(f"  Found {len(self.phones)} phones")
         print(f"  Found {len(self.use_cases)} use-cases/features")
@@ -393,12 +398,85 @@ Return ONLY the JSON, no explanation."""
                            if self.phones[pid].display_type and 
                               "amoled" in self.phones[pid].display_type.lower()]
         
+        # If no phones found via embeddings, fallback to spec-based search
+        if not sorted_phones:
+            sorted_phones = self._fallback_spec_search(intent)
+        
         # Return top phones
         result = []
         for phone_id, score in sorted_phones[:top_k]:
             result.append(self.phones[phone_id])
         
         return result
+    
+    def _fallback_spec_search(self, intent: dict) -> list[tuple[str, float]]:
+        """Fallback search using phone specs when embeddings don't find matches."""
+        phone_scores: dict[str, float] = {}
+        features = [f.lower() for f in intent.get("features", [])]
+        use_case = (intent.get("use_case") or "").lower()
+        brand = intent.get("brand")
+        
+        for phone_id, phone in self.phones.items():
+            # Filter by brand first if specified
+            if brand and phone.brand.lower() != brand.lower():
+                continue
+            
+            score = 0.0
+            
+            # Gaming: high refresh rate + big battery
+            if "gaming" in features or use_case in ["gaming", "mobile gaming"]:
+                if phone.refresh_rate and phone.refresh_rate >= 144:
+                    score += 0.5
+                elif phone.refresh_rate and phone.refresh_rate >= 120:
+                    score += 0.3
+                if phone.battery and phone.battery >= 5000:
+                    score += 0.3
+            
+            # Photography: high camera MP
+            if "photography" in features or use_case == "photography":
+                if phone.camera and phone.camera >= 200:
+                    score += 0.6
+                elif phone.camera and phone.camera >= 100:
+                    score += 0.4
+                elif phone.camera and phone.camera >= 50:
+                    score += 0.2
+            
+            # Big battery
+            if "big_battery" in features:
+                if phone.battery and phone.battery >= 6000:
+                    score += 0.4
+                elif phone.battery and phone.battery >= 5000:
+                    score += 0.2
+            
+            # 5G
+            if "5g" in features:
+                if phone.supports_5g:
+                    score += 0.3
+            
+            # AMOLED display
+            if "amoled" in features:
+                if phone.display_type and "amoled" in phone.display_type.lower():
+                    score += 0.3
+            
+            # Vlogging: good selfie cam + stabilization (assume high main cam)
+            if "vlogging" in features or use_case == "vlogging":
+                if phone.camera and phone.camera >= 50:
+                    score += 0.3
+                if phone.refresh_rate and phone.refresh_rate >= 60:
+                    score += 0.1
+            
+            # Modern phone boost
+            if phone.release_year and phone.release_year >= 2024:
+                score += 0.25
+            elif phone.release_year and phone.release_year >= 2023:
+                score += 0.15
+            elif phone.release_year and phone.release_year >= 2021:
+                score += 0.05
+            
+            if score > 0:
+                phone_scores[phone_id] = score
+        
+        return sorted(phone_scores.items(), key=lambda x: x[1], reverse=True)
     
     def generate_response(self, question: str, phones: list[Phone], intent: dict) -> str:
         """Generate a natural language response using Ollama."""

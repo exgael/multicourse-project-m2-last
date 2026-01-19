@@ -255,7 +255,14 @@ def discretize_storage(value: str) -> str:
 
 
 def train_model() -> None:
-    """Train TransE model for link prediction."""
+    """Train RotatE model for link prediction.
+    
+    RotatE models relations as rotations in complex space, which better captures:
+    - Symmetric relations (e.g., similar_to)
+    - Antisymmetric relations (e.g., hasBrand)
+    - Inversion relations (e.g., hasBrand/manufactures)
+    - Composition relations
+    """
 
     training, testing, validation = load_triples_from_kg()
 
@@ -265,10 +272,12 @@ def train_model() -> None:
         training=training,
         testing=testing,
         validation=validation,
-        model="TransE",
+        model="RotatE",
         model_kwargs=dict(embedding_dim=128),
         optimizer="Adam",
         optimizer_kwargs=dict(lr=0.001),
+        loss="NSSALoss",  # Self-adversarial negative sampling loss (recommended for RotatE)
+        loss_kwargs=dict(margin=9.0, adversarial_temperature=1.0),
         training_kwargs=dict(num_epochs=100, batch_size=256),
         evaluator_kwargs=dict(filtered=True),
         evaluation_kwargs=dict(batch_size=256),
