@@ -1,46 +1,21 @@
 """
-GraphRAG: Natural Language to SPARQL
-Transforms natural language questions into SPARQL queries using LLM.
+NL to SPARQL - Natural language to SPARQL queries.
 """
 
 import streamlit as st
 import sys
 from pathlib import Path
 
-# Add project root to path
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 st.set_page_config(
     page_title="NL to SPARQL",
-    page_icon="💬",
+    page_icon="phone",
     layout="wide"
 )
 
-st.title("💬 NL to SPARQL")
-st.markdown("*Ask questions in natural language, see the generated SPARQL query*")
-
-# Sidebar info
-with st.sidebar:
-    st.header("About")
-    st.markdown("""
-    This page converts **natural language** questions into **SPARQL queries**.
-
-    **How it works:**
-    1. Your question is sent to an LLM (Ollama)
-    2. The LLM generates a SPARQL query
-    3. The query runs against the Knowledge Graph
-    4. Results are displayed
-
-    **Best for:**
-    - Precise queries ("phones with 5G and 120Hz")
-    - Filtering by specs (battery > 5000mAh)
-    - Comparing specific phones
-    - Understanding the data structure
-    """)
-
-    st.divider()
-    st.caption("Requires Ollama running locally")
+st.title("NL to SPARQL")
 
 
 @st.cache_resource
@@ -50,11 +25,9 @@ def load_nl2sparql():
     return NLToSPARQL()
 
 
-# Initialize chat history
 if "sparql_messages" not in st.session_state:
     st.session_state.sparql_messages = []
 
-# Try to load the system
 try:
     with st.spinner("Connecting to Ollama..."):
         nl2sparql = load_nl2sparql()
@@ -69,7 +42,6 @@ except Exception as e:
     st.error(f"Error: {e}")
     st.stop()
 
-# Example questions
 with st.expander("Example questions"):
     examples = [
         "What Samsung phones have battery over 5000mAh?",
@@ -86,7 +58,6 @@ with st.expander("Example questions"):
             st.session_state.sparql_messages.append({"role": "user", "content": example})
             st.rerun()
 
-# Display chat history
 for message in st.session_state.sparql_messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -97,37 +68,30 @@ for message in st.session_state.sparql_messages:
             with st.expander(f"Results ({len(message['results'])} rows)"):
                 st.dataframe(message["results"], use_container_width=True)
 
-# Chat input
 if prompt := st.chat_input("Ask about smartphones..."):
-    # Add user message
     st.session_state.sparql_messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Generate response
     with st.chat_message("assistant"):
-        with st.spinner("Generating SPARQL query..."):
+        with st.spinner("Generating SPARQL..."):
             try:
                 result = nl2sparql.query(prompt)
 
                 if result.success:
-                    # Show summary
                     if result.results:
                         st.markdown(f"Found **{len(result.results)}** results")
                     else:
-                        st.markdown("No results found for this query.")
+                        st.markdown("No results found.")
 
-                    # Show SPARQL
                     with st.expander("Generated SPARQL", expanded=True):
                         st.code(result.sparql_query, language="sparql")
 
-                    # Show results
                     if result.results:
                         with st.expander("Results", expanded=True):
                             st.dataframe(result.results, use_container_width=True)
 
-                    # Save to history
                     st.session_state.sparql_messages.append({
                         "role": "assistant",
                         "content": f"Found **{len(result.results)}** results" if result.results else "No results found.",
@@ -157,7 +121,6 @@ if prompt := st.chat_input("Ask about smartphones..."):
                     "content": error_msg
                 })
 
-# Clear chat button
 if st.session_state.sparql_messages:
     if st.button("Clear chat"):
         st.session_state.sparql_messages = []
