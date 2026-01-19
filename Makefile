@@ -10,3 +10,6 @@ data:
 	uv run data/preprocess.py
 	uv run data/generate_users.py
 	uv run data/data_to_rdf.py
+
+ui:
+	uv run streamlit run app.py   
