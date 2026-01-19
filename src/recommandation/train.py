@@ -6,9 +6,9 @@ import torch
 import numpy as np
 
 ROOT_DIR = Path(__file__).parent.parent.parent
-OUTPUT_DIR = ROOT_DIR / "output"
 DATA_DIR = ROOT_DIR / "data"
-FINAL_KG_TTL = DATA_DIR / "rdf" / "knowledge_graph_full.ttl"
+OUTPUT_DIR = ROOT_DIR / "output"
+FINAL_KG_TTL = DATA_DIR / "rdf"  / "knowledge_graph_full.ttl"
 MODEL_DIR = OUTPUT_DIR / "models" / "link_prediction"
 
 SP = Namespace("http://example.org/smartphone#")
@@ -256,14 +256,7 @@ def discretize_storage(value: str) -> str:
 
 
 def train_model() -> None:
-    """Train RotatE model for link prediction.
-    
-    RotatE models relations as rotations in complex space, which better captures:
-    - Symmetric relations (e.g., similar_to)
-    - Antisymmetric relations (e.g., hasBrand)
-    - Inversion relations (e.g., hasBrand/manufactures)
-    - Composition relations
-    """
+    """Train RotatE model for link prediction."""
 
     training, testing, validation = load_triples_from_kg()
 
@@ -277,8 +270,6 @@ def train_model() -> None:
         model_kwargs=dict(embedding_dim=128),
         optimizer="Adam",
         optimizer_kwargs=dict(lr=0.001),
-        loss="NSSALoss",  # Self-adversarial negative sampling loss (recommended for RotatE)
-        loss_kwargs=dict(margin=9.0, adversarial_temperature=1.0),
         training_kwargs=dict(num_epochs=100, batch_size=256),
         evaluator_kwargs=dict(filtered=True),
         evaluation_kwargs=dict(batch_size=256),
@@ -294,6 +285,7 @@ def train_model() -> None:
     print(f"  Hits@1: {result.metric_results.get_metric('hits_at_1'):.4f}")
     print(f"  Hits@3: {result.metric_results.get_metric('hits_at_3'):.4f}")
     print(f"  Hits@10: {result.metric_results.get_metric('hits_at_10'):.4f}")
+
 
 if __name__ == "__main__":
     train_model()

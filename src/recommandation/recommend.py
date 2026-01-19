@@ -23,7 +23,7 @@ def load_config_names() -> dict[str, str]:
     Config IDs are like: apple_apple_iphone_11_64gb_4gb
     Maps to display names like: Apple iPhone 11 (64GB/4GB)
     """
-    phones_file = DATA_DIR / "phones.json"
+    phones_file = DATA_DIR / "raw_pretty" / "phones.json"
     with open(phones_file, "r") as f:
         phones = json.load(f)
 
