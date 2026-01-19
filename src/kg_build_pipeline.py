@@ -12,15 +12,16 @@ KG_DIR: Path = ROOT_DIR / "kg"
 DATA_DIR: Path = ROOT_DIR / "data"
 PHONES_JSON: Path = DATA_DIR / "phones.json"
 PRICES_JSON: Path = DATA_DIR / "prices.json"
-EUR_PRICES_FILE: Path = OUTPUT / "data" / "eur_prices.json"
-STORE_PRICES_FILE: Path = OUTPUT / "data" / "store_prices.json"
-MERGED_PHONES_FILE: Path = OUTPUT / "data" / "phones_merged.json"
-USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 VARIANTS_JSON: Path = DATA_DIR / "variants.json"
+REVIEW_TAGS_JSON: Path = DATA_DIR / "review_tags.json"
+
+STORE_PRICES_FILE: Path = OUTPUT / "data" / "store_prices.json"
+CONFIGURATIONS_FILE: Path = OUTPUT / "data" / "phones_merged.json"  # keeps filename for RML compat
+REVIEW_SENTIMENTS_FILE: Path = OUTPUT / "data" / "review_sentiments.json"
+USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 
 RML_MAPPER_JAR: Path = ROOT_DIR / "rmlmapper.jar"
 RML_MAPPING: Path = KG_DIR / "rml" / "mapper.ttl"
-
 
 FINAL_KG_TTL: Path = OUTPUT / "final_knowledge_graph.ttl"
 
@@ -61,33 +62,40 @@ class Pipeline:
         from preprocess.process_prices import process_prices
         process_prices(
             prices_file=PRICES_JSON,
-            eur_prices_file=EUR_PRICES_FILE,
             store_prices_file=STORE_PRICES_FILE,
         )
 
     @step
-    def merge_phones(self) -> None:
-        #   The dependency chain:
-        #   prices.json ──────────────────┐
-        #                                 ├──► eur_prices.json ──┐
-        #                                 │                      │
-        #   phones.json ──────────────────┼──────────────────────┼──► phones_merged.json
-        #                                 │                      │
-        #   variants.json ────────────────┴──────────────────────┘
+    def generate_configurations(self) -> None:
+        """Generate phone configurations from phones, variants, and store prices.
 
-        from preprocess.merge_phones import merge_phones
-        merge_phones(
+        Dependency chain:
+        phones.json ─────────────────────────┐
+        variants.json ───────────────────────┼──► phones_merged.json
+        store_prices.json (variant filter) ──┘
+        """
+        from preprocess.generate_configurations import generate_configurations
+        generate_configurations(
             phones_file=PHONES_JSON,
             variants_file=VARIANTS_JSON,
-            prices_file=EUR_PRICES_FILE,
-            output_file=MERGED_PHONES_FILE,
+            store_prices_file=STORE_PRICES_FILE,
+            output_file=CONFIGURATIONS_FILE,
+        )
+
+    @step
+    def aggregate_review_sentiments(self) -> None:
+        """Aggregate review tags into per-phone sentiment counts."""
+        from preprocess.aggregate_review_sentiments import aggregate_review_sentiments
+        aggregate_review_sentiments(
+            review_tags_file=REVIEW_TAGS_JSON,
+            output_file=REVIEW_SENTIMENTS_FILE,
         )
 
     @step
     def gen_user_data(self) -> None:
         from preprocess.generate_usecase_data import generate_users
         generate_users(
-            merged_phones_file=MERGED_PHONES_FILE,
+            merged_phones_file=CONFIGURATIONS_FILE,
             output_dir=USER_DATA_DIR,
         )
 
@@ -109,7 +117,7 @@ class Pipeline:
                 PREFIX sp: <http://example.org/smartphone#>
                 CONSTRUCT { ?phone a sp:HighResolutionCameraPhone }
                 WHERE {
-                    ?phone a sp:Smartphone ;
+                    ?phone a sp:BasePhone ;
                         sp:mainCameraMP ?mp .
                     FILTER(?mp >= 100)
                 }
@@ -119,7 +127,7 @@ class Pipeline:
                 PREFIX sp: <http://example.org/smartphone#>
                 CONSTRUCT { ?phone a sp:LargeBatteryPhone }
                 WHERE {
-                    ?phone a sp:Smartphone ;
+                    ?phone a sp:BasePhone ;
                         sp:batteryCapacityMah ?mah .
                     FILTER(?mah >= 5000)
                 }
@@ -129,8 +137,9 @@ class Pipeline:
                 PREFIX sp: <http://example.org/smartphone#>
                 CONSTRUCT { ?phone a sp:InMarketPhone }
                 WHERE {
-                    ?phone a sp:Smartphone .
-                    ?offering sp:forPhone ?phone ;
+                    ?phone a sp:BasePhone .
+                    ?config sp:hasBasePhone ?phone .
+                    ?offering sp:forConfiguration ?config ;
                               sp:priceValue ?price .
                 }
             """),
@@ -176,14 +185,10 @@ class Pipeline:
                         final_file.write(f.read())
                         final_file.write("\n\n")
 
-        # # Delete TEMP directory
-        # import shutil
-        # if TEMP.exists():
-        #     shutil.rmtree(TEMP)
-
     def run(self) -> None:
         self.process_prices()
-        self.merge_phones()
+        self.generate_configurations()
+        self.aggregate_review_sentiments()
         self.gen_user_data()
         self.gen_facts()
         self.materialize_by_construct_and_inference()

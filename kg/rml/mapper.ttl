@@ -7,15 +7,20 @@
 @prefix sp: <http://example.org/smartphone#> .
 @prefix spv: <http://example.org/smartphone/vocab/> .
 
-<#SmartphoneMapping> a rr:TriplesMap ;
+
+# =============================================================================
+# BasePhone Mapping (specs from phones_merged.json)
+# =============================================================================
+
+<#BasePhoneMapping> a rr:TriplesMap ;
     rml:logicalSource [
         rml:source "output/data/phones_merged.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
     rr:subjectMap [
-        rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ;
-        rr:class sp:Smartphone
+        rr:template "http://example.org/smartphone/instance/basephone/{base_phone_id}" ;
+        rr:class sp:BasePhone
     ] ;
     rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "phone_name" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:phoneName ; rr:objectMap [ rml:reference "phone_name" ] ] ;
@@ -28,29 +33,35 @@
     rr:predicateObjectMap [ rr:predicate sp:selfieCameraMP ; rr:objectMap [ rml:reference "selfie_camera_mp" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:batteryCapacityMah ; rr:objectMap [ rml:reference "battery_mah" ; rr:datatype xsd:integer ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:supports5G ; rr:objectMap [ rml:reference "supports_5g" ; rr:datatype xsd:boolean ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:supportsNFC ; rr:objectMap [ rml:reference "nfc" ; rr:datatype xsd:boolean ] ] ;
-    # Variant data now on phone directly
-    rr:predicateObjectMap [ rr:predicate sp:storageGB ; rr:objectMap [ rml:reference "storage_gb" ; rr:datatype xsd:integer ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] ;
-    # Link to base phone
-    rr:predicateObjectMap [
-        rr:predicate sp:hasBasePhone ;
-        rr:objectMap [ rr:template "http://example.org/smartphone/instance/basephone/{base_phone_id}" ]
-    ] .
+    rr:predicateObjectMap [ rr:predicate sp:supportsNFC ; rr:objectMap [ rml:reference "nfc" ; rr:datatype xsd:boolean ] ] .
 
 
-<#BasePhoneMapping> a rr:TriplesMap ;
+# =============================================================================
+# PhoneConfiguration Mapping (storage/RAM variants)
+# =============================================================================
+
+<#PhoneConfigurationMapping> a rr:TriplesMap ;
     rml:logicalSource [
         rml:source "output/data/phones_merged.json" ;
         rml:referenceFormulation ql:JSONPath ;
         rml:iterator "$[*]"
     ] ;
     rr:subjectMap [
-        rr:template "http://example.org/smartphone/instance/basephone/{base_phone_id}" ;
-        rr:class sp:BasePhone
+        rr:template "http://example.org/smartphone/instance/config/{phone_id}" ;
+        rr:class sp:PhoneConfiguration
     ] ;
-    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "phone_name" ] ] .
+    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "phone_name" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:storageGB ; rr:objectMap [ rml:reference "storage_gb" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [
+        rr:predicate sp:hasBasePhone ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/instance/basephone/{base_phone_id}" ]
+    ] .
 
+
+# =============================================================================
+# Brand Mapping
+# =============================================================================
 
 <#BrandMapping> a rr:TriplesMap ;
     rml:logicalSource [
@@ -65,6 +76,10 @@
     rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "brand" ] ] ;
     rr:predicateObjectMap [ rr:predicate sp:brandName ; rr:objectMap [ rml:reference "brand" ] ] .
 
+
+# =============================================================================
+# User Mappings
+# =============================================================================
 
 <#UserMapping> a rr:TriplesMap ;
     rml:logicalSource [
@@ -98,9 +113,13 @@
     rr:subjectMap [ rr:template "http://example.org/smartphone/instance/user/{user_id}" ] ;
     rr:predicateObjectMap [
         rr:predicate sp:likes ;
-        rr:objectMap [ rr:template "http://example.org/smartphone/instance/phone/{phone_id}" ]
+        rr:objectMap [ rr:template "http://example.org/smartphone/instance/config/{phone_id}" ]
     ] .
 
+
+# =============================================================================
+# Store and Price Mappings
+# =============================================================================
 
 <#StoreMapping> a rr:TriplesMap ;
     rml:logicalSource [
@@ -127,8 +146,8 @@
         rr:class sp:PriceOffering
     ] ;
     rr:predicateObjectMap [
-        rr:predicate sp:forPhone ;
-        rr:objectMap [ rr:template "http://example.org/smartphone/instance/phone/{variant_id}" ]
+        rr:predicate sp:forConfiguration ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/instance/config/{variant_id}" ]
     ] ;
     rr:predicateObjectMap [
         rr:predicate sp:offeredBy ;
@@ -139,6 +158,10 @@
         rr:objectMap [ rml:reference "price_eur" ; rr:datatype xsd:decimal ]
     ] .
 
+
+# =============================================================================
+# Review Sentiment Mappings
+# =============================================================================
 
 <#TagSentimentMapping> a rr:TriplesMap ;
     rml:logicalSource [

@@ -68,7 +68,7 @@ class StorePriceEntry(BaseModel):
     price_eur: float
 
 
-def process_prices(prices_file: Path, eur_prices_file: Path, store_prices_file: Path | None = None) -> dict[str, float]:
+def process_prices(prices_file: Path, store_prices_file: Path | None = None) -> dict[str, float]:
     with open(prices_file, "r") as f:
         prices_data: list[Any] = json.load(f)
 
@@ -100,14 +100,6 @@ def process_prices(prices_file: Path, eur_prices_file: Path, store_prices_file: 
         variant_id: round(sum(vals) / len(vals), 2)
         for variant_id, vals in eur_prices.items()
     }
-
-    # Write averaged prices output file (backward compatible)
-    eur_prices_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(eur_prices_file, "w") as f:
-        json.dump(variant_avg_prices, f, indent=2, ensure_ascii=False)
-
-    print(f"Processed {len(prices)} price entries -> {len(variant_avg_prices)} variants with EUR prices")
-    print(f"Output: {eur_prices_file}")
 
     # Write store prices output file (new)
     if store_prices_file:

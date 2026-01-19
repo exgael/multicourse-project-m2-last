@@ -1,10 +1,12 @@
 import json
 from pathlib import Path
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict
 
 
 class PhoneInput(BaseModel):
     """Input phone from phones.json."""
+    model_config = ConfigDict(extra="ignore")
+
     phone_id: str
     brand: str | None = None
     phone_name: str | None = None
@@ -19,25 +21,21 @@ class PhoneInput(BaseModel):
     supports_5g: bool | None = None
     nfc: bool | None = None
 
-    class Config:
-        extra = "ignore"
-
 
 class VariantInput(BaseModel):
     """Input variant from variants.json."""
+    model_config = ConfigDict(extra="ignore")
+
     variant_id: str
     phone_id: str
     storage_gb: int | None = None
     ram_gb: int | None = None
 
-    class Config:
-        extra = "ignore"
 
-
-class MergedPhone(BaseModel):
-    """Output merged phone entity."""
-    phone_id: str = Field(description="Unique ID (variant_id if has variant, else original phone_id)")
-    base_phone_id: str = Field(description="Original phone_id reference")
+class PhoneConfiguration(BaseModel):
+    """Output phone configuration entity."""
+    phone_id: str  # variant_id - used as PhoneConfiguration ID
+    base_phone_id: str  # original phone_id - used as BasePhone ID
     brand: str | None = None
     phone_name: str | None = None
     year: int | None = None
@@ -53,22 +51,30 @@ class MergedPhone(BaseModel):
     storage_gb: int | None = None
     ram_gb: int | None = None
 
-def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, output_file: Path) -> None:
-    """Merge phones, variants, and prices into flat phone entities."""
 
-    # Load and validate source data
+def generate_configurations(
+    phones_file: Path,
+    variants_file: Path,
+    store_prices_file: Path,
+    output_file: Path
+) -> None:
+    """Generate phone configurations from phones, variants, and store prices."""
+
+    # Load source data
     with open(phones_file, "r", encoding="utf-8") as f:
         phones: list[PhoneInput] = [PhoneInput.model_validate(p) for p in json.load(f)]
 
     with open(variants_file, "r", encoding="utf-8") as f:
         variants: list[VariantInput] = [VariantInput.model_validate(v) for v in json.load(f)]
 
-    if prices_file.exists():
-        with open(prices_file, "r", encoding="utf-8") as f:
-            prices: dict[str, float] = json.load(f)
+    # Extract variant IDs that have at least one store price
+    variants_with_prices: set[str] = set()
+    if store_prices_file.exists():
+        with open(store_prices_file, "r", encoding="utf-8") as f:
+            store_prices = json.load(f)
+            variants_with_prices = {p["variant_id"] for p in store_prices}
     else:
-        print(f"Warning: {prices_file} not found, prices will be null")
-        prices = {}
+        print(f"Warning: {store_prices_file} not found, no variants will be included")
 
     # Group variants by phone_id
     variants_by_phone: dict[str, list[VariantInput]] = {}
@@ -77,25 +83,25 @@ def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, outp
             variants_by_phone[v.phone_id] = []
         variants_by_phone[v.phone_id].append(v)
 
-    # Merge (only phones with prices)
-    merged: list[MergedPhone] = []
+    # Generate configurations (only for variants with prices)
+    configurations: list[PhoneConfiguration] = []
     phones_with_variants = 0
-    variants_with_price = 0
-    variants_without_price = 0
+    variants_included = 0
+    variants_excluded = 0
     phones_without_variants = 0
 
     for phone in phones:
-        phone_variants: list[VariantInput] = variants_by_phone.get(phone.phone_id, [])
+        phone_variants = variants_by_phone.get(phone.phone_id, [])
 
         if phone_variants:
             phones_with_variants += 1
             for v in phone_variants:
-                price = prices.get(v.variant_id)
-                if price is None or price <= 0:
-                    variants_without_price += 1
-                    continue  # Skip variants without price
-                variants_with_price += 1
-                merged.append(MergedPhone(
+                if v.variant_id not in variants_with_prices:
+                    variants_excluded += 1
+                    continue
+
+                variants_included += 1
+                configurations.append(PhoneConfiguration(
                     phone_id=v.variant_id,
                     base_phone_id=phone.phone_id,
                     brand=phone.brand,
@@ -114,17 +120,16 @@ def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, outp
                     ram_gb=v.ram_gb
                 ))
         else:
-            # Phones without variants have no price data, skip them
             phones_without_variants += 1
 
-    # Save merged data
+    # Save
     output_file.parent.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as f:
-        json.dump([m.model_dump() for m in merged], f, indent=2)
+        json.dump([c.model_dump() for c in configurations], f, indent=2)
 
-    print(f"Merged {len(phones)} base phones into {len(merged)} entries (only with prices)")
+    print(f"Generated {len(configurations)} phone configurations")
     print(f"  - {phones_with_variants} base phones had variants")
-    print(f"  - {variants_with_price} variants with price (included)")
-    print(f"  - {variants_without_price} variants without price (skipped)")
+    print(f"  - {variants_included} variants with store prices (included)")
+    print(f"  - {variants_excluded} variants without store prices (excluded)")
     print(f"  - {phones_without_variants} phones without variants (skipped)")
     print(f"Saved to {output_file}")
