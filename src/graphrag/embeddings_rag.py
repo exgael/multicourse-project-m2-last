@@ -163,11 +163,11 @@ class KGEmbeddingsRAG:
         
         query = """
         PREFIX sp: <http://example.org/smartphone#>
-        
+
         SELECT ?phone_id ?battery ?camera ?refresh ?has5g ?display ?year WHERE {
-            ?phone a sp:Smartphone .
+            ?phone a sp:BasePhone .
             BIND(STRAFTER(STR(?phone), "phone/") AS ?phone_id)
-            
+
             OPTIONAL { ?phone sp:batteryCapacityMah ?battery }
             OPTIONAL { ?phone sp:mainCameraMP ?camera }
             OPTIONAL { ?phone sp:refreshRateHz ?refresh }
@@ -310,11 +310,12 @@ Return ONLY the JSON, no explanation."""
         use_case = intent.get("use_case")
         if use_case:
             uc_mapping = {
-                "gaming": "ProGaming",
-                "photography": "ProPhotography", 
+                "gaming": "Gaming",
+                "photography": "Photography",
                 "business": "Business",
                 "everyday": "EverydayUse",
-                "vlogging": "Vlogging"
+                "vlogging": "Vlogging",
+                "minimalist": "MinimalistUse"
             }
             uc_entity = uc_mapping.get(use_case.lower())
             if uc_entity:
