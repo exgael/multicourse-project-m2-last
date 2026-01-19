@@ -139,6 +139,17 @@ sp:FiveGPhone a owl:Class ;
         )
     ] .
 
+sp:NFCPhone a owl:Class ;
+    rdfs:label "NFC Phone"@en ;
+    rdfs:subClassOf sp:BasePhone ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sp:BasePhone
+            [ a owl:Restriction ; owl:onProperty sp:supportsNFC ; owl:hasValue true ]
+        )
+    ] .
+
 sp:HighResolutionCameraPhone a owl:Class ;
     rdfs:label "High Resolution Camera Phone"@en ;
     rdfs:subClassOf sp:BasePhone ;
@@ -204,6 +215,12 @@ sp:hasBasePhone a owl:ObjectProperty, owl:FunctionalProperty ;
     rdfs:domain sp:PhoneConfiguration ;
     rdfs:range sp:BasePhone ;
     owl:inverseOf sp:hasConfiguration .
+
+sp:hasPriceSegment a owl:ObjectProperty ;
+    rdfs:label "has price segment"@en ;
+    rdfs:comment "Links a phone configuration to its price segment based on minimum available price"@en ;
+    rdfs:domain sp:PhoneConfiguration ;
+    rdfs:range skos:Concept .
 
 
 # =============================================================================

@@ -236,3 +236,13 @@ def generate_users(
 
     users: list[SyntheticUser] = generate_synthetic_users(num_users, valid_usecases)
     create_training_labels(phones, users, output_dir)
+
+
+if __name__ == "__main__":
+    DATA_DIR = Path(__file__).parent.parent / "data"
+    generate_users(
+        phone_configurations_file=DATA_DIR / "preprocessed" / "phones_configuration.json",
+        output_dir=DATA_DIR / "users",
+        num_users=500,
+        random_seed=42,
+    )

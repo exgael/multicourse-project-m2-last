@@ -17,22 +17,11 @@ uv sync
 ```
 ## Build Knowledge Graph
 
-### Requires RML MAPPER
+If you need to rebuild knowledge graph, see `data/README.md`
 
-Download from: https://github.com/RMLio/rmlmapper-java/releases
-And put jar at the root of the folder. Called `rmlmapper.jar`
-
-### Build
-
-1. Convert prices to eur
-2. Generate users
-3. Generate facts
-4. Materialize inverse relation + classes that should be inferred.
-5. Linkage
-6. Combine everything into Kg
-
+You can run the following:
 ```sh
-make run
+make data
 ```
 
 ## Clean up
