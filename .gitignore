@@ -15,7 +15,6 @@ __pycache__/
 *.csv
 dataset
 knowledge_graph/data/
-output/
 
 # Javar executables
 *.jar
