@@ -8,9 +8,11 @@ This module extracts triples from the actual KG structure:
 
 Relations:
 - user interestedIn usecase
-- user likes phone  
+- user likes phone
 - phone hasSpec spec_value (discretized)
 - phone suitableFor usecase (derived from user preferences)
+- phone hasProcessor processor_tier (for gaming queries)
+- phone hasPriceSegment segment (Flagship, MidRange, Budget)
 
 This creates embeddings for REAL phones (Samsung Galaxy S24, iPhone 16, etc.)
 instead of abstract config IDs.
@@ -53,10 +55,10 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
     SELECT ?config_id ?property ?value WHERE {
         ?config a sp:PhoneConfiguration .
         BIND(STRAFTER(STR(?config), "instance/config/") AS ?config_id)
-        
+
         # Get specs from the linked BasePhone
         ?config sp:hasBasePhone ?basephone .
-        
+
         {
             ?basephone sp:batteryCapacityMah ?val .
             BIND("hasBattery" AS ?property)
@@ -86,6 +88,11 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             BIND("hasBrand" AS ?property)
             BIND(STRAFTER(STR(?brand), "instance/brand/") AS ?value)
         } UNION {
+            # Processor name for gaming/performance
+            ?basephone sp:processorName ?val .
+            BIND("hasProcessor" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
             # RAM from config itself
             ?config sp:ramGB ?val .
             BIND("hasRAM" AS ?property)
@@ -95,6 +102,11 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             ?config sp:storageGB ?val .
             BIND("hasStorage" AS ?property)
             BIND(STR(?val) AS ?value)
+        } UNION {
+            # Price segment from config
+            ?config sp:hasPriceSegment ?segment .
+            BIND("hasPriceSegment" AS ?property)
+            BIND(STRAFTER(STR(?segment), "vocab/") AS ?value)
         }
     }
     """
@@ -124,7 +136,10 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             value = discretize_ram(value)
         elif prop == "hasStorage":
             value = discretize_storage(value)
-        
+        elif prop == "hasProcessor":
+            value = discretize_processor(value)
+        # hasPriceSegment already has good values (Flagship, MidRange, Budget)
+
         all_triples.append((config_id, prop, value))
         phone_spec_count += 1
 
@@ -215,9 +230,9 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
     # 5. Add usecase hierarchy/relations
     # =========================================================================
     usecase_relations = [
-        ("usecase/ProGaming", "relatedTo", "usecase/EverydayUse"),
-        ("usecase/ProPhotography", "relatedTo", "usecase/Vlogging"),
-        ("usecase/Vlogging", "relatedTo", "usecase/ProPhotography"),
+        ("usecase/Gaming", "relatedTo", "usecase/EverydayUse"),
+        ("usecase/Photography", "relatedTo", "usecase/Vlogging"),
+        ("usecase/Vlogging", "relatedTo", "usecase/Photography"),
         ("usecase/Business", "relatedTo", "usecase/EverydayUse"),
     ]
     for triple in usecase_relations:
@@ -240,17 +255,19 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
 
     # Show entity breakdown
     entities = list(tf.entity_to_id.keys())
-    phones = [e for e in entities if e.startswith("phone/")]
+    phones = [e for e in entities if not e.startswith("user/") and not e.startswith("usecase/") and not any(e.startswith(p) for p in ["battery_", "camera_", "refresh_", "selfie_", "ram_", "storage_", "processor_", "true", "false", "Flagship", "MidRange", "Budget"])]
     users = [e for e in entities if e.startswith("user/")]
     usecases = [e for e in entities if e.startswith("usecase/")]
-    brands = [e for e in entities if not any(e.startswith(p) for p in ["phone/", "user/", "usecase/", "battery_", "camera_", "refresh_", "true", "false"])]
-    
+    spec_values = [e for e in entities if any(e.startswith(p) for p in ["battery_", "camera_", "refresh_", "selfie_", "ram_", "storage_", "processor_"])]
+    price_segments = [e for e in entities if e in ["Flagship", "MidRange", "Budget"]]
+
     print(f"\nEntity breakdown:")
-    print(f"  Phones: {len(phones)}")
+    print(f"  Phone configs: {len([e for e in phones if '/' not in e or e.count('_') > 1])}")
     print(f"  Users: {len(users)}")
     print(f"  Use-cases: {len(usecases)}")
-    print(f"  Brands: {len([b for b in brands if b and not b.startswith('battery') and not b.startswith('camera') and not b.startswith('refresh')])}")
-    print(f"  Spec values: {len([e for e in entities if e.startswith('battery_') or e.startswith('camera_') or e.startswith('refresh_')])}")
+    print(f"  Brands: {len([e for e in phones if '/' not in e and e.count('_') <= 1 and e not in ['true', 'false']])}")
+    print(f"  Spec values: {len(spec_values)}")
+    print(f"  Price segments: {len(price_segments)}")
 
     return training, testing, validation
 
@@ -355,6 +372,53 @@ def discretize_storage(value: str) -> str:
         return "storage_medium"    # Standard
     else:
         return "storage_small"     # Basic
+
+
+def discretize_processor(value: str) -> str:
+    """Discretize processor into performance tiers for gaming/performance matching."""
+    if not value:
+        return "processor_unknown"
+
+    value_lower = value.lower()
+
+    # Flagship tier (best for gaming)
+    flagship_patterns = [
+        "snapdragon 8 gen 3", "snapdragon 8 gen 2", "snapdragon 8 gen 1",
+        "snapdragon 8+ gen", "snapdragon 888",
+        "a18", "a17", "a16",  # Apple
+        "dimensity 9300", "dimensity 9200", "dimensity 9000",
+        "exynos 2400", "exynos 2200",
+        "tensor g4", "tensor g3",  # Google
+    ]
+
+    # High-end tier (good for gaming)
+    high_patterns = [
+        "snapdragon 7 gen", "snapdragon 7+", "snapdragon 778", "snapdragon 780",
+        "dimensity 8", "dimensity 1200", "dimensity 1100",
+        "exynos 1", "a15", "a14",
+        "tensor g2",
+    ]
+
+    # Mid-tier
+    mid_patterns = [
+        "snapdragon 6", "snapdragon 695", "snapdragon 680",
+        "dimensity 7", "dimensity 700", "dimensity 6",
+        "helio g", "a13",
+    ]
+
+    for pattern in flagship_patterns:
+        if pattern in value_lower:
+            return "processor_flagship"
+
+    for pattern in high_patterns:
+        if pattern in value_lower:
+            return "processor_high"
+
+    for pattern in mid_patterns:
+        if pattern in value_lower:
+            return "processor_mid"
+
+    return "processor_entry"
 
 
 def train_model() -> None:

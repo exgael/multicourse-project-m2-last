@@ -8,17 +8,31 @@ The model contains:
 - 3 price segments (Flagship, MidRange, Budget)
 - Relations (likes, suitableFor, hasBrand, hasPriceSegment, etc.)
 
+Extended data from OWL schema:
+- Selfie camera specs (selfieCameraMP) - key for vlogging recommendations
+- Processor info (processorName) - for gaming/performance queries
+- NFC support (supportsNFC) - for business/payment use cases
+- Storage/RAM configurations (storageGB, ramGB)
+- Tag sentiment from reviews (TagSentiment) - user feedback on Camera, Battery, etc.
+- Actual prices (PriceOffering) - real EUR prices for budget filtering
+- Store availability (Store) - where to buy
+
 How it works:
-1. Parse user question to extract intent (use-case, features, brand)
+1. Parse user question to extract intent (use-case, features, brand, price range)
 2. Find use-case embedding (e.g., Gaming, Photography)
 3. Use embeddings to find phones that are "suitableFor" that use-case
-4. Rank by cosine similarity in embedding space
-5. Generate natural language response with Ollama
+4. Apply spec bonuses (processor, RAM, selfie camera, NFC) based on intent
+5. Incorporate review sentiment scores for relevant tags
+6. Filter by actual price range (if specified)
+7. Rank by hybrid score: embedding similarity + specs + sentiment
+8. Generate natural language response with Ollama
 
-KEY ADVANTAGE OVER SQL:
+KEY ADVANTAGES:
 - Embeddings capture latent relationships learned from user behavior
-- "Phones similar to what gamers like" - uses collaborative filtering via embeddings
-- "Premium and futuristic" - semantic meaning, not exact filters
+- Real prices enable accurate budget filtering ("under 500 EUR")
+- Review sentiment surfaces user-validated quality signals
+- NFC, selfie camera, processor data enable specialized queries
+- Store data shows where to purchase
 """
 
 from dataclasses import dataclass
@@ -49,10 +63,19 @@ class Phone:
     brand: str
     battery: int | None = None
     camera: int | None = None
+    selfie_camera: int | None = None
     refresh_rate: int | None = None
     supports_5g: bool = False
+    supports_nfc: bool = False
     display_type: str | None = None
+    processor: str | None = None
     release_year: int | None = None
+    storage_gb: int | None = None
+    ram_gb: int | None = None
+    min_price: float | None = None
+    stores: list[str] | None = None
+    # Tag sentiment scores (positive - negative counts)
+    sentiment: dict[str, tuple[int, int]] | None = None  # tag -> (positive, negative)
 
 
 @dataclass
@@ -203,7 +226,7 @@ class KGEmbeddingsRAG:
         phones_file = DATA_DIR / "preprocessed" / "phones_configuration.json"
         with open(phones_file, "r", encoding="utf-8") as f:
             phones_data = json.load(f)
-        
+
         for p in phones_data:
             phone_id = p["phone_id"]
             self.phones[phone_id] = Phone(
@@ -212,35 +235,44 @@ class KGEmbeddingsRAG:
                 brand=p.get("brand", "Unknown"),
                 battery=p.get("battery_mah"),
                 camera=p.get("main_camera_mp"),
+                selfie_camera=p.get("selfie_camera_mp"),
                 refresh_rate=p.get("refresh_rate_hz"),
                 supports_5g=p.get("supports_5g", False),
+                supports_nfc=p.get("supports_nfc", False),
                 display_type=p.get("display_type"),
-                release_year=p.get("year")
+                processor=p.get("processor"),
+                release_year=p.get("year"),
+                storage_gb=p.get("storage_gb"),
+                ram_gb=p.get("ram_gb"),
             )
     
     def _load_phone_specs_from_kg(self) -> None:
         """Load additional phone specs from KG."""
         print("Loading phone specs from KG...")
-        
+
         self.graph = Graph()
         self.graph.parse(self.kg_path, format="turtle")
-        
+
+        # Query base phone specs
         query = """
         PREFIX sp: <http://example.org/smartphone#>
-        
-        SELECT ?phone_id ?battery ?camera ?refresh ?has5g ?display ?year WHERE {
+
+        SELECT ?phone_id ?battery ?camera ?selfie ?refresh ?has5g ?hasNfc ?display ?processor ?year WHERE {
             ?phone a sp:Smartphone .
             BIND(STRAFTER(STR(?phone), "instance/phone/") AS ?phone_id)
-            
+
             OPTIONAL { ?phone sp:batteryCapacityMah ?battery }
             OPTIONAL { ?phone sp:mainCameraMP ?camera }
+            OPTIONAL { ?phone sp:selfieCameraMP ?selfie }
             OPTIONAL { ?phone sp:refreshRateHz ?refresh }
             OPTIONAL { ?phone sp:supports5G ?has5g }
+            OPTIONAL { ?phone sp:supportsNFC ?hasNfc }
             OPTIONAL { ?phone sp:displayType ?display }
+            OPTIONAL { ?phone sp:processorName ?processor }
             OPTIONAL { ?phone sp:releaseYear ?year }
         }
         """
-        
+
         for row in self.graph.query(query):
             phone_id = str(row.phone_id)
             if phone_id in self.phones:
@@ -249,14 +281,135 @@ class KGEmbeddingsRAG:
                     phone.battery = int(row.battery)
                 if row.camera:
                     phone.camera = int(row.camera)
+                if row.selfie:
+                    phone.selfie_camera = int(row.selfie)
                 if row.refresh:
                     phone.refresh_rate = int(row.refresh)
                 if row.has5g:
                     phone.supports_5g = str(row.has5g).lower() == "true"
+                if row.hasNfc:
+                    phone.supports_nfc = str(row.hasNfc).lower() == "true"
                 if row.display:
                     phone.display_type = str(row.display)
+                if row.processor:
+                    phone.processor = str(row.processor)
                 if row.year:
                     phone.release_year = int(row.year)
+
+        # Load configuration data (storage, RAM)
+        self._load_phone_configurations()
+        # Load tag sentiment from reviews
+        self._load_tag_sentiments()
+        # Load price offerings
+        self._load_price_offerings()
+
+    def _load_phone_configurations(self) -> None:
+        """Load phone configuration data (storage, RAM) from KG."""
+        print("Loading phone configurations...")
+
+        query = """
+        PREFIX sp: <http://example.org/smartphone#>
+
+        SELECT ?phone_id ?storage ?ram WHERE {
+            ?config a sp:PhoneConfiguration ;
+                    sp:hasBasePhone ?phone .
+            BIND(STRAFTER(STR(?phone), "instance/phone/") AS ?phone_id)
+
+            OPTIONAL { ?config sp:storageGB ?storage }
+            OPTIONAL { ?config sp:ramGB ?ram }
+        }
+        """
+
+        for row in self.graph.query(query):
+            phone_id = str(row.phone_id)
+            if phone_id in self.phones:
+                phone = self.phones[phone_id]
+                # Take the highest storage/RAM values (flagship config)
+                if row.storage:
+                    storage = int(row.storage)
+                    if phone.storage_gb is None or storage > phone.storage_gb:
+                        phone.storage_gb = storage
+                if row.ram:
+                    ram = int(row.ram)
+                    if phone.ram_gb is None or ram > phone.ram_gb:
+                        phone.ram_gb = ram
+
+    def _load_tag_sentiments(self) -> None:
+        """Load tag sentiment data from KG reviews."""
+        print("Loading tag sentiments...")
+
+        query = """
+        PREFIX sp: <http://example.org/smartphone#>
+
+        SELECT ?phone_id ?tag ?positive ?negative WHERE {
+            ?phone a sp:Smartphone ;
+                   sp:hasSentiment ?sentiment .
+            BIND(STRAFTER(STR(?phone), "instance/phone/") AS ?phone_id)
+
+            ?sentiment sp:forTag ?tag ;
+                       sp:positiveCount ?positive ;
+                       sp:negativeCount ?negative .
+        }
+        """
+
+        sentiment_count = 0
+        for row in self.graph.query(query):
+            phone_id = str(row.phone_id)
+            if phone_id in self.phones:
+                phone = self.phones[phone_id]
+                if phone.sentiment is None:
+                    phone.sentiment = {}
+                tag = str(row.tag)
+                positive = int(row.positive)
+                negative = int(row.negative)
+                phone.sentiment[tag] = (positive, negative)
+                sentiment_count += 1
+
+        print(f"  Loaded {sentiment_count} tag sentiment records")
+
+    def _load_price_offerings(self) -> None:
+        """Load price offerings and store data from KG."""
+        print("Loading price offerings...")
+
+        query = """
+        PREFIX sp: <http://example.org/smartphone#>
+
+        SELECT ?phone_id ?price ?storeName WHERE {
+            ?offering a sp:PriceOffering ;
+                      sp:priceValue ?price ;
+                      sp:forConfiguration ?config ;
+                      sp:offeredBy ?store .
+
+            ?config sp:hasBasePhone ?phone .
+            BIND(STRAFTER(STR(?phone), "instance/phone/") AS ?phone_id)
+
+            ?store sp:storeName ?storeName .
+        }
+        ORDER BY ?phone_id ?price
+        """
+
+        price_count = 0
+        for row in self.graph.query(query):
+            phone_id = str(row.phone_id)
+            if phone_id in self.phones:
+                phone = self.phones[phone_id]
+                price = float(row.price)
+                store = str(row.storeName)
+
+                # Track minimum price
+                if phone.min_price is None or price < phone.min_price:
+                    phone.min_price = price
+
+                # Track stores
+                if phone.stores is None:
+                    phone.stores = []
+                if store not in phone.stores:
+                    phone.stores.append(store)
+
+                price_count += 1
+
+        phones_with_prices = sum(1 for p in self.phones.values() if p.min_price is not None)
+        print(f"  Loaded {price_count} price offerings for {phones_with_prices} phones")
     
     def get_phone_embedding(self, phone_id: str) -> np.ndarray | None:
         """Get embedding for a phone."""
@@ -274,10 +427,12 @@ Question: {question}
 
 Return a JSON object with:
 - "intent": one of ["find_phones", "compare", "recommend", "info"]
-- "features": list of desired features like ["gaming", "photography", "5g", "big_battery", "high_camera", "amoled", "vlogging", "nfc"]
+- "features": list of desired features like ["gaming", "photography", "5g", "big_battery", "high_camera", "amoled", "vlogging", "nfc", "good_selfie", "fast_processor", "high_ram", "large_storage"]
 - "brand": brand name if mentioned (Samsung, Apple, Xiaomi, Google, OnePlus, etc.), else null
 - "budget": "flagship", "midrange", "budget", or null
 - "use_case": main use case if clear, one of: "gaming", "photography", "vlogging", "business", "everyday", "minimalist", else null
+- "max_price": maximum price in EUR if mentioned (e.g., "under 500" -> 500, "around 800" -> 900), else null
+- "min_price": minimum price in EUR if mentioned (e.g., "over 1000" -> 1000), else null
 
 Return ONLY the JSON, no explanation."""
 
@@ -292,23 +447,31 @@ Return ONLY the JSON, no explanation."""
             timeout=60
         )
         response.raise_for_status()
-        
+
         result = response.json()["response"].strip()
-        
+
         try:
             if "```json" in result:
                 result = result.split("```json")[1].split("```")[0]
             elif "```" in result:
                 result = result.split("```")[1].split("```")[0]
-            
-            return json.loads(result)
+
+            parsed = json.loads(result)
+            # Ensure price fields exist
+            if "max_price" not in parsed:
+                parsed["max_price"] = None
+            if "min_price" not in parsed:
+                parsed["min_price"] = None
+            return parsed
         except json.JSONDecodeError:
             return {
                 "intent": "find_phones",
                 "features": [],
                 "brand": None,
                 "budget": None,
-                "use_case": None
+                "use_case": None,
+                "max_price": None,
+                "min_price": None,
             }
     
     def find_phones_by_embeddings(self, intent: dict, top_k: int = 20) -> list[tuple[Phone, float]]:
@@ -411,49 +574,57 @@ Return ONLY the JSON, no explanation."""
         # Apply filters
         brand = intent.get("brand")
         budget = intent.get("budget")
-        
+        max_price = intent.get("max_price")
+        min_price = intent.get("min_price")
+
         filtered_phones = []
         for phone_id, score in phone_scores:
             if phone_id not in self.phones:
                 continue
-            
+
             phone = self.phones[phone_id]
-            
+
             # Brand filter
             if brand and brand.lower() not in ["none", "null", ""]:
                 if phone.brand.lower() != brand.lower():
                     continue
-            
-            # Budget filter
+
+            # Budget tier filter
             if budget and budget.lower() not in ["none", "null", ""]:
                 if not self._matches_budget_tier(phone, budget.lower()):
                     continue
-            
+
+            # Price range filter (actual EUR prices)
+            if max_price is not None or min_price is not None:
+                if not self._matches_price_range(phone, min_price, max_price):
+                    continue
+
             filtered_phones.append((phone, score))
-            
+
             if len(filtered_phones) >= top_k:
                 break
-        
+
         return filtered_phones
     
     def _compute_spec_bonus(self, phone_id: str, intent: dict) -> float:
         """
         Compute a spec-based bonus to improve ranking for specific use-cases.
-        
-        This hybrid approach uses phone specs to boost the embedding-based score,
-        ensuring phones with relevant specs rank higher for specific use-cases.
+
+        This hybrid approach uses phone specs and review sentiment to boost
+        the embedding-based score, ensuring phones with relevant specs and
+        positive user feedback rank higher for specific use-cases.
         """
         if phone_id not in self.phones:
             return 0.0
-        
+
         phone = self.phones[phone_id]
         name_lower = phone.name.lower() if phone.name else ""
         bonus = 0.0
-        
+
         use_case = intent.get("use_case", "").lower() if intent.get("use_case") else ""
         features = [f.lower() for f in intent.get("features", [])]
-        
-        # Gaming bonus: high refresh rate, gaming phones
+
+        # Gaming bonus: high refresh rate, gaming phones, processor, RAM
         if use_case in ["gaming", "pro gaming"] or "gaming" in features:
             # ROG, gaming phones
             if "rog" in name_lower or "gaming" in name_lower or "redmagic" in name_lower:
@@ -464,11 +635,20 @@ Return ONLY the JSON, no explanation."""
             # High performance (flagship-level)
             if "ultra" in name_lower or "pro" in name_lower:
                 bonus += 0.1
-            # Big RAM (inferred from phone name if available)
-            if "16gb" in phone_id or "24gb" in phone_id or "12gb" in phone_id:
-                bonus += 0.15
-        
-        # Photography bonus: high camera MP
+            # Big RAM (use actual RAM data)
+            if phone.ram_gb and phone.ram_gb >= 12:
+                bonus += 0.2
+            elif phone.ram_gb and phone.ram_gb >= 8:
+                bonus += 0.1
+            # High-end processor
+            if phone.processor:
+                proc_lower = phone.processor.lower()
+                if any(p in proc_lower for p in ["snapdragon 8 gen", "a17", "a18", "dimensity 9"]):
+                    bonus += 0.25
+            # Sentiment bonus for gaming/performance tags
+            bonus += self._get_sentiment_bonus(phone, ["Performance", "Gaming", "Speed"])
+
+        # Photography bonus: high camera MP + sentiment
         if use_case in ["photography", "photo"] or "photography" in features or "camera" in features:
             if phone.camera and phone.camera >= 200:
                 bonus += 0.4
@@ -479,36 +659,135 @@ Return ONLY the JSON, no explanation."""
             # Camera-focused phones
             if "camera" in name_lower or "photo" in name_lower:
                 bonus += 0.2
-        
-        # Vlogging bonus: good selfie + video features
+            # Sentiment bonus for camera tags
+            bonus += self._get_sentiment_bonus(phone, ["Camera", "Photo", "Photography"])
+
+        # Vlogging bonus: good SELFIE camera + video features
         if use_case in ["vlogging", "video"] or "vlogging" in features or "video" in features:
-            if phone.camera and phone.camera >= 50:
+            # Selfie camera is key for vlogging
+            if phone.selfie_camera and phone.selfie_camera >= 32:
+                bonus += 0.3
+            elif phone.selfie_camera and phone.selfie_camera >= 16:
                 bonus += 0.15
-            # Flip phones good for vlogging
+            # Main camera still matters
+            if phone.camera and phone.camera >= 50:
+                bonus += 0.1
+            # Flip phones good for vlogging (use main cam for selfies)
             if "flip" in name_lower:
                 bonus += 0.3
-            # Good front camera devices
-            if "v60" in name_lower or "v50" in name_lower or "vivo v" in name_lower:
+            # Sentiment bonus for video/selfie tags
+            bonus += self._get_sentiment_bonus(phone, ["Video", "Selfie", "Camera"])
+
+        # Good selfie feature
+        if "good_selfie" in features or "selfie" in features:
+            if phone.selfie_camera and phone.selfie_camera >= 32:
+                bonus += 0.3
+            elif phone.selfie_camera and phone.selfie_camera >= 16:
                 bonus += 0.15
-        
+
+        # Business bonus: NFC for payments, good battery, professional look
+        if use_case in ["business", "work", "professional"] or "business" in features:
+            if phone.supports_nfc:
+                bonus += 0.25
+            if phone.battery and phone.battery >= 4500:
+                bonus += 0.1
+            # Sentiment bonus for business-related tags
+            bonus += self._get_sentiment_bonus(phone, ["Battery", "Value", "Build"])
+
+        # NFC bonus
+        if "nfc" in features:
+            if phone.supports_nfc:
+                bonus += 0.3
+
         # Big battery bonus
         if "battery" in features or "big_battery" in features:
             if phone.battery and phone.battery >= 6000:
                 bonus += 0.3
             elif phone.battery and phone.battery >= 5000:
                 bonus += 0.15
-        
+            # Sentiment bonus for battery tag
+            bonus += self._get_sentiment_bonus(phone, ["Battery"])
+
         # 5G bonus
         if "5g" in features:
             if phone.supports_5g:
                 bonus += 0.2
-        
+
+        # High RAM bonus
+        if "high_ram" in features:
+            if phone.ram_gb and phone.ram_gb >= 12:
+                bonus += 0.25
+            elif phone.ram_gb and phone.ram_gb >= 8:
+                bonus += 0.1
+
+        # Large storage bonus
+        if "large_storage" in features:
+            if phone.storage_gb and phone.storage_gb >= 512:
+                bonus += 0.25
+            elif phone.storage_gb and phone.storage_gb >= 256:
+                bonus += 0.1
+
+        # Fast processor bonus
+        if "fast_processor" in features:
+            if phone.processor:
+                proc_lower = phone.processor.lower()
+                if any(p in proc_lower for p in ["snapdragon 8 gen", "a17", "a18", "dimensity 9"]):
+                    bonus += 0.3
+                elif any(p in proc_lower for p in ["snapdragon 7", "dimensity 8", "a16"]):
+                    bonus += 0.15
+
         return bonus
 
+    def _get_sentiment_bonus(self, phone: Phone, tags: list[str]) -> float:
+        """
+        Calculate a bonus based on review sentiment for specific tags.
+
+        Returns a bonus between -0.2 and +0.2 based on positive/negative ratio.
+        """
+        if not phone.sentiment:
+            return 0.0
+
+        total_positive = 0
+        total_negative = 0
+
+        for tag in tags:
+            if tag in phone.sentiment:
+                pos, neg = phone.sentiment[tag]
+                total_positive += pos
+                total_negative += neg
+
+        if total_positive + total_negative == 0:
+            return 0.0
+
+        # Calculate sentiment ratio (-1 to 1)
+        ratio = (total_positive - total_negative) / (total_positive + total_negative)
+
+        # Scale to bonus (-0.2 to +0.2)
+        return ratio * 0.2
+
     def _matches_budget_tier(self, phone: Phone, budget: str) -> bool:
-        """Check if phone matches budget tier based on name and specs."""
+        """
+        Check if phone matches budget tier using ACTUAL PRICES when available.
+
+        Price tiers (EUR):
+        - Flagship: >= 800 EUR
+        - Midrange: 300-799 EUR
+        - Budget: < 300 EUR
+
+        Falls back to name-pattern heuristics if no price data available.
+        """
+        # Use actual price if available
+        if phone.min_price is not None:
+            if budget == "flagship":
+                return phone.min_price >= 800
+            elif budget == "midrange":
+                return 300 <= phone.min_price < 800
+            elif budget == "budget":
+                return phone.min_price < 300
+
+        # Fallback to name-pattern heuristics
         name_lower = phone.name.lower()
-        
+
         flagship_patterns = [
             "ultra", "pro max", "pro+", " pro", "fold", "flip",
             "galaxy s2", "galaxy s3",
@@ -517,7 +796,7 @@ Return ONLY the JSON, no explanation."""
             "find x", "find n", "mate ", "magic",
             "rog phone", "z fold", "z flip",
         ]
-        
+
         budget_patterns = [
             "a0", "a1", "a2", "a3",
             "galaxy m", "galaxy f",
@@ -527,7 +806,7 @@ Return ONLY the JSON, no explanation."""
             "nord n", "nord ce",
             "spark", "pop", "hot",
         ]
-        
+
         if budget == "flagship":
             has_flagship = any(p in name_lower for p in flagship_patterns)
             has_budget = any(p in name_lower for p in budget_patterns)
@@ -536,46 +815,98 @@ Return ONLY the JSON, no explanation."""
                 (phone.refresh_rate and phone.refresh_rate >= 120)
             )
             return has_flagship or (has_high_specs and not has_budget)
-        
+
         elif budget == "budget":
             has_budget = any(p in name_lower for p in budget_patterns)
             has_flagship = any(p in name_lower for p in flagship_patterns)
             return has_budget or (not has_flagship and phone.camera and phone.camera < 50)
-        
+
         elif budget == "midrange":
             has_flagship = any(p in name_lower for p in flagship_patterns)
             has_budget = any(p in name_lower for p in budget_patterns)
             return not has_flagship and not has_budget
-        
+
+        return True
+
+    def _matches_price_range(self, phone: Phone, min_price: float | None, max_price: float | None) -> bool:
+        """Check if phone price falls within the specified range."""
+        if phone.min_price is None:
+            # If no price data, allow through (don't filter out)
+            return True
+
+        if min_price is not None and phone.min_price < min_price:
+            return False
+        if max_price is not None and phone.min_price > max_price:
+            return False
+
         return True
     
     def generate_response(self, question: str, phones: list[tuple[Phone, float]], intent: dict) -> str:
         """Generate a natural language response using Ollama."""
-        
+
         if not phones:
             return "I couldn't find phones matching your criteria. Try being more specific about features like gaming, photography, or battery life."
-        
-        # Format phone info with similarity scores
+
+        # Format phone info with similarity scores, prices, and sentiment
         phones_info = []
         for i, (phone, score) in enumerate(phones[:5], 1):
             info = f"{i}. {phone.name} ({phone.brand}) [similarity: {score:.2f}]"
+
+            # Price info
+            if phone.min_price:
+                info += f" - FROM {phone.min_price:.0f} EUR"
+                if phone.stores:
+                    info += f" at {', '.join(phone.stores[:2])}"
+
+            # Core specs
             specs = []
             if phone.battery:
                 specs.append(f"battery: {phone.battery}mAh")
             if phone.camera:
-                specs.append(f"camera: {phone.camera}MP")
+                specs.append(f"main cam: {phone.camera}MP")
+            if phone.selfie_camera:
+                specs.append(f"selfie: {phone.selfie_camera}MP")
             if phone.refresh_rate:
                 specs.append(f"refresh: {phone.refresh_rate}Hz")
+            if phone.processor:
+                specs.append(f"chip: {phone.processor[:25]}")
+            if phone.ram_gb:
+                specs.append(f"RAM: {phone.ram_gb}GB")
+            if phone.storage_gb:
+                specs.append(f"storage: {phone.storage_gb}GB")
             if phone.supports_5g:
                 specs.append("5G")
-            if phone.display_type:
-                specs.append(phone.display_type[:30])
+            if phone.supports_nfc:
+                specs.append("NFC")
+
             if specs:
-                info += f" - {', '.join(specs)}"
+                info += f"\n   Specs: {', '.join(specs)}"
+
+            # Sentiment summary (if available)
+            if phone.sentiment:
+                pos_tags = []
+                neg_tags = []
+                for tag, (pos, neg) in phone.sentiment.items():
+                    if pos > neg and pos >= 3:
+                        pos_tags.append(f"{tag}(+{pos})")
+                    elif neg > pos and neg >= 3:
+                        neg_tags.append(f"{tag}(-{neg})")
+                if pos_tags:
+                    info += f"\n   User reviews: Positive on {', '.join(pos_tags[:3])}"
+                if neg_tags:
+                    info += f" | Negative on {', '.join(neg_tags[:2])}"
+
             phones_info.append(info)
-        
+
         phones_text = "\n".join(phones_info)
-        
+
+        # Build price context
+        price_context = ""
+        if intent.get("max_price"):
+            price_context += f"\nMax budget: {intent['max_price']} EUR"
+        if intent.get("min_price"):
+            price_context += f"\nMin budget: {intent['min_price']} EUR"
+
         prompt = f"""Based on the user's question and the phones found via embedding similarity, provide a helpful response.
 
 IMPORTANT: Only recommend phones from the list below. These were found using AI-learned patterns from user preferences.
@@ -584,17 +915,16 @@ User Question: {question}
 
 Detected Intent: {intent.get('intent', 'find_phones')}
 Use-case: {intent.get('use_case') or 'general'}
-Features wanted: {', '.join(intent.get('features', [])) or 'not specified'}
+Features wanted: {', '.join(intent.get('features', [])) or 'not specified'}{price_context}
 
-PHONES FOUND (ranked by embedding similarity to user intent):
+PHONES FOUND (ranked by embedding similarity + specs + user reviews):
 {phones_text}
 
 Provide a concise response that:
 1. Recommends 2-3 best matches from the list
-2. Explains why they match based on specs shown
-3. Notes the similarity score indicates how well they match the use-case
+2. Mentions the price and key specs that match their needs
 
-Keep it under 150 words. Use ONLY phones from the list above."""
+Keep it under 200 words. Use ONLY phones from the list above."""
 
         response = requests.post(
             f"{self.ollama_url}/api/generate",
@@ -607,7 +937,7 @@ Keep it under 150 words. Use ONLY phones from the list above."""
             timeout=120
         )
         response.raise_for_status()
-        
+
         return response.json()["response"].strip()
     
     def query(self, question: str) -> RAGResult:
@@ -642,21 +972,47 @@ Keep it under 150 words. Use ONLY phones from the list above."""
         output.append(f"\n{'='*60}")
         output.append(f"\nAnswer:\n{result.answer}")
         output.append(f"\n{'='*60}")
-        output.append(f"\nTop Matching Phones (by embedding similarity):")
-        
+        output.append(f"\nTop Matching Phones (by embedding similarity + specs + reviews):")
+
         for i, phone in enumerate(result.relevant_phones[:5], 1):
+            # Price line
+            price_str = f"{phone.min_price:.0f} EUR" if phone.min_price else "Price N/A"
+
+            # Core specs
             specs = []
             if phone.battery:
                 specs.append(f"{phone.battery}mAh")
             if phone.camera:
-                specs.append(f"{phone.camera}MP cam")
+                specs.append(f"{phone.camera}MP")
+            if phone.selfie_camera:
+                specs.append(f"selfie:{phone.selfie_camera}MP")
             if phone.refresh_rate:
                 specs.append(f"{phone.refresh_rate}Hz")
+            if phone.ram_gb:
+                specs.append(f"{phone.ram_gb}GB RAM")
             if phone.supports_5g:
                 specs.append("5G")
+            if phone.supports_nfc:
+                specs.append("NFC")
             spec_str = " | ".join(specs) if specs else "N/A"
-            output.append(f"  {i}. {phone.name} - {spec_str}")
-        
+
+            output.append(f"  {i}. {phone.name} ({phone.brand}) - {price_str}")
+            output.append(f"     {spec_str}")
+
+            # Processor
+            if phone.processor:
+                output.append(f"     Processor: {phone.processor}")
+
+            # Sentiment
+            if phone.sentiment:
+                pos_tags = [t for t, (p, n) in phone.sentiment.items() if p > n]
+                if pos_tags:
+                    output.append(f"     Positive reviews: {', '.join(pos_tags[:3])}")
+
+            # Stores
+            if phone.stores:
+                output.append(f"     Available at: {', '.join(phone.stores[:3])}")
+
         return "\n".join(output)
 
 
@@ -665,24 +1021,36 @@ def demo():
     questions = [
         # Use-case based - embeddings find phones "suitableFor" these use-cases
         "I need a phone for professional mobile gaming",
-        
+
         # Brand + use-case - embedding similarity within brand
         "Best Samsung phones for vlogging",
-        
+
         # Vague/semantic - embeddings understand user intent
         "A phone that photographers would love",
-        
+
         # Multi-criteria - embedding space captures combinations
         "Good for both gaming and taking photos",
-        
+
         # Persona-based - embeddings learned from user preferences
         "What would a content creator choose?",
-        
+
         # Budget + use-case - filtered embedding search
         "Best flagship for business use",
-        
+
         # Casual description - semantic understanding
         "Something reliable for everyday use with good battery",
+
+        # NEW: Price range filtering (actual EUR prices)
+        "Good phone for gaming under 600 euros",
+
+        # NEW: NFC for business/payments
+        "I need a phone with NFC for contactless payments",
+
+        # NEW: Selfie camera focused
+        "Best phone for selfies and video calls",
+
+        # NEW: High-end processor query
+        "Phone with the fastest processor for mobile gaming",
     ]
     
     try:
