@@ -40,7 +40,7 @@ def load_recommendation_system():
     return model, tf, phone_specs
 
 
-def get_recommendations(interests: list[str], top_k: int = 5) -> list[dict]:
+def get_recommendations(interests: list[str], top_k: int = 10) -> list[dict]:
     """Get phone recommendations with specs for given interests."""
     import torch
 
@@ -78,7 +78,6 @@ def get_recommendations(interests: list[str], top_k: int = 5) -> list[dict]:
 
     results = []
     for config_id, score in sorted_configs:
-        # Look up specs using full config_id
         specs = phone_specs.get(config_id, {})
         phone_name = specs.get("phone_name", config_id)
         storage = specs.get("storage_gb", "")
@@ -87,14 +86,19 @@ def get_recommendations(interests: list[str], top_k: int = 5) -> list[dict]:
         display_name = f"{phone_name} ({storage}GB/{ram}GB)" if storage and ram else phone_name
 
         results.append({
-            "name": display_name,
-            "score": score,
-            "brand": specs.get("brand", ""),
-            "battery": specs.get("battery_mah"),
-            "camera": specs.get("main_camera_mp"),
-            "refresh_rate": specs.get("refresh_rate_hz"),
-            "supports_5g": specs.get("supports_5g", False),
-            "display_type": specs.get("display_type", ""),
+            "Phone": display_name,
+            "Brand": specs.get("brand", ""),
+            "Year": specs.get("year") or "-",
+            "Screen": specs.get("screen_size_inches") or "-",
+            "Battery": specs.get("battery_mah") or "-",
+            "Camera": specs.get("main_camera_mp") or "-",
+            "Selfie": specs.get("selfie_camera_mp") or "-",
+            "Refresh": specs.get("refresh_rate_hz") or "-",
+            "Chipset": specs.get("chipset") or "-",
+            "Display": specs.get("display_type") or "-",
+            "5G": "Yes" if specs.get("supports_5g") else "No",
+            "NFC": "Yes" if specs.get("nfc") else "No",
+            "Score": round(score, 2),
         })
 
     return results
@@ -103,50 +107,6 @@ def get_recommendations(interests: list[str], top_k: int = 5) -> list[dict]:
 # Initialize session state
 if "selected_use_case" not in st.session_state:
     st.session_state.selected_use_case = None
-if "show_recommendations" not in st.session_state:
-    st.session_state.show_recommendations = False
-
-
-@st.dialog("Recommended Phones")
-def show_recommendation_dialog(use_case: str):
-    st.markdown(f"### Top phones for {use_case}")
-
-    with st.spinner("Loading..."):
-        recommendations = get_recommendations([use_case], top_k=5)
-
-    if recommendations:
-        for i, phone in enumerate(recommendations, 1):
-            with st.container(border=True):
-                col1, col2 = st.columns([3, 1])
-                col1.markdown(f"**{i}. {phone['name']}**")
-                col2.caption(f"Score: {phone['score']:.2f}")
-
-                # Specs row
-                specs = []
-                if phone.get("battery"):
-                    specs.append(f"{phone['battery']} mAh")
-                if phone.get("camera"):
-                    specs.append(f"{phone['camera']} MP")
-                if phone.get("refresh_rate"):
-                    specs.append(f"{phone['refresh_rate']} Hz")
-                if phone.get("supports_5g"):
-                    specs.append("5G")
-                if phone.get("display_type"):
-                    # Truncate long display type
-                    display = phone["display_type"]
-                    if len(display) > 40:
-                        display = display[:40] + "..."
-                    specs.append(display)
-
-                if specs:
-                    st.caption(" | ".join(specs))
-    else:
-        st.warning("Could not load recommendations. Check if the model is trained.")
-
-    if st.button("Close", type="primary"):
-        st.session_state.show_recommendations = False
-        st.rerun()
-
 
 # Main content
 st.title("Recommandation")
@@ -167,11 +127,18 @@ for i, use_case in enumerate(USE_CASES):
                 type="primary" if is_selected else "secondary",
                 use_container_width=True,
             ):
-                if st.session_state.selected_use_case != use_case:
-                    st.session_state.selected_use_case = use_case
-                    st.session_state.show_recommendations = True
-                    st.rerun()
+                st.session_state.selected_use_case = use_case
+                st.rerun()
 
-# Show recommendation dialog if triggered
-if st.session_state.show_recommendations and st.session_state.selected_use_case:
-    show_recommendation_dialog(st.session_state.selected_use_case)
+# Show recommendations table if a use case is selected
+if st.session_state.selected_use_case:
+    st.divider()
+    st.subheader(f"Top phones for {st.session_state.selected_use_case}")
+
+    with st.spinner("Loading recommendations..."):
+        recommendations = get_recommendations([st.session_state.selected_use_case], top_k=10)
+
+    if recommendations:
+        st.dataframe(recommendations, use_container_width=True, hide_index=True)
+    else:
+        st.warning("Could not load recommendations. Check if the model is trained.")

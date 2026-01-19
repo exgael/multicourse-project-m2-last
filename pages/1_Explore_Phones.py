@@ -104,15 +104,19 @@ filter_clause = "\n    ".join(filters)
 explore_query = f"""
 PREFIX sp: <http://example.org/smartphone#>
 
-SELECT DISTINCT ?phoneName ?brandName ?battery ?camera ?refresh ?display ?has5g ?hasNfc
+SELECT DISTINCT ?phoneName ?brandName ?year ?screen ?battery ?camera ?selfie ?refresh ?processor ?display ?has5g ?hasNfc
 WHERE {{
     ?phone a sp:BasePhone ;
            sp:phoneName ?phoneName ;
            sp:hasBrand/sp:brandName ?brandName .
 
+    OPTIONAL {{ ?phone sp:releaseYear ?year }}
+    OPTIONAL {{ ?phone sp:screenSizeInches ?screen }}
     OPTIONAL {{ ?phone sp:batteryCapacityMah ?battery }}
     OPTIONAL {{ ?phone sp:mainCameraMP ?camera }}
+    OPTIONAL {{ ?phone sp:selfieCameraMP ?selfie }}
     OPTIONAL {{ ?phone sp:refreshRateHz ?refresh }}
+    OPTIONAL {{ ?phone sp:processorName ?processor }}
     OPTIONAL {{ ?phone sp:displayType ?display }}
     OPTIONAL {{ ?phone sp:supports5G ?has5g }}
     OPTIONAL {{ ?phone sp:supportsNFC ?hasNfc }}
@@ -133,12 +137,16 @@ if results:
     display_data = []
     for r in results:
         row = {
-            "Phone": r.get("phoneName", ""),
-            "Brand": r.get("brandName", ""),
-            "Battery": f"{r.get('battery', 'N/A')} mAh" if r.get("battery") else "N/A",
-            "Camera": f"{r.get('camera', 'N/A')} MP" if r.get("camera") else "N/A",
-            "Refresh": f"{r.get('refresh', 'N/A')} Hz" if r.get("refresh") else "N/A",
-            "Display": r.get("display", "N/A") or "N/A",
+            "Phone": r.get("phoneName") or "-",
+            "Brand": r.get("brandName") or "-",
+            "Year": r.get("year") or "-",
+            "Screen": r.get("screen") or "-",
+            "Battery": r.get("battery") or "-",
+            "Camera": r.get("camera") or "-",
+            "Selfie": r.get("selfie") or "-",
+            "Refresh": r.get("refresh") or "-",
+            "Chipset": r.get("processor") or "-",
+            "Display": r.get("display") or "-",
             "5G": "Yes" if r.get("has5g") == "true" else "No",
             "NFC": "Yes" if r.get("hasNfc") == "true" else "No",
         }

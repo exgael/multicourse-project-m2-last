@@ -44,14 +44,68 @@ def run_sparql(graph: Graph, query: str) -> list[dict]:
 
 st.title("Amafone")
 
-st.markdown("""
-This application demonstrates a **Knowledge Graph** for smartphone data,
-built using **RDF** (Resource Description Framework) and queryable via **SPARQL**.
-""")
-
 # Load KG
 with st.spinner("Loading Knowledge Graph..."):
     kg = load_knowledge_graph()
+
+# Search bar
+search_query = st.text_input("Search phones", placeholder="e.g. Samsung Galaxy, iPhone, gaming phone...")
+
+if search_query:
+    search_terms = search_query.strip().lower()
+
+    search_sparql = f"""
+    PREFIX sp: <http://example.org/smartphone#>
+
+    SELECT DISTINCT ?phoneName ?brandName ?year ?screen ?battery ?camera ?selfie ?refresh ?processor ?display ?has5g ?hasNfc
+    WHERE {{
+        ?phone a sp:BasePhone ;
+               sp:phoneName ?phoneName ;
+               sp:hasBrand/sp:brandName ?brandName .
+
+        OPTIONAL {{ ?phone sp:releaseYear ?year }}
+        OPTIONAL {{ ?phone sp:screenSizeInches ?screen }}
+        OPTIONAL {{ ?phone sp:batteryCapacityMah ?battery }}
+        OPTIONAL {{ ?phone sp:mainCameraMP ?camera }}
+        OPTIONAL {{ ?phone sp:selfieCameraMP ?selfie }}
+        OPTIONAL {{ ?phone sp:refreshRateHz ?refresh }}
+        OPTIONAL {{ ?phone sp:processorName ?processor }}
+        OPTIONAL {{ ?phone sp:displayType ?display }}
+        OPTIONAL {{ ?phone sp:supports5G ?has5g }}
+        OPTIONAL {{ ?phone sp:supportsNFC ?hasNfc }}
+
+        FILTER(CONTAINS(LCASE(?phoneName), "{search_terms}") || CONTAINS(LCASE(?brandName), "{search_terms}"))
+    }}
+    ORDER BY ?phoneName
+    LIMIT 25
+    """
+
+    results = run_sparql(kg, search_sparql)
+
+    if results:
+        st.success(f"Found {len(results)} phones")
+
+        display_data = []
+        for r in results:
+            row = {
+                "Phone": r.get("phoneName") or "-",
+                "Brand": r.get("brandName") or "-",
+                "Year": r.get("year") or "-",
+                "Screen": r.get("screen") or "-",
+                "Battery": r.get("battery") or "-",
+                "Camera": r.get("camera") or "-",
+                "Selfie": r.get("selfie") or "-",
+                "Refresh": r.get("refresh") or "-",
+                "Chipset": r.get("processor") or "-",
+                "Display": r.get("display") or "-",
+                "5G": "Yes" if r.get("has5g") == "true" else "No",
+                "NFC": "Yes" if r.get("hasNfc") == "true" else "No",
+            }
+            display_data.append(row)
+
+        st.dataframe(display_data, use_container_width=True, hide_index=True)
+    else:
+        st.info("No phones found matching your search.")
 
 st.divider()
 
