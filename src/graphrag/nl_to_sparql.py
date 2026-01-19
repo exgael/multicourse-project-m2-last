@@ -11,7 +11,7 @@ from rdflib import Graph
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 OUTPUT_DIR = ROOT_DIR / "output"
-FINAL_KG_TTL = OUTPUT_DIR / "final_knowledge_graph.ttl"
+FINAL_KG_TTL = ROOT_DIR / "data" / "rdf" / "knowledge_graph_full.ttl"
 
 # Ollama configuration
 OLLAMA_BASE_URL = "http://localhost:11434"
