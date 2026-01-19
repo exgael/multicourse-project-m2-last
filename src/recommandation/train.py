@@ -53,6 +53,14 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             ?phone sp:priceEUR ?val .
             BIND("priceEUR" AS ?property)
             BIND(STR(?val) AS ?value)
+        } UNION {
+            ?phone sp:ramGB ?val .
+            BIND("ramGB" AS ?property)
+            BIND(STR(?val) AS ?value)
+        } UNION {
+            ?phone sp:storageGB ?val .
+            BIND("storageGB" AS ?property)
+            BIND(STR(?val) AS ?value)
         }
     }
     """
@@ -68,6 +76,10 @@ def load_triples_from_kg() -> tuple[TriplesFactory, TriplesFactory, TriplesFacto
             value = discretize_battery(value)
         elif prop == "refreshRateHz":
             value = discretize_refresh_rate(value)
+        elif prop == "ramGB":
+            value = discretize_ram(value)
+        elif prop == "storageGB":
+            value = discretize_storage(value)
         all_triples.append((phone_id, prop, value))
 
     print(f"Extracted {len(all_triples)} phone spec triples")
@@ -201,6 +213,32 @@ def discretize_refresh_rate(value: str) -> str:
         return "refresh_gaming"  # Matches Gaming threshold
     else:
         return "refresh_standard"
+
+
+def discretize_ram(value: str) -> str:
+    """Discretize RAM - aligned with Gaming use-case (>= 16GB)."""
+    try:
+        gb = int(float(value))
+    except ValueError:
+        return "ram_standard"
+
+    if gb >= 16:
+        return "ram_high"  # Matches Gaming threshold
+    else:
+        return "ram_standard"
+
+
+def discretize_storage(value: str) -> str:
+    """Discretize storage - aligned with Gaming use-case (>= 256GB)."""
+    try:
+        gb = int(float(value))
+    except ValueError:
+        return "storage_small"
+
+    if gb >= 256:
+        return "storage_large"  # Matches Gaming threshold
+    else:
+        return "storage_small"
 
 
 def train_model() -> None:

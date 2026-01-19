@@ -18,17 +18,15 @@ class UseCaseDefinition(BaseModel):
 class SyntheticUser(BaseModel):
     user_id: str
     usecase: str
-    price_segment: str
 
 
 class DatasetStats(BaseModel):
     num_users: int
     num_phones: int
     num_usecases: int
-    num_price_segments: int
     user_usecase_labels: int
     user_phone_labels: int
-    usecase_price_matrix: dict[str, dict[str, int]]
+    usecase_phone_counts: dict[str, int]
 
 
 # Functional use-cases
@@ -38,7 +36,12 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:Gaming",
         rules=lambda p: (
             (p.get("refresh_rate_hz") or 60) >= 144 and
-            (p.get("battery_mah") or 0) >= 4500
+            (p.get("battery_mah") or 0) >= 4500 and 
+            (p.get("ram_gb") or 0) >= 16 and
+            (p.get("storage_gb") or 0) >= 256 and 
+            (p.get("screen_size_inches") or 0) >= 6.5 and
+            p.get("supports_5g") is True
+
         )
     ),
     "EverydayUse": UseCaseDefinition(
@@ -55,27 +58,9 @@ USE_CASES: dict[str, UseCaseDefinition] = {
         skos_uri="spv:Minimalist",
         rules=lambda p: (
             p.get("nfc") is not True and
-            p.get("supports_5g") is not True
+            p.get("supports_5g") is not True and  
+            (p.get("screen_size_inches") or 0) <= 4
         )
-    ),
-}
-
-# Price segments
-PRICE_SEGMENTS: dict[str, UseCaseDefinition] = {
-    "Flagship": UseCaseDefinition(
-        desc="Premium segment, higher prices",
-        skos_uri="spv:Flagship",
-        rules=lambda p: (p.get("price_eur") or 0) > 900
-    ),
-    "MidRange": UseCaseDefinition(
-        desc="Middle segment, average prices",
-        skos_uri="spv:MidRange",
-        rules=lambda p: 400 <= (p.get("price_eur") or 0) <= 900
-    ),
-    "Budget": UseCaseDefinition(
-        desc="Entry-level segment, lower prices",
-        skos_uri="spv:Budget",
-        rules=lambda p: 0 < (p.get("price_eur") or 0) < 400
     ),
 }
 
@@ -97,29 +82,20 @@ def classify_phone_usecases(phone: dict[str, Any]) -> list[str]:
     return usecases
 
 
-def get_price_segment(phone: dict[str, Any]) -> str:
-    """Get the price segment for a phone."""
-    for seg_name, seg_def in PRICE_SEGMENTS.items():
-        if seg_def.rules(phone):
-            return seg_name
-    return "Budget"
-
-
 def generate_synthetic_users(
     num_users: int,
-    valid_combinations: list[tuple[str, str]],
+    valid_usecases: list[str],
 ) -> list[SyntheticUser]:
-    """Generate users by randomly picking from valid (usecase, price_segment) combinations."""
+    """Generate users by randomly picking from valid usecases."""
     users: list[SyntheticUser] = []
 
     for i in range(num_users):
-        usecase, price_seg = random.choice(valid_combinations)
+        usecase = random.choice(valid_usecases)
         user_id = f"user_{i:04d}"
 
         users.append(SyntheticUser(
             user_id=user_id,
             usecase=usecase,
-            price_segment=price_seg,
         ))
 
     return users
@@ -132,42 +108,31 @@ def create_training_labels(
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Build cross-tabulation: (usecase, price_segment) -> list of phone_ids
-    usecase_segment_phones: dict[tuple[str, str], list[str]] = defaultdict(list)
-
-    # Build the matrix for stats
-    usecase_price_matrix: dict[str, dict[str, int]] = {
-        uc: {seg: 0 for seg in PRICE_SEGMENTS} for uc in USE_CASES
-    }
+    # Build usecase -> list of phone_ids mapping
+    usecase_phones: dict[str, list[str]] = defaultdict(list)
 
     for phone in phones:
         phone_id: str = phone["phone_id"]
         usecases = classify_phone_usecases(phone)
-        price_seg = get_price_segment(phone)
 
         for uc in usecases:
-            usecase_segment_phones[(uc, price_seg)].append(phone_id)
-            usecase_price_matrix[uc][price_seg] += 1
+            usecase_phones[uc].append(phone_id)
 
-    # Print cross-tabulation
-    print("\nUse-Case x Price Segment Matrix:")
-    header = f"{'Use-Case':<15} | " + " | ".join(f"{seg:>10}" for seg in PRICE_SEGMENTS)
-    print(header)
-    print("-" * len(header))
+    # Print usecase phone counts
+    print("\nUse-Case Phone Counts:")
+    print("-" * 30)
     for uc in USE_CASES:
-        row = usecase_price_matrix[uc]
-        values = " | ".join(f"{row[seg]:>10}" for seg in PRICE_SEGMENTS)
-        print(f"{uc:<15} | {values}")
+        count = len(usecase_phones[uc])
+        print(f"  {uc:<15}: {count:>5} phones")
 
-    # Write user interest labels
+    # Write user interest labels (only usecase, no price segment)
     user_usecase_file = output_dir / "user_usecase_labels.csv"
     with open(user_usecase_file, "w", encoding="utf-8") as f:
         f.write("user_id,relation,usecase\n")
         for user in users:
             f.write(f"{user.user_id},interestedIn,{user.usecase}\n")
-            f.write(f"{user.user_id},interestedIn,{user.price_segment}\n")
 
-    print(f"\nCreated {len(users) * 2} user→usecase labels")
+    print(f"\nCreated {len(users)} user→usecase labels")
 
     # Write user-phone labels
     user_phone_file = output_dir / "user_phone_labels.csv"
@@ -176,7 +141,7 @@ def create_training_labels(
     with open(user_phone_file, "w", encoding="utf-8") as f:
         f.write("user_id,relation,phone_id\n")
         for user in users:
-            matching_phones = usecase_segment_phones[(user.usecase, user.price_segment)]
+            matching_phones = usecase_phones[user.usecase]
 
             if not matching_phones:
                 continue
@@ -192,14 +157,15 @@ def create_training_labels(
     print(f"Created {positive_labels} user→phone labels")
 
     # Save stats
+    usecase_phone_counts = {uc: len(usecase_phones[uc]) for uc in USE_CASES}
+
     stats = DatasetStats(
         num_users=len(users),
         num_phones=len(phones),
         num_usecases=len(USE_CASES),
-        num_price_segments=len(PRICE_SEGMENTS),
-        user_usecase_labels=len(users) * 2,
+        user_usecase_labels=len(users),
         user_phone_labels=positive_labels,
-        usecase_price_matrix=usecase_price_matrix,
+        usecase_phone_counts=usecase_phone_counts,
     )
 
     stats_file = output_dir / "dataset_stats.json"
@@ -214,7 +180,6 @@ def print_summary(stats: DatasetStats) -> None:
     print(f"\nUsers: {stats.num_users}")
     print(f"Phones: {stats.num_phones}")
     print(f"Use-cases: {stats.num_usecases}")
-    print(f"Price segments: {stats.num_price_segments}")
     print(f"\nLabels:")
     print(f"  User→UseCase: {stats.user_usecase_labels}")
     print(f"  User→Phone: {stats.user_phone_labels}")
@@ -234,19 +199,14 @@ def generate_users(
     random.seed(random_seed)
     phones: list[dict[str, Any]] = load_phones(merged_phones_file)
 
-    # Find valid (usecase, price_segment) combinations (non-empty)
-    valid_combinations: list[tuple[str, str]] = []
+    # Find valid usecases (those with at least one phone)
+    valid_usecases: list[str] = []
     for uc in USE_CASES:
-        for seg in PRICE_SEGMENTS:
-            # Check if this combination has phones
-            count = sum(
-                1 for p in phones
-                if uc in classify_phone_usecases(p) and get_price_segment(p) == seg
-            )
-            if count > 0:
-                valid_combinations.append((uc, seg))
+        count = sum(1 for p in phones if uc in classify_phone_usecases(p))
+        if count > 0:
+            valid_usecases.append(uc)
 
-    print(f"Valid combinations: {valid_combinations}")
+    print(f"Valid usecases: {valid_usecases}")
 
-    users: list[SyntheticUser] = generate_synthetic_users(num_users, valid_combinations)
+    users: list[SyntheticUser] = generate_synthetic_users(num_users, valid_usecases)
     create_training_labels(phones, users, output_dir)
