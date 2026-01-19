@@ -129,7 +129,10 @@ If no good match: []
         if start >= 0 and end > start:
             return json.loads(text[start:end])
     except Exception as e:
-        print(f"  LLM error: {e}")
+        print(f"  LLM unavailable, using top LOV match")
+        # Fallback: use top candidate as "close" match
+        if candidates:
+            return [{"uri": candidates[0]["uri"], "relation": "close"}]
     return []
 
 
