@@ -52,7 +52,6 @@ class MergedPhone(BaseModel):
     nfc: bool | None = None
     storage_gb: int | None = None
     ram_gb: int | None = None
-    price_eur: float | None = None
 
 def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, output_file: Path) -> None:
     """Merge phones, variants, and prices into flat phone entities."""
@@ -112,8 +111,7 @@ def merge_phones(phones_file: Path, variants_file: Path, prices_file: Path, outp
                     supports_5g=phone.supports_5g,
                     nfc=phone.nfc,
                     storage_gb=v.storage_gb,
-                    ram_gb=v.ram_gb,
-                    price_eur=price,
+                    ram_gb=v.ram_gb
                 ))
         else:
             # Phones without variants have no price data, skip them
