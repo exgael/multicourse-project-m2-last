@@ -1,5 +1,163 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_16> owl:sameAs <http://www.wikidata.org/entity/Q130267745> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_16_plus> owl:sameAs <http://www.wikidata.org/entity/Q130312645> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_16_pro> owl:sameAs <http://www.wikidata.org/entity/Q130267746> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_16_pro_max> owl:sameAs <http://www.wikidata.org/entity/Q130315105> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_16e> owl:sameAs <http://www.wikidata.org/entity/Q132559447> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_17> owl:sameAs <http://www.wikidata.org/entity/Q136193312> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_17_pro> owl:sameAs <http://www.wikidata.org/entity/Q136193477> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_17_pro_max> owl:sameAs <http://www.wikidata.org/entity/Q136203050> .
+
+<http://example.org/smartphone/instance/basephone/apple_apple_iphone_air> owl:sameAs <http://www.wikidata.org/entity/Q136193414> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_10> owl:sameAs <http://www.wikidata.org/entity/Q136412848> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_10_pro> owl:sameAs <http://www.wikidata.org/entity/Q136412594> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_10_pro_xl> owl:sameAs <http://www.wikidata.org/entity/Q136412848> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_8a> owl:sameAs <http://www.wikidata.org/entity/Q125946065> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_9> owl:sameAs <http://www.wikidata.org/entity/Q129065924> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_9_pro> owl:sameAs <http://www.wikidata.org/entity/Q130302147> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_9_pro_fold> owl:sameAs <http://www.wikidata.org/entity/Q129251954> .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_9a> owl:sameAs <http://www.wikidata.org/entity/Q133773674> .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_x6b_4g> owl:sameAs <http://www.wikidata.org/entity/Q136695606> .
+
+<http://example.org/smartphone/instance/basephone/huawei_huawei_mate_xt_ultimate> owl:sameAs <http://www.wikidata.org/entity/Q130272078> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_50> owl:sameAs <http://www.wikidata.org/entity/Q134740144> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_50_fusion> owl:sameAs <http://www.wikidata.org/entity/Q131400014> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_50_neo> owl:sameAs <http://www.wikidata.org/entity/Q131573456> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60> owl:sameAs <http://www.wikidata.org/entity/Q134389606> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_fusion> owl:sameAs <http://www.wikidata.org/entity/Q134389606> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_pro> owl:sameAs <http://www.wikidata.org/entity/Q134389606> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_stylus> owl:sameAs <http://www.wikidata.org/entity/Q134389606> .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_razr_50> owl:sameAs <http://www.wikidata.org/entity/Q128304272> .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_2a> owl:sameAs <http://www.wikidata.org/entity/Q125621098> .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_3> owl:sameAs <http://www.wikidata.org/entity/Q135189882> .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_3a> owl:sameAs <http://www.wikidata.org/entity/Q131990724> .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_3a_pro> owl:sameAs <http://www.wikidata.org/entity/Q133461788> .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_12r> owl:sameAs <http://www.wikidata.org/entity/Q125510258> .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_13> owl:sameAs <http://www.wikidata.org/entity/Q131632420> .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a3> owl:sameAs <http://www.wikidata.org/entity/Q73325769> .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a5> owl:sameAs <http://www.wikidata.org/entity/Q73273092> .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x8> owl:sameAs <http://www.wikidata.org/entity/Q131349208> .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x9> owl:sameAs <http://www.wikidata.org/entity/Q136664088> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a06> owl:sameAs <http://www.wikidata.org/entity/Q134506170> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a06_5g> owl:sameAs <http://www.wikidata.org/entity/Q16599646> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a16> owl:sameAs <http://www.wikidata.org/entity/Q131291786> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a16_5g> owl:sameAs <http://www.wikidata.org/entity/Q131291786> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a17> owl:sameAs <http://www.wikidata.org/entity/Q135696323> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a26> owl:sameAs <http://www.wikidata.org/entity/Q30898021> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a35> owl:sameAs <http://www.wikidata.org/entity/Q124813453> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a36> owl:sameAs <http://www.wikidata.org/entity/Q133270095> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a55> owl:sameAs <http://www.wikidata.org/entity/Q124813406> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a56> owl:sameAs <http://www.wikidata.org/entity/Q133249205> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f15> owl:sameAs <http://www.wikidata.org/entity/Q130617376> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m15> owl:sameAs <http://www.wikidata.org/entity/Q130233070> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m16> owl:sameAs <http://www.wikidata.org/entity/Q134980165> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m35> owl:sameAs <http://www.wikidata.org/entity/Q130306896> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m36> owl:sameAs <http://www.wikidata.org/entity/Q135081360> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m55> owl:sameAs <http://www.wikidata.org/entity/Q65325159> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m56> owl:sameAs <http://www.wikidata.org/entity/Q135152131> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s24> owl:sameAs <http://www.wikidata.org/entity/Q124316718> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s24_fe> owl:sameAs <http://www.wikidata.org/entity/Q130384521> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s24_ultra> owl:sameAs <http://www.wikidata.org/entity/Q124316732> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s25> owl:sameAs <http://www.wikidata.org/entity/Q131860814> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s25_fe> owl:sameAs <http://www.wikidata.org/entity/Q136840386> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s25_plus> owl:sameAs <http://www.wikidata.org/entity/Q131860826> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s25_ultra> owl:sameAs <http://www.wikidata.org/entity/Q131860835> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_xcover7> owl:sameAs <http://www.wikidata.org/entity/Q127785388> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_z_flip6> owl:sameAs <http://www.wikidata.org/entity/Q127328023> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_z_flip7> owl:sameAs <http://www.wikidata.org/entity/Q135285831> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_z_fold6> owl:sameAs <http://www.wikidata.org/entity/Q127328030> .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_z_fold7> owl:sameAs <http://www.wikidata.org/entity/Q135280843> .
+
+<http://example.org/smartphone/instance/basephone/sony_sony_xperia_1_vi> owl:sameAs <http://www.wikidata.org/entity/Q125942336> .
+
+<http://example.org/smartphone/instance/basephone/sony_sony_xperia_1_vii> owl:sameAs <http://www.wikidata.org/entity/Q134603419> .
+
+<http://example.org/smartphone/instance/basephone/tecno_tecno_pova_6_pro> owl:sameAs <http://www.wikidata.org/entity/Q127602072> .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v50> owl:sameAs <http://www.wikidata.org/entity/Q134086896> .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x200> owl:sameAs <http://www.wikidata.org/entity/Q133568407> .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x300> owl:sameAs <http://www.wikidata.org/entity/Q137800735> .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x300_pro> owl:sameAs <http://www.wikidata.org/entity/Q137800735> .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y400> owl:sameAs <http://www.wikidata.org/entity/Q135671455> .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_14t> owl:sameAs <http://www.wikidata.org/entity/Q64549901> .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_14t_pro> owl:sameAs <http://www.wikidata.org/entity/Q48916207> .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_15> owl:sameAs <http://www.wikidata.org/entity/Q131369746> .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_15> owl:sameAs <http://www.wikidata.org/entity/Q135838518> .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_13> owl:sameAs <http://www.wikidata.org/entity/Q123858018> .
+
 <http://example.org/smartphone/instance/brand/Apple> owl:sameAs <http://dbpedia.org/resource/Apple_Inc.> .
 
 <http://example.org/smartphone/instance/brand/Asus> owl:sameAs <http://dbpedia.org/resource/Asus> .
