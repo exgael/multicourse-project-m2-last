@@ -26,48 +26,62 @@ PREFIX sp: <http://example.org/smartphone#>
 PREFIX spv: <http://example.org/smartphone/vocab/>
 
 ## Classes
-- sp:Smartphone - A phone (includes storage/RAM variant info)
+- sp:BasePhone - Base phone model with specs (e.g., iPhone 16, Galaxy S24)
+- sp:PhoneConfiguration - Storage/RAM variant of a base phone (e.g., iPhone 16 128GB/8GB)
 - sp:Brand - Manufacturer (Apple, Samsung, etc.)
 - sp:Store - Retail store (Amazon.de, Amazon.uk, etc.)
-- sp:PriceOffering - A price for a phone at a specific store
+- sp:PriceOffering - A price for a phone configuration at a specific store
+- sp:TagSentiment - Aggregated review sentiment for a tag on a phone
 - sp:User - User with preferences
 
 ## Object Properties
-- sp:hasBrand (Phone -> Brand)
-- sp:forPhone (PriceOffering -> Phone) - Links price to phone
+- sp:hasBrand (BasePhone -> Brand)
+- sp:hasConfiguration (BasePhone -> PhoneConfiguration)
+- sp:hasBasePhone (PhoneConfiguration -> BasePhone)
+- sp:hasPriceSegment (PhoneConfiguration -> skos:Concept)
+- sp:forConfiguration (PriceOffering -> PhoneConfiguration) - Links price to config
 - sp:offeredBy (PriceOffering -> Store) - Links price to store
+- sp:hasSentiment (BasePhone -> TagSentiment)
 - sp:interestedIn (User -> spv:Concept)
-- sp:likes (User -> Phone)
+- sp:likes (User -> PhoneConfiguration)
 
-## Datatype Properties
-- sp:phoneName (string) - On Phone, ALWAYS select this
+## Datatype Properties on BasePhone
+- sp:phoneName (string) - ALWAYS select this for phone info
+- sp:releaseYear (integer)
+- sp:batteryCapacityMah (integer)
+- sp:mainCameraMP (integer)
+- sp:selfieCameraMP (integer)
+- sp:refreshRateHz (integer)
+- sp:supports5G (boolean) - true/false, NO quotes
+- sp:supportsNFC (boolean) - true/false, NO quotes
+- sp:displayType (string) - "AMOLED", "LCD", etc.
+- sp:processorName (string)
+
+## Datatype Properties on PhoneConfiguration
+- sp:storageGB (integer) - Storage in GB
+- sp:ramGB (integer) - RAM in GB
+
+## Datatype Properties on Other Classes
 - sp:brandName (string) - On Brand
 - sp:storeName (string) - On Store
 - sp:priceValue (decimal) - On PriceOffering, price in EUR
-- sp:releaseYear (integer) - On Phone
-- sp:batteryCapacityMah (integer) - On Phone
-- sp:mainCameraMP (integer) - On Phone
-- sp:selfieCameraMP (integer) - On Phone
-- sp:refreshRateHz (integer) - On Phone
-- sp:supports5G (boolean) - On Phone, true/false, NO quotes
-- sp:supportsNFC (boolean) - On Phone, true/false, NO quotes
-- sp:displayType (string) - On Phone, "AMOLED", "LCD", etc.
-- sp:storageGB (integer) - On Phone, Storage in GB
-- sp:ramGB (integer) - On Phone, RAM in GB
 - sp:userId (string) - On User
+- sp:forTag (string) - On TagSentiment (e.g., "Camera", "Battery")
+- sp:positiveCount (integer) - On TagSentiment
+- sp:negativeCount (integer) - On TagSentiment
 
 ## Use Cases (spv: namespace)
-- spv:Photography, spv:Gaming, spv:Business, spv:EverydayUse, spv:Vlogging, spv:Minimalist
+- spv:Photography, spv:Gaming, spv:Business, spv:EverydayUse, spv:Vlogging, spv:MinimalistUse
 
 ## Price Segments (spv: namespace)
-- spv:Flagship (>900 EUR), spv:MidRange (400-900), spv:Budget (<400), spv:AfterMarket (no price)
+- spv:Flagship (>900 EUR), spv:MidRange (400-900), spv:Budget (<400)
 
 ## Example Queries
 
 # Samsung phones with battery > 5000mAh
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName ?battery WHERE {
-  ?phone a sp:Smartphone ;
+  ?phone a sp:BasePhone ;
          sp:phoneName ?phoneName ;
          sp:hasBrand ?brand ;
          sp:batteryCapacityMah ?battery .
@@ -78,7 +92,7 @@ SELECT DISTINCT ?phoneName ?battery WHERE {
 # Gaming phones (high refresh + big battery)
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName ?refreshRate ?battery WHERE {
-  ?phone a sp:Smartphone ;
+  ?phone a sp:BasePhone ;
          sp:phoneName ?phoneName ;
          sp:refreshRateHz ?refreshRate ;
          sp:batteryCapacityMah ?battery .
@@ -88,7 +102,7 @@ SELECT DISTINCT ?phoneName ?refreshRate ?battery WHERE {
 # 5G phones (boolean without quotes)
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName WHERE {
-  ?phone a sp:Smartphone ;
+  ?phone a sp:BasePhone ;
          sp:phoneName ?phoneName ;
          sp:supports5G true .
 }
@@ -96,7 +110,7 @@ SELECT DISTINCT ?phoneName WHERE {
 # AMOLED display (use CONTAINS)
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName WHERE {
-  ?phone a sp:Smartphone ;
+  ?phone a sp:BasePhone ;
          sp:phoneName ?phoneName ;
          sp:displayType ?display .
   FILTER(CONTAINS(LCASE(?display), "amoled"))
@@ -105,19 +119,22 @@ SELECT DISTINCT ?phoneName WHERE {
 # Top 5 by camera (ORDER BY after WHERE brace)
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName ?camera WHERE {
-  ?phone a sp:Smartphone ;
+  ?phone a sp:BasePhone ;
          sp:phoneName ?phoneName ;
          sp:mainCameraMP ?camera .
 }
 ORDER BY DESC(?camera)
 LIMIT 5
 
-# Phones liked by user
+# Phones liked by user (user likes configurations)
 PREFIX sp: <http://example.org/smartphone#>
-SELECT DISTINCT ?phoneName WHERE {
+SELECT DISTINCT ?phoneName ?storage ?ram WHERE {
   ?user a sp:User ;
         sp:userId "pro_gamer_0000" ;
-        sp:likes ?phone .
+        sp:likes ?config .
+  ?config sp:hasBasePhone ?phone ;
+          sp:storageGB ?storage ;
+          sp:ramGB ?ram .
   ?phone sp:phoneName ?phoneName .
 }
 
@@ -130,12 +147,13 @@ SELECT DISTINCT ?userId WHERE {
         sp:interestedIn spv:Gaming .
 }
 
-# Flagship phones (price > 900 EUR) - uses PriceOffering
+# Flagship phones (price > 900 EUR) - uses PriceOffering -> PhoneConfiguration
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName ?price WHERE {
-  ?phone a sp:Smartphone ;
-         sp:phoneName ?phoneName .
-  ?offering sp:forPhone ?phone ;
+  ?phone a sp:BasePhone ;
+         sp:phoneName ?phoneName ;
+         sp:hasConfiguration ?config .
+  ?offering sp:forConfiguration ?config ;
             sp:priceValue ?price .
   FILTER(?price > 900)
 }
@@ -145,19 +163,23 @@ LIMIT 10
 # Phones with 256GB storage under 500 EUR
 PREFIX sp: <http://example.org/smartphone#>
 SELECT DISTINCT ?phoneName ?storage ?price WHERE {
-  ?phone a sp:Smartphone ;
+  ?phone a sp:BasePhone ;
          sp:phoneName ?phoneName ;
-         sp:storageGB ?storage .
-  ?offering sp:forPhone ?phone ;
+         sp:hasConfiguration ?config .
+  ?config sp:storageGB ?storage .
+  ?offering sp:forConfiguration ?config ;
             sp:priceValue ?price .
   FILTER(?storage >= 256 && ?price < 500)
 }
 
-# Find cheapest store for a phone
+# Find cheapest store for a phone configuration
 PREFIX sp: <http://example.org/smartphone#>
-SELECT ?storeName ?price WHERE {
-  ?phone sp:phoneName "Apple iPhone 14" .
-  ?offering sp:forPhone ?phone ;
+SELECT ?storeName ?price ?storage ?ram WHERE {
+  ?phone sp:phoneName "Apple iPhone 14" ;
+         sp:hasConfiguration ?config .
+  ?config sp:storageGB ?storage ;
+          sp:ramGB ?ram .
+  ?offering sp:forConfiguration ?config ;
             sp:offeredBy ?store ;
             sp:priceValue ?price .
   ?store sp:storeName ?storeName .
@@ -167,15 +189,29 @@ LIMIT 1
 
 # Compare prices across stores
 PREFIX sp: <http://example.org/smartphone#>
-SELECT ?phoneName ?storeName ?price WHERE {
-  ?phone a sp:Smartphone ;
-         sp:phoneName ?phoneName .
-  ?offering sp:forPhone ?phone ;
+SELECT ?phoneName ?storeName ?price ?storage WHERE {
+  ?phone a sp:BasePhone ;
+         sp:phoneName ?phoneName ;
+         sp:hasConfiguration ?config .
+  ?config sp:storageGB ?storage .
+  ?offering sp:forConfiguration ?config ;
             sp:offeredBy ?store ;
             sp:priceValue ?price .
   ?store sp:storeName ?storeName .
 }
 ORDER BY ?phoneName ?price
+
+# Get sentiment analysis for a phone
+PREFIX sp: <http://example.org/smartphone#>
+SELECT ?phoneName ?tag ?positive ?negative WHERE {
+  ?phone a sp:BasePhone ;
+         sp:phoneName ?phoneName ;
+         sp:hasSentiment ?sentiment .
+  ?sentiment sp:forTag ?tag ;
+             sp:positiveCount ?positive ;
+             sp:negativeCount ?negative .
+}
+ORDER BY ?phoneName ?tag
 """
 
 SYSTEM_PROMPT = """You are a SPARQL query generator for a smartphone knowledge graph.
@@ -192,8 +228,10 @@ CRITICAL RULES:
 5. Integers: use numbers WITHOUT quotes (sp:releaseYear 2023)
 6. Text matching: use FILTER(CONTAINS(LCASE(?var), "text"))
 7. ORDER BY and LIMIT must come AFTER the closing brace of WHERE
-8. All properties (price, storage, RAM) are directly on Phone
-9. Return ONLY the SPARQL query, no explanations
+8. Phone specs (battery, camera, display) are on sp:BasePhone
+9. Storage/RAM are on sp:PhoneConfiguration (linked via sp:hasConfiguration)
+10. Prices are on sp:PriceOffering (linked to config via sp:forConfiguration)
+11. Return ONLY the SPARQL query, no explanations
 
 Schema:
 {schema}
