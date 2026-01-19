@@ -5,14 +5,15 @@ This module implements a TRUE RAG approach using Knowledge Graph embeddings
 learned by PyKEEN (RotatE model) with REAL phone entities.
 
 The model contains:
-- 4787 real phones (Samsung Galaxy S24, iPhone 16, etc.) with embeddings
-- 500 users with their preferences
-- 13 use-cases (ProGaming, Photography, Vlogging, etc.)
-- 10 relations (likes, suitableFor, hasBattery, hasCamera, etc.)
+- Real phones (Samsung Galaxy S24, iPhone 16, etc.) with embeddings
+- Users with their preferences
+- 6 use-cases (Gaming, Photography, Vlogging, Business, EverydayUse, MinimalistUse)
+- 3 price segments (Flagship, MidRange, Budget)
+- Relations (likes, suitableFor, hasBrand, hasPriceSegment, etc.)
 
 How it works:
 1. Parse user question to extract intent (use-case, features, brand)
-2. Find use-case embedding (e.g., ProGaming)
+2. Find use-case embedding (e.g., Gaming, Photography)
 3. Use embeddings to find phones that are "suitableFor" that use-case
 4. Rank by cosine similarity in embedding space
 5. Generate natural language response with Ollama
@@ -277,10 +278,10 @@ Question: {question}
 
 Return a JSON object with:
 - "intent": one of ["find_phones", "compare", "recommend", "info"]
-- "features": list of desired features like ["gaming", "photography", "5g", "big_battery", "high_camera", "amoled", "vlogging"]
-- "brand": brand name if mentioned (Samsung, Apple, Xiaomi, etc.), else null
+- "features": list of desired features like ["gaming", "photography", "5g", "big_battery", "high_camera", "amoled", "vlogging", "nfc"]
+- "brand": brand name if mentioned (Samsung, Apple, Xiaomi, Google, OnePlus, etc.), else null
 - "budget": "flagship", "midrange", "budget", or null
-- "use_case": main use case if clear (gaming, photography, business, vlogging, everyday), else null
+- "use_case": main use case if clear, one of: "gaming", "photography", "vlogging", "business", "everyday", "minimalist", else null
 
 Return ONLY the JSON, no explanation."""
 
@@ -324,24 +325,43 @@ Return ONLY the JSON, no explanation."""
         3. Phones that are "suitableFor" the use-case will be closer
         """
         
-        # Map intent to use-case (use actual use-case names from KG)
-        # Available: Business, EverydayUse, Gaming, MinimalistUse, Photography, ProGaming, ProPhotography, Vlogging
+        # Map intent to use-case (use actual use-case names from SKOS vocabulary)
+        # Available in spv: Gaming, Photography, Vlogging, Business, EverydayUse, MinimalistUse
+        # Price segments: Flagship, MidRange, Budget
         usecase_mapping = {
-            "gaming": ["ProGaming", "Gaming"],
-            "pro gaming": ["ProGaming"],
-            "photography": ["ProPhotography", "Photography"],
-            "photo": ["ProPhotography", "Photography"],
-            "camera": ["ProPhotography", "Photography"],
+            # Gaming
+            "gaming": ["Gaming"],
+            "pro gaming": ["Gaming"],
+            "mobile gaming": ["Gaming"],
+            "gamer": ["Gaming"],
+            # Photography
+            "photography": ["Photography"],
+            "photo": ["Photography"],
+            "camera": ["Photography"],
+            # Vlogging
             "vlogging": ["Vlogging"],
             "video": ["Vlogging"],
             "youtube": ["Vlogging"],
+            "content creator": ["Vlogging"],
+            "selfie": ["Vlogging"],
+            # Business
             "business": ["Business"],
             "work": ["Business"],
+            "professional": ["Business"],
+            "work phone": ["Business"],
+            # Everyday Use
             "everyday": ["EverydayUse"],
             "daily": ["EverydayUse"],
+            "daily driver": ["EverydayUse"],
+            "general": ["EverydayUse"],
+            "general use": ["EverydayUse"],
+            # Minimalist / Budget use
             "casual": ["EverydayUse", "MinimalistUse"],
             "simple": ["MinimalistUse"],
             "minimalist": ["MinimalistUse"],
+            "basic": ["MinimalistUse"],
+            "entry level": ["MinimalistUse"],
+            "affordable": ["MinimalistUse"],
         }
         
         query_embeddings = []
@@ -672,13 +692,14 @@ def demo():
     print("=" * 60)
     print("GraphRAG Demo: Real Phone Embeddings (RotatE)")
     print("=" * 60)
-    print("\nThis model has embeddings for 4787 REAL phones learned from:")
+    print("\nThis model has embeddings for REAL phones learned from:")
     print("  - User preferences (who likes which phones)")
-    print("  - Use-case suitability (gaming, photography, vlogging...)")
+    print("  - Use-case suitability (Gaming, Photography, Vlogging, Business, EverydayUse, MinimalistUse)")
+    print("  - Price segments (Flagship, MidRange, Budget)")
     print("  - Phone specifications (battery, camera, refresh rate)")
     print("\nEmbeddings capture patterns that SQL cannot:")
     print("  ✗ SQL: WHERE use_case = 'gaming' (no such column)")
-    print("  ✓ Embeddings: phones similar to 'ProGaming' in vector space")
+    print("  ✓ Embeddings: phones similar to 'Gaming' use-case in vector space")
     print("=" * 60)
     
     try:
