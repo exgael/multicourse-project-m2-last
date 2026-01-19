@@ -26,7 +26,7 @@ ROOT_DIR = Path(__file__).parent.parent.parent
 DATA_DIR = ROOT_DIR / "data"
 OUTPUT_DIR = ROOT_DIR / "output"
 MODEL_DIR = OUTPUT_DIR / "models" / "link_prediction"
-FINAL_KG_TTL = OUTPUT_DIR / "final_knowledge_graph.ttl"
+FINAL_KG_TTL = DATA_DIR / "rdf" / "knowledge_graph_full.ttl"
 
 # Ollama configuration
 OLLAMA_BASE_URL = "http://localhost:11434"
@@ -136,7 +136,7 @@ class KGEmbeddingsRAG:
         
     def _load_phones_from_json(self) -> None:
         """Load phone info from JSON including specs."""
-        phones_file = DATA_DIR / "phones.json"
+        phones_file = DATA_DIR / "raw_pretty" / "phones.json"
         with open(phones_file, "r", encoding="utf-8") as f:
             phones_data = json.load(f)
         
