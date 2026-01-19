@@ -153,12 +153,18 @@ class Pipeline:
         )
 
     @step
-    def link(self) -> None:
+    def link_and_align(self) -> None:
         from rdf_enrichment.linkage import perform_linkage
+        from rdf_enrichment.alignment import perform_alignment
 
         perform_linkage(
             input_file=FACTS_TTL,
             output_file=LINKAGE_TTL
+        )
+
+        perform_alignment(
+            input_file=KG_BASE_TTL,  # Schema file contains class/property definitions
+            output_file=ALIGNMENT_TTL
         )
 
     @step
@@ -192,7 +198,7 @@ class Pipeline:
         self.gen_user_data()
         self.gen_facts()
         self.materialize_by_construct_and_inference()
-        self.link()
+        self.link_and_align()
         self.combine_files()
         self.train_recommendation_model()
 
