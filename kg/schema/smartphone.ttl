@@ -199,5 +199,46 @@ sp:priceValue a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:range xsd:decimal .
 
 
+sp:BasePhone a owl:Class ;
+    rdfs:label "Base Phone"@en ;
+    rdfs:comment "Base phone model (without variant-specific storage/RAM)"@en ;
+    rdfs:subClassOf sp:Phone .
+
+sp:TagSentiment a owl:Class ;
+    rdfs:label "Tag Sentiment"@en ;
+    rdfs:comment "Aggregated review sentiment for a specific tag on a phone"@en .
+
+
+sp:hasBasePhone a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "has base phone"@en ;
+    rdfs:comment "Links a phone variant to its base phone model"@en ;
+    rdfs:domain sp:Phone ;
+    rdfs:range sp:BasePhone .
+
+sp:hasSentiment a owl:ObjectProperty ;
+    rdfs:label "has sentiment"@en ;
+    rdfs:comment "Links a base phone to its aggregated tag sentiments from reviews"@en ;
+    rdfs:domain sp:BasePhone ;
+    rdfs:range sp:TagSentiment .
+
+sp:forTag a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "for tag"@en ;
+    rdfs:comment "The tag this sentiment is for (e.g., Camera, Battery, Value)"@en ;
+    rdfs:domain sp:TagSentiment ;
+    rdfs:range xsd:string .
+
+sp:positiveCount a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "positive count"@en ;
+    rdfs:comment "Number of reviews mentioning this tag positively"@en ;
+    rdfs:domain sp:TagSentiment ;
+    rdfs:range xsd:integer .
+
+sp:negativeCount a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "negative count"@en ;
+    rdfs:comment "Number of reviews mentioning this tag negatively"@en ;
+    rdfs:domain sp:TagSentiment ;
+    rdfs:range xsd:integer .
+
+
 sp:Smartphone skos:closeMatch wd:Q19723451 .
 sp:Brand skos:exactMatch wd:Q431289 .

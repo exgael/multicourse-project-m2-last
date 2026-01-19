@@ -31,7 +31,25 @@
     rr:predicateObjectMap [ rr:predicate sp:supportsNFC ; rr:objectMap [ rml:reference "nfc" ; rr:datatype xsd:boolean ] ] ;
     # Variant data now on phone directly
     rr:predicateObjectMap [ rr:predicate sp:storageGB ; rr:objectMap [ rml:reference "storage_gb" ; rr:datatype xsd:integer ] ] ;
-    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] .
+    rr:predicateObjectMap [ rr:predicate sp:ramGB ; rr:objectMap [ rml:reference "ram_gb" ; rr:datatype xsd:integer ] ] ;
+    # Link to base phone
+    rr:predicateObjectMap [
+        rr:predicate sp:hasBasePhone ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/instance/basephone/{base_phone_id}" ]
+    ] .
+
+
+<#BasePhoneMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/data/phones_merged.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/basephone/{base_phone_id}" ;
+        rr:class sp:BasePhone
+    ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ; rr:objectMap [ rml:reference "phone_name" ] ] .
 
 
 <#BrandMapping> a rr:TriplesMap ;
@@ -119,4 +137,34 @@
     rr:predicateObjectMap [
         rr:predicate sp:priceValue ;
         rr:objectMap [ rml:reference "price_eur" ; rr:datatype xsd:decimal ]
+    ] .
+
+
+<#TagSentimentMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/data/review_sentiments.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/sentiment/{phone_id}_{tag}" ;
+        rr:class sp:TagSentiment
+    ] ;
+    rr:predicateObjectMap [ rr:predicate sp:forTag ; rr:objectMap [ rml:reference "tag" ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:positiveCount ; rr:objectMap [ rml:reference "positive" ; rr:datatype xsd:integer ] ] ;
+    rr:predicateObjectMap [ rr:predicate sp:negativeCount ; rr:objectMap [ rml:reference "negative" ; rr:datatype xsd:integer ] ] .
+
+
+<#BasePhoneSentimentMapping> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "output/data/review_sentiments.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$[*]"
+    ] ;
+    rr:subjectMap [
+        rr:template "http://example.org/smartphone/instance/basephone/{phone_id}"
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate sp:hasSentiment ;
+        rr:objectMap [ rr:template "http://example.org/smartphone/instance/sentiment/{phone_id}_{tag}" ]
     ] .
