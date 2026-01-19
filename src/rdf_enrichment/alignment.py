@@ -212,15 +212,11 @@ def perform_alignment(input_file: Path, output_file: Path) -> None:
         f.write("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n")
         f.write("@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n")
 
-        f.write("# =============================================================================\n")
-        f.write("# AUTOMATIC ALIGNMENTS (via LOV API + LLM)\n")
-        f.write("# =============================================================================\n\n")
+        f.write("\n\n# AUTOMATIC ALIGNMENTS (via LOV API + LLM)\n\n")
         for t in auto_alignments:
             f.write(f"{t}\n")
-
-        f.write("\n# =============================================================================\n")
-        f.write("# MANUAL ALIGNMENTS (domain-specific terms not covered by LOV)\n")
-        f.write("# =============================================================================\n")
+        
+        f.write("\n\n# MANUAL ALIGNMENTS (domain-specific terms not covered by LOV)\n")
         f.write(MANUAL_ALIGNMENTS)
 
     manual_count = len([l for l in MANUAL_ALIGNMENTS.strip().split("\n") if l and not l.startswith("#")])

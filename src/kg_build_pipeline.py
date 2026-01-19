@@ -23,6 +23,7 @@ USER_DATA_DIR: Path = OUTPUT / "data" / "users"
 RML_MAPPER_JAR: Path = ROOT_DIR / "rmlmapper.jar"
 RML_MAPPING: Path = KG_DIR / "rml" / "mapper.ttl"
 
+COMBINED_KG_PRE_OWL: Path = OUTPUT / "combined_kg_pre_owl.ttl"
 FINAL_KG_TTL: Path = OUTPUT / "final_knowledge_graph.ttl"
 
 KG_SCHEMA_DIR: Path = KG_DIR / "schema"
@@ -175,14 +176,12 @@ class Pipeline:
     @step
     def combine_files(self) -> None:
         OUTPUT.mkdir(parents=True, exist_ok=True)
-        with open(FINAL_KG_TTL, "w", encoding="utf-8") as final_file:
+        with open(COMBINED_KG_PRE_OWL, "w", encoding="utf-8") as final_file:
             for ttl_file in [
                 KG_BASE_TTL,
                 KG_SKOS_TTL,
                 KG_SHACL_TTL,
                 FACTS_TTL,
-                CONSTRUCTED_TTL,
-                INFERRED_TTL,
                 LINKAGE_TTL,
                 ALIGNMENT_TTL
             ]:
@@ -191,15 +190,34 @@ class Pipeline:
                         final_file.write(f.read())
                         final_file.write("\n\n")
 
+    @step
+    def finalize(self) -> None:
+        # combine COMBINED_KG_PRE_OWL with CONSTRUCTED_TTL and INFERRED_TTL
+
+        with open(FINAL_KG_TTL, "w", encoding="utf-8") as final_file:
+            for ttl_file in [
+                COMBINED_KG_PRE_OWL,
+                CONSTRUCTED_TTL,
+                INFERRED_TTL
+            ]:
+                if ttl_file.exists():
+                    with open(ttl_file, "r", encoding="utf-8") as f:
+                        final_file.write(f.read())
+                        final_file.write("\n\n")
+
+        print(f"\nFinal KG written to: {COMBINED_KG_PRE_OWL} ({COMBINED_KG_PRE_OWL.stat().st_size} bytes)")
+
+
     def run(self) -> None:
         self.process_prices()
         self.generate_configurations()
         self.aggregate_review_sentiments()
         self.gen_user_data()
         self.gen_facts()
-        self.materialize_by_construct_and_inference()
         self.link_and_align()
         self.combine_files()
+        self.materialize_by_construct_and_inference()
+        self.finalize()
         self.train_recommendation_model()
 
 
