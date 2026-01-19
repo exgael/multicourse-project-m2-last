@@ -7,7 +7,8 @@ import numpy as np
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 OUTPUT_DIR = ROOT_DIR / "output"
-FINAL_KG_TTL = OUTPUT_DIR / "final_knowledge_graph.ttl"
+DATA_DIR = ROOT_DIR / "data"
+FINAL_KG_TTL = DATA_DIR / "rdf" / "knowledge_graph_full.ttl"
 MODEL_DIR = OUTPUT_DIR / "models" / "link_prediction"
 
 SP = Namespace("http://example.org/smartphone#")
@@ -293,3 +294,6 @@ def train_model() -> None:
     print(f"  Hits@1: {result.metric_results.get_metric('hits_at_1'):.4f}")
     print(f"  Hits@3: {result.metric_results.get_metric('hits_at_3'):.4f}")
     print(f"  Hits@10: {result.metric_results.get_metric('hits_at_10'):.4f}")
+
+if __name__ == "__main__":
+    train_model()

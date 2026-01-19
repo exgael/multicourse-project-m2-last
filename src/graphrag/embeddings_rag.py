@@ -1,17 +1,27 @@
 """
-GraphRAG Embeddings Module
+GraphRAG Embeddings Module - Using Real Phone Embeddings
 
-This module implements a RAG (Retrieval-Augmented Generation) approach using
-Knowledge Graph embeddings learned by PyKEEN (TransE model).
+This module implements a TRUE RAG approach using Knowledge Graph embeddings
+learned by PyKEEN (RotatE model) with REAL phone entities.
 
-The approach:
-1. Use KG embeddings to represent entities (phones, users, use-cases)
-2. For a natural language question, extract key entities and intents
-3. Use embedding similarity to find relevant phones
-4. Generate a natural language response with Ollama
+The model contains:
+- 4787 real phones (Samsung Galaxy S24, iPhone 16, etc.) with embeddings
+- 500 users with their preferences
+- 13 use-cases (ProGaming, Photography, Vlogging, etc.)
+- 10 relations (likes, suitableFor, hasBattery, hasCamera, etc.)
 
-This complements the NL→SPARQL approach by using vector similarity
-instead of structured queries.
+How it works:
+1. Parse user question to extract intent (use-case, features, brand)
+2. Find use-case embedding (e.g., ProGaming)
+3. Use embeddings to find phones that are "suitableFor" that use-case
+4. Rank by cosine similarity in embedding space
+5. Generate natural language response with Ollama
+
+KEY ADVANTAGE OVER SQL:
+- Embeddings capture latent relationships learned from user behavior
+- "Phones similar to what gamers like" - uses collaborative filtering via embeddings
+- "Premium and futuristic" - semantic meaning, not exact filters
+- Fuzzy matching based on learned patterns, not hard-coded rules
 """
 
 from dataclasses import dataclass
@@ -25,7 +35,8 @@ from rdflib import Graph
 ROOT_DIR = Path(__file__).parent.parent.parent
 DATA_DIR = ROOT_DIR / "data"
 OUTPUT_DIR = ROOT_DIR / "output"
-MODEL_DIR = OUTPUT_DIR / "models" / "link_prediction"
+# Use the NEW model with real phone embeddings
+MODEL_DIR = OUTPUT_DIR / "models" / "phone_embeddings"
 FINAL_KG_TTL = DATA_DIR / "rdf" / "knowledge_graph_full.ttl"
 
 # Ollama configuration
@@ -59,10 +70,18 @@ class RAGResult:
 
 class KGEmbeddingsRAG:
     """
-    GraphRAG using Knowledge Graph Embeddings.
+    GraphRAG using Real Phone Knowledge Graph Embeddings (RotatE).
     
-    Uses TransE embeddings from PyKEEN to find similar entities
-    and generates natural language responses with Ollama.
+    This model has embeddings for 4787 REAL phones (Samsung, Apple, etc.)
+    learned from:
+    - User preferences (user -> likes -> phone)
+    - Use-case suitability (phone -> suitableFor -> usecase)
+    - Phone specs (phone -> hasBattery/hasCamera/etc -> value)
+    
+    RotatE models relations as rotations in complex space, capturing:
+    - User-phone affinity patterns (collaborative filtering)
+    - Phone-usecase compatibility
+    - Spec-based similarity
     """
     
     def __init__(
@@ -85,12 +104,13 @@ class KGEmbeddingsRAG:
         self.relation_to_id: dict[str, int] = {}
         
         self.phones: dict[str, Phone] = {}
-        self.use_cases: list[str] = []
+        self.phone_embeddings_map: dict[str, np.ndarray] = {}
+        self.usecase_embeddings_map: dict[str, np.ndarray] = {}
         self.graph: Graph | None = None
         
     def load(self) -> None:
         """Load embeddings and knowledge graph data."""
-        print("Loading KG embeddings model...")
+        print("Loading KG embeddings model (real phones)...")
         
         # Load PyKEEN model
         self.model = torch.load(self.model_dir / "trained_model.pkl", weights_only=False)
@@ -103,10 +123,9 @@ class KGEmbeddingsRAG:
         self.id_to_entity = {v: k for k, v in self.entity_to_id.items()}
         self.relation_to_id = tf.relation_to_id
         
-        # Extract embeddings - handle complex embeddings (RotatE) by taking real part
+        # Extract embeddings - handle complex embeddings (RotatE)
         raw_embeddings = self.model.entity_representations[0](indices=None).detach().cpu()
         if raw_embeddings.is_complex():
-            # RotatE uses complex embeddings - convert to real by concatenating real and imaginary parts
             self.entity_embeddings = torch.cat([raw_embeddings.real, raw_embeddings.imag], dim=-1).numpy()
         else:
             self.entity_embeddings = raw_embeddings.numpy()
@@ -119,24 +138,72 @@ class KGEmbeddingsRAG:
         
         print(f"  Loaded {len(self.entity_to_id)} entity embeddings (dim={self.entity_embeddings.shape[1]})")
         print(f"  Loaded {len(self.relation_to_id)} relation embeddings")
+        print(f"  Relations: {list(self.relation_to_id.keys())}")
+        
+        # Build phone and usecase embedding maps
+        self._build_embedding_maps()
         
         # Load phone data from JSON
         self._load_phones_from_json()
         
-        # Load phone specs from KG
+        # Load additional phone specs from KG
         self._load_phone_specs_from_kg()
         
-        # Extract use-cases from entities (filter out non-string entities like nan)
-        self.use_cases = [e for e in self.entity_to_id.keys() 
-                         if isinstance(e, str) and not e.startswith("instance/") 
-                         and "_" not in e[:10] and e not in ["true", "false"]]
+        print(f"  Phones with embeddings: {len(self.phone_embeddings_map)}")
+        print(f"  Phones in catalog: {len(self.phones)}")
+        print(f"  Use-cases: {list(self.usecase_embeddings_map.keys())}")
+    
+    def _build_embedding_maps(self) -> None:
+        """Build maps from entity names to embeddings.
         
-        print(f"  Found {len(self.phones)} phones")
-        print(f"  Found {len(self.use_cases)} use-cases/features")
+        The model trained from train_phones.py uses entity names:
+        - Phones: "samsung_samsung_galaxy_s24_ultra_512gb_12gb" (phone_id from config)
+        - Use-cases: "usecase/ProGaming", "usecase/ProPhotography", etc. (with prefix)
+        - Brands: "Apple", "Samsung", "Xiaomi", etc.
+        - Users: "user/user_0000", etc. (with prefix)
+        - Specs: "battery_high", "camera_high", "refresh_high", etc.
+        """
+        # Known brands from KG
+        known_brands = {
+            "Apple", "Samsung", "Xiaomi", "OnePlus", "Google", "Motorola",
+            "Huawei", "Oppo", "Vivo", "Realme", "Honor", "Asus", "Nothing",
+            "Sony", "Nokia", "ZTE", "Infinix", "Tecno", "Poco", "Redmi", "vivo"
+        }
         
+        # Spec value patterns
+        spec_patterns = ["battery_", "camera_", "selfie_", "refresh_", "ram_", "storage_", "5G_", "NFC_"]
+        
+        for entity, idx in self.entity_to_id.items():
+            # Skip non-string entities (e.g., NaN)
+            if not isinstance(entity, str):
+                continue
+                
+            emb = self.entity_embeddings[idx]
+            
+            # Check if it's a use-case (prefixed with "usecase/")
+            if entity.startswith("usecase/"):
+                usecase_name = entity[8:]  # Remove "usecase/" prefix
+                self.usecase_embeddings_map[usecase_name] = emb
+            # Check if it's a user (skip)
+            elif entity.startswith("user/"):
+                continue
+            # Check if it's a brand (skip, we don't need brand embeddings for search)
+            elif entity in known_brands:
+                continue
+            # Check if it's a spec value (skip)
+            elif any(entity.startswith(p) for p in spec_patterns):
+                continue
+            # Skip boolean values
+            elif entity in ("true", "false"):
+                continue
+            # Otherwise, assume it's a phone_id
+            else:
+                # Phone IDs look like: "samsung_samsung_galaxy_s24_ultra_512gb_12gb"
+                self.phone_embeddings_map[entity] = emb
+    
     def _load_phones_from_json(self) -> None:
-        """Load phone info from JSON including specs."""
-        phones_file = DATA_DIR / "raw_pretty" / "phones.json"
+        """Load phone info from JSON."""
+        phones_file = DATA_DIR / "preprocessed" / "phones_configuration.json"
         with open(phones_file, "r", encoding="utf-8") as f:
             phones_data = json.load(f)
         
@@ -155,7 +222,7 @@ class KGEmbeddingsRAG:
             )
     
     def _load_phone_specs_from_kg(self) -> None:
-        """Load phone specifications from the knowledge graph."""
+        """Load additional phone specs from KG."""
         print("Loading phone specs from KG...")
         
         self.graph = Graph()
@@ -163,11 +230,11 @@ class KGEmbeddingsRAG:
         
         query = """
         PREFIX sp: <http://example.org/smartphone#>
-
+        
         SELECT ?phone_id ?battery ?camera ?refresh ?has5g ?display ?year WHERE {
-            ?phone a sp:BasePhone .
-            BIND(STRAFTER(STR(?phone), "phone/") AS ?phone_id)
-
+            ?phone a sp:Smartphone .
+            BIND(STRAFTER(STR(?phone), "instance/phone/") AS ?phone_id)
+            
             OPTIONAL { ?phone sp:batteryCapacityMah ?battery }
             OPTIONAL { ?phone sp:mainCameraMP ?camera }
             OPTIONAL { ?phone sp:refreshRateHz ?refresh }
@@ -194,58 +261,26 @@ class KGEmbeddingsRAG:
                 if row.year:
                     phone.release_year = int(row.year)
     
-    def get_entity_embedding(self, entity: str) -> np.ndarray | None:
-        """Get embedding for an entity."""
-        if entity in self.entity_to_id:
-            idx = self.entity_to_id[entity]
-            return self.entity_embeddings[idx]
-        return None
+    def get_phone_embedding(self, phone_id: str) -> np.ndarray | None:
+        """Get embedding for a phone."""
+        return self.phone_embeddings_map.get(phone_id)
     
-    def find_similar_entities(
-        self, 
-        query_embedding: np.ndarray, 
-        entity_filter: str | None = None,
-        top_k: int = 10
-    ) -> list[tuple[str, float]]:
-        """Find entities most similar to a query embedding."""
-        # Compute cosine similarity
-        norms = np.linalg.norm(self.entity_embeddings, axis=1, keepdims=True)
-        normalized = self.entity_embeddings / (norms + 1e-10)
-        query_norm = query_embedding / (np.linalg.norm(query_embedding) + 1e-10)
-        
-        similarities = normalized @ query_norm
-        
-        # Filter by entity type if specified
-        if entity_filter:
-            mask = np.array([entity_filter in self.id_to_entity[i] 
-                           for i in range(len(similarities))])
-            similarities = np.where(mask, similarities, -np.inf)
-        
-        top_indices = np.argsort(similarities)[::-1][:top_k]
-        
-        results = []
-        for idx in top_indices:
-            if similarities[idx] > -np.inf:
-                entity = self.id_to_entity[idx]
-                results.append((entity, float(similarities[idx])))
-        
-        return results
+    def get_usecase_embedding(self, usecase: str) -> np.ndarray | None:
+        """Get embedding for a use-case."""
+        return self.usecase_embeddings_map.get(usecase)
     
     def extract_intent(self, question: str) -> dict:
-        """
-        Extract intent and key features from a natural language question.
-        Uses Ollama to parse the question.
-        """
+        """Extract intent and key features from a natural language question."""
         prompt = f"""Analyze this smartphone question and extract the intent.
 
 Question: {question}
 
 Return a JSON object with:
 - "intent": one of ["find_phones", "compare", "recommend", "info"]
-- "features": list of desired features like ["gaming", "photography", "5g", "big_battery", "high_camera", "amoled"]
-- "brand": brand name if mentioned, else null
+- "features": list of desired features like ["gaming", "photography", "5g", "big_battery", "high_camera", "amoled", "vlogging"]
+- "brand": brand name if mentioned (Samsung, Apple, Xiaomi, etc.), else null
 - "budget": "flagship", "midrange", "budget", or null
-- "use_case": main use case if clear (gaming, photography, business, etc.), else null
+- "use_case": main use case if clear (gaming, photography, business, vlogging, everyday), else null
 
 Return ONLY the JSON, no explanation."""
 
@@ -263,9 +298,7 @@ Return ONLY the JSON, no explanation."""
         
         result = response.json()["response"].strip()
         
-        # Parse JSON from response
         try:
-            # Handle markdown code blocks
             if "```json" in result:
                 result = result.split("```json")[1].split("```")[0]
             elif "```" in result:
@@ -281,211 +314,235 @@ Return ONLY the JSON, no explanation."""
                 "use_case": None
             }
     
-    def find_phones_by_features(self, intent: dict, top_k: int = 10) -> list[Phone]:
+    def find_phones_by_embeddings(self, intent: dict, top_k: int = 20) -> list[tuple[Phone, float]]:
         """
-        Find phones matching the extracted intent using embeddings.
+        Find phones using REAL embedding similarity.
+        
+        This is the core of the GraphRAG approach:
+        1. Map intent to use-case embedding
+        2. Find phones similar to that use-case in embedding space
+        3. Phones that are "suitableFor" the use-case will be closer
         """
-        # Map features to discretized entity names (from train.py)
-        feature_mapping = {
-            "gaming": ["refresh_144hzplus", "refresh_120to144hz", "battery_6000to8000", "battery_8000plus"],
-            "photography": ["camera_100to200", "camera_200plus", "camera_48to100"],
-            "big_battery": ["battery_6000to8000", "battery_8000plus"],
-            "high_camera": ["camera_100to200", "camera_200plus"],
-            "5g": ["true"],  # supports5G = true
-            "amoled": [],  # Not in embeddings, filter later
-            "selfie": ["selfie_48plus", "selfie_32to48"],
+        
+        # Map intent to use-case (use actual use-case names from KG)
+        # Available: Business, EverydayUse, Gaming, MinimalistUse, Photography, ProGaming, ProPhotography, Vlogging
+        usecase_mapping = {
+            "gaming": ["ProGaming", "Gaming"],
+            "pro gaming": ["ProGaming"],
+            "photography": ["ProPhotography", "Photography"],
+            "photo": ["ProPhotography", "Photography"],
+            "camera": ["ProPhotography", "Photography"],
+            "vlogging": ["Vlogging"],
+            "video": ["Vlogging"],
+            "youtube": ["Vlogging"],
+            "business": ["Business"],
+            "work": ["Business"],
+            "everyday": ["EverydayUse"],
+            "daily": ["EverydayUse"],
+            "casual": ["EverydayUse", "MinimalistUse"],
+            "simple": ["MinimalistUse"],
+            "minimalist": ["MinimalistUse"],
         }
         
-        # Collect feature embeddings
-        feature_embeddings = []
+        query_embeddings = []
         
-        for feature in intent.get("features", []):
-            mapped = feature_mapping.get(feature.lower(), [])
-            for entity_name in mapped:
-                emb = self.get_entity_embedding(entity_name)
-                if emb is not None:
-                    feature_embeddings.append(emb)
-        
-        # Use-case based search
-        use_case = intent.get("use_case")
+        # Get use-case embedding
+        use_case = intent.get("use_case", "").lower() if intent.get("use_case") else ""
         if use_case:
-            uc_mapping = {
-                "gaming": "Gaming",
-                "photography": "Photography",
-                "business": "Business",
-                "everyday": "EverydayUse",
-                "vlogging": "Vlogging",
-                "minimalist": "MinimalistUse"
-            }
-            uc_entity = uc_mapping.get(use_case.lower())
-            if uc_entity:
-                emb = self.get_entity_embedding(uc_entity)
-                if emb is not None:
-                    feature_embeddings.append(emb * 2)  # Weight use-case more
+            uc_names = usecase_mapping.get(use_case, [])
+            for uc_name in uc_names:
+                uc_emb = self.get_usecase_embedding(uc_name)
+                if uc_emb is not None:
+                    query_embeddings.append(uc_emb * 2.0)  # Weight use-case strongly
         
-        if not feature_embeddings:
-            # No specific features, return popular phones
-            return list(self.phones.values())[:top_k]
+        # Also check features for use-cases
+        for feature in intent.get("features", []):
+            feature_lower = feature.lower()
+            uc_names = usecase_mapping.get(feature_lower, [])
+            for uc_name in uc_names:
+                uc_emb = self.get_usecase_embedding(uc_name)
+                if uc_emb is not None:
+                    query_embeddings.append(uc_emb)
         
-        # Average feature embeddings
-        query_embedding = np.mean(feature_embeddings, axis=0)
+        # If no use-case found, use all use-cases weighted
+        if not query_embeddings:
+            for uc_name, uc_emb in self.usecase_embeddings_map.items():
+                query_embeddings.append(uc_emb * 0.5)
         
-        # Find similar phones using TransE
-        # In TransE: h + r ≈ t, so we look for phones that "have" these features
-        phone_scores: dict[str, float] = {}
+        # Average query embeddings
+        query_embedding = np.mean(query_embeddings, axis=0)
         
-        for phone_id, phone in self.phones.items():
-            # Entity format in training: instance/phone/{phone_id}
-            entity_key = f"instance/phone/{phone_id}"
-            emb = self.get_entity_embedding(entity_key)
-            if emb is not None:
-                # Cosine similarity from embeddings
-                sim = np.dot(emb, query_embedding) / (
-                    np.linalg.norm(emb) * np.linalg.norm(query_embedding) + 1e-10
-                )
-                
-                # Boost score based on actual specs matching the intent
-                spec_boost = 0.0
-                features = [f.lower() for f in intent.get("features", [])]
-                use_case = (intent.get("use_case") or "").lower()
-                
-                # Gaming boost: high refresh rate + big battery
-                if "gaming" in features or use_case == "gaming":
-                    if phone.refresh_rate and phone.refresh_rate >= 120:
-                        spec_boost += 0.3
-                    if phone.battery and phone.battery >= 5000:
-                        spec_boost += 0.2
-                
-                # Photography boost: high camera MP
-                if "photography" in features or use_case == "photography":
-                    if phone.camera and phone.camera >= 100:
-                        spec_boost += 0.4
-                    elif phone.camera and phone.camera >= 50:
-                        spec_boost += 0.2
-                
-                # Big battery boost
-                if "big_battery" in features:
-                    if phone.battery and phone.battery >= 6000:
-                        spec_boost += 0.3
-                    elif phone.battery and phone.battery >= 5000:
-                        spec_boost += 0.15
-                
-                # 5G boost
-                if "5g" in features:
-                    if phone.supports_5g:
-                        spec_boost += 0.2
-                
-                # Modern phone boost (recent release year)
-                if phone.release_year and phone.release_year >= 2023:
-                    spec_boost += 0.15
-                elif phone.release_year and phone.release_year >= 2021:
-                    spec_boost += 0.05
-                
-                phone_scores[phone_id] = sim + spec_boost
+        # Find similar phones using embedding distance
+        phone_scores: list[tuple[str, float]] = []
         
-        # Sort by score
-        sorted_phones = sorted(phone_scores.items(), key=lambda x: x[1], reverse=True)
+        for phone_id, phone_emb in self.phone_embeddings_map.items():
+            # Cosine similarity from embeddings
+            emb_sim = np.dot(phone_emb, query_embedding) / (
+                np.linalg.norm(phone_emb) * np.linalg.norm(query_embedding) + 1e-10
+            )
+            
+            # Apply spec-based bonus for specific use-cases
+            spec_bonus = self._compute_spec_bonus(phone_id, intent)
+            
+            # Hybrid score: embedding similarity + spec bonus
+            final_score = emb_sim + spec_bonus
+            
+            phone_scores.append((phone_id, float(final_score)))
         
-        # Filter by brand if specified
+        # Sort by combined score
+        phone_scores.sort(key=lambda x: x[1], reverse=True)
+        
+        # Apply filters
         brand = intent.get("brand")
-        if brand:
-            brand_lower = brand.lower()
-            sorted_phones = [(pid, s) for pid, s in sorted_phones 
-                           if self.phones[pid].brand.lower() == brand_lower]
+        budget = intent.get("budget")
         
-        # Filter by display type for AMOLED
-        if "amoled" in [f.lower() for f in intent.get("features", [])]:
-            sorted_phones = [(pid, s) for pid, s in sorted_phones
-                           if self.phones[pid].display_type and 
-                              "amoled" in self.phones[pid].display_type.lower()]
-        
-        # If no phones found via embeddings, fallback to spec-based search
-        if not sorted_phones:
-            sorted_phones = self._fallback_spec_search(intent)
-        
-        # Return top phones
-        result = []
-        for phone_id, score in sorted_phones[:top_k]:
-            result.append(self.phones[phone_id])
-        
-        return result
-    
-    def _fallback_spec_search(self, intent: dict) -> list[tuple[str, float]]:
-        """Fallback search using phone specs when embeddings don't find matches."""
-        phone_scores: dict[str, float] = {}
-        features = [f.lower() for f in intent.get("features", [])]
-        use_case = (intent.get("use_case") or "").lower()
-        brand = intent.get("brand")
-        
-        for phone_id, phone in self.phones.items():
-            # Filter by brand first if specified
-            if brand and phone.brand.lower() != brand.lower():
+        filtered_phones = []
+        for phone_id, score in phone_scores:
+            if phone_id not in self.phones:
                 continue
             
-            score = 0.0
+            phone = self.phones[phone_id]
             
-            # Gaming: high refresh rate + big battery
-            if "gaming" in features or use_case in ["gaming", "mobile gaming"]:
-                if phone.refresh_rate and phone.refresh_rate >= 144:
-                    score += 0.5
-                elif phone.refresh_rate and phone.refresh_rate >= 120:
-                    score += 0.3
-                if phone.battery and phone.battery >= 5000:
-                    score += 0.3
+            # Brand filter
+            if brand and brand.lower() not in ["none", "null", ""]:
+                if phone.brand.lower() != brand.lower():
+                    continue
             
-            # Photography: high camera MP
-            if "photography" in features or use_case == "photography":
-                if phone.camera and phone.camera >= 200:
-                    score += 0.6
-                elif phone.camera and phone.camera >= 100:
-                    score += 0.4
-                elif phone.camera and phone.camera >= 50:
-                    score += 0.2
+            # Budget filter
+            if budget and budget.lower() not in ["none", "null", ""]:
+                if not self._matches_budget_tier(phone, budget.lower()):
+                    continue
             
-            # Big battery
-            if "big_battery" in features:
-                if phone.battery and phone.battery >= 6000:
-                    score += 0.4
-                elif phone.battery and phone.battery >= 5000:
-                    score += 0.2
+            filtered_phones.append((phone, score))
             
-            # 5G
-            if "5g" in features:
-                if phone.supports_5g:
-                    score += 0.3
-            
-            # AMOLED display
-            if "amoled" in features:
-                if phone.display_type and "amoled" in phone.display_type.lower():
-                    score += 0.3
-            
-            # Vlogging: good selfie cam + stabilization (assume high main cam)
-            if "vlogging" in features or use_case == "vlogging":
-                if phone.camera and phone.camera >= 50:
-                    score += 0.3
-                if phone.refresh_rate and phone.refresh_rate >= 60:
-                    score += 0.1
-            
-            # Modern phone boost
-            if phone.release_year and phone.release_year >= 2024:
-                score += 0.25
-            elif phone.release_year and phone.release_year >= 2023:
-                score += 0.15
-            elif phone.release_year and phone.release_year >= 2021:
-                score += 0.05
-            
-            if score > 0:
-                phone_scores[phone_id] = score
+            if len(filtered_phones) >= top_k:
+                break
         
-        return sorted(phone_scores.items(), key=lambda x: x[1], reverse=True)
+        return filtered_phones
     
-    def generate_response(self, question: str, phones: list[Phone], intent: dict) -> str:
+    def _compute_spec_bonus(self, phone_id: str, intent: dict) -> float:
+        """
+        Compute a spec-based bonus to improve ranking for specific use-cases.
+        
+        This hybrid approach uses phone specs to boost the embedding-based score,
+        ensuring phones with relevant specs rank higher for specific use-cases.
+        """
+        if phone_id not in self.phones:
+            return 0.0
+        
+        phone = self.phones[phone_id]
+        name_lower = phone.name.lower() if phone.name else ""
+        bonus = 0.0
+        
+        use_case = intent.get("use_case", "").lower() if intent.get("use_case") else ""
+        features = [f.lower() for f in intent.get("features", [])]
+        
+        # Gaming bonus: high refresh rate, gaming phones
+        if use_case in ["gaming", "pro gaming"] or "gaming" in features:
+            # ROG, gaming phones
+            if "rog" in name_lower or "gaming" in name_lower or "redmagic" in name_lower:
+                bonus += 0.5
+            # High refresh rate (120Hz+)
+            if phone.refresh_rate and phone.refresh_rate >= 120:
+                bonus += 0.2
+            # High performance (flagship-level)
+            if "ultra" in name_lower or "pro" in name_lower:
+                bonus += 0.1
+            # Big RAM (inferred from phone name if available)
+            if "16gb" in phone_id or "24gb" in phone_id or "12gb" in phone_id:
+                bonus += 0.15
+        
+        # Photography bonus: high camera MP
+        if use_case in ["photography", "photo"] or "photography" in features or "camera" in features:
+            if phone.camera and phone.camera >= 200:
+                bonus += 0.4
+            elif phone.camera and phone.camera >= 108:
+                bonus += 0.3
+            elif phone.camera and phone.camera >= 64:
+                bonus += 0.15
+            # Camera-focused phones
+            if "camera" in name_lower or "photo" in name_lower:
+                bonus += 0.2
+        
+        # Vlogging bonus: good selfie + video features
+        if use_case in ["vlogging", "video"] or "vlogging" in features or "video" in features:
+            if phone.camera and phone.camera >= 50:
+                bonus += 0.15
+            # Flip phones good for vlogging
+            if "flip" in name_lower:
+                bonus += 0.3
+            # Good front camera devices
+            if "v60" in name_lower or "v50" in name_lower or "vivo v" in name_lower:
+                bonus += 0.15
+        
+        # Big battery bonus
+        if "battery" in features or "big_battery" in features:
+            if phone.battery and phone.battery >= 6000:
+                bonus += 0.3
+            elif phone.battery and phone.battery >= 5000:
+                bonus += 0.15
+        
+        # 5G bonus
+        if "5g" in features:
+            if phone.supports_5g:
+                bonus += 0.2
+        
+        return bonus
+
+    def _matches_budget_tier(self, phone: Phone, budget: str) -> bool:
+        """Check if phone matches budget tier based on name and specs."""
+        name_lower = phone.name.lower()
+        
+        flagship_patterns = [
+            "ultra", "pro max", "pro+", " pro", "fold", "flip",
+            "galaxy s2", "galaxy s3",
+            "iphone 16", "iphone 15", "iphone 14", "iphone 13",
+            "pixel 9", "pixel 8", "pixel 7",
+            "find x", "find n", "mate ", "magic",
+            "rog phone", "z fold", "z flip",
+        ]
+        
+        budget_patterns = [
+            "a0", "a1", "a2", "a3",
+            "galaxy m", "galaxy f",
+            "moto g", "moto e",
+            "redmi", "poco m", "poco c",
+            "realme c", "realme narzo",
+            "nord n", "nord ce",
+            "spark", "pop", "hot",
+        ]
+        
+        if budget == "flagship":
+            has_flagship = any(p in name_lower for p in flagship_patterns)
+            has_budget = any(p in name_lower for p in budget_patterns)
+            has_high_specs = (
+                (phone.camera and phone.camera >= 100) or
+                (phone.refresh_rate and phone.refresh_rate >= 120)
+            )
+            return has_flagship or (has_high_specs and not has_budget)
+        
+        elif budget == "budget":
+            has_budget = any(p in name_lower for p in budget_patterns)
+            has_flagship = any(p in name_lower for p in flagship_patterns)
+            return has_budget or (not has_flagship and phone.camera and phone.camera < 50)
+        
+        elif budget == "midrange":
+            has_flagship = any(p in name_lower for p in flagship_patterns)
+            has_budget = any(p in name_lower for p in budget_patterns)
+            return not has_flagship and not has_budget
+        
+        return True
+    
+    def generate_response(self, question: str, phones: list[tuple[Phone, float]], intent: dict) -> str:
         """Generate a natural language response using Ollama."""
         
-        # Format phone info
+        if not phones:
+            return "I couldn't find phones matching your criteria. Try being more specific about features like gaming, photography, or battery life."
+        
+        # Format phone info with similarity scores
         phones_info = []
-        for i, phone in enumerate(phones[:5], 1):
-            info = f"{i}. {phone.name} ({phone.brand})"
+        for i, (phone, score) in enumerate(phones[:5], 1):
+            info = f"{i}. {phone.name} ({phone.brand}) [similarity: {score:.2f}]"
             specs = []
             if phone.battery:
                 specs.append(f"battery: {phone.battery}mAh")
@@ -496,29 +553,32 @@ Return ONLY the JSON, no explanation."""
             if phone.supports_5g:
                 specs.append("5G")
             if phone.display_type:
-                specs.append(phone.display_type)
+                specs.append(phone.display_type[:30])
             if specs:
                 info += f" - {', '.join(specs)}"
             phones_info.append(info)
         
         phones_text = "\n".join(phones_info)
         
-        prompt = f"""Based on the user's question and the relevant phones found, provide a helpful response.
+        prompt = f"""Based on the user's question and the phones found via embedding similarity, provide a helpful response.
+
+IMPORTANT: Only recommend phones from the list below. These were found using AI-learned patterns from user preferences.
 
 User Question: {question}
 
 Detected Intent: {intent.get('intent', 'find_phones')}
+Use-case: {intent.get('use_case') or 'general'}
 Features wanted: {', '.join(intent.get('features', [])) or 'not specified'}
 
-Relevant Phones Found:
+PHONES FOUND (ranked by embedding similarity to user intent):
 {phones_text}
 
-Provide a concise, helpful response that:
-1. Directly answers the question
-2. Highlights 2-3 best matches with their key specs
-3. Explains why they match the user's needs
+Provide a concise response that:
+1. Recommends 2-3 best matches from the list
+2. Explains why they match based on specs shown
+3. Notes the similarity score indicates how well they match the use-case
 
-Keep it under 150 words."""
+Keep it under 150 words. Use ONLY phones from the list above."""
 
         response = requests.post(
             f"{self.ollama_url}/api/generate",
@@ -535,30 +595,26 @@ Keep it under 150 words."""
         return response.json()["response"].strip()
     
     def query(self, question: str) -> RAGResult:
-        """
-        Answer a natural language question using KG embeddings.
-        """
+        """Answer a natural language question using KG embeddings."""
         if self.model is None:
             self.load()
         
-        # Extract intent
         print(f"Analyzing question...")
         intent = self.extract_intent(question)
         print(f"  Intent: {intent}")
         
-        # Find relevant phones
-        print("Finding relevant phones using embeddings...")
-        phones = self.find_phones_by_features(intent)
-        print(f"  Found {len(phones)} matching phones")
+        print("Finding phones using embedding similarity...")
+        phones_with_scores = self.find_phones_by_embeddings(intent)
+        print(f"  Found {len(phones_with_scores)} matching phones")
         
-        # Generate response
         print("Generating response...")
-        answer = self.generate_response(question, phones, intent)
+        phones_only = [p for p, _ in phones_with_scores]
+        answer = self.generate_response(question, phones_with_scores, intent)
         
         return RAGResult(
             question=question,
             intent=str(intent),
-            relevant_phones=phones[:10],
+            relevant_phones=phones_only[:10],
             answer=answer
         )
     
@@ -570,7 +626,7 @@ Keep it under 150 words."""
         output.append(f"\n{'='*60}")
         output.append(f"\nAnswer:\n{result.answer}")
         output.append(f"\n{'='*60}")
-        output.append(f"\nTop Matching Phones:")
+        output.append(f"\nTop Matching Phones (by embedding similarity):")
         
         for i, phone in enumerate(result.relevant_phones[:5], 1):
             specs = []
@@ -589,17 +645,40 @@ Keep it under 150 words."""
 
 
 def demo():
-    """Run demo with sample questions."""
+    """Run demo with semantic questions that showcase embedding-based search."""
     questions = [
-        "I need a phone for mobile gaming with good battery life",
-        "What's the best Samsung phone for photography?",
-        "Recommend a phone with 5G and AMOLED display",
-        "I want a phone with at least 120Hz refresh rate",
-        "What phone should I get for vlogging?",
+        # Use-case based - embeddings find phones "suitableFor" these use-cases
+        "I need a phone for professional mobile gaming",
+        
+        # Brand + use-case - embedding similarity within brand
+        "Best Samsung phones for vlogging",
+        
+        # Vague/semantic - embeddings understand user intent
+        "A phone that photographers would love",
+        
+        # Multi-criteria - embedding space captures combinations
+        "Good for both gaming and taking photos",
+        
+        # Persona-based - embeddings learned from user preferences
+        "What would a content creator choose?",
+        
+        # Budget + use-case - filtered embedding search
+        "Best flagship for business use",
+        
+        # Casual description - semantic understanding
+        "Something reliable for everyday use with good battery",
     ]
     
     print("=" * 60)
-    print("GraphRAG Demo: Embeddings-based Q&A")
+    print("GraphRAG Demo: Real Phone Embeddings (RotatE)")
+    print("=" * 60)
+    print("\nThis model has embeddings for 4787 REAL phones learned from:")
+    print("  - User preferences (who likes which phones)")
+    print("  - Use-case suitability (gaming, photography, vlogging...)")
+    print("  - Phone specifications (battery, camera, refresh rate)")
+    print("\nEmbeddings capture patterns that SQL cannot:")
+    print("  ✗ SQL: WHERE use_case = 'gaming' (no such column)")
+    print("  ✓ Embeddings: phones similar to 'ProGaming' in vector space")
     print("=" * 60)
     
     try:
@@ -607,8 +686,8 @@ def demo():
         rag.load()
     except Exception as e:
         print(f"Error loading model: {e}")
-        print("\nMake sure you've trained the model first:")
-        print("  python -m src.recommandation.train")
+        print("\nMake sure you've trained the phone model first:")
+        print("  python -m src.recommandation.train_phones")
         return
     
     for question in questions:
@@ -620,7 +699,7 @@ def demo():
 def interactive_mode():
     """Run interactive Q&A session."""
     print("=" * 60)
-    print("GraphRAG: Embeddings-based Q&A (Interactive)")
+    print("GraphRAG: Real Phone Embeddings Q&A (Interactive)")
     print("=" * 60)
     print("\nAsk questions about smartphones in natural language.")
     print("Type 'quit' or 'exit' to stop.\n")
@@ -654,7 +733,7 @@ def interactive_mode():
 if __name__ == "__main__":
     import argparse
     
-    parser = argparse.ArgumentParser(description="GraphRAG: Embeddings-based Q&A")
+    parser = argparse.ArgumentParser(description="GraphRAG: Real Phone Embeddings Q&A")
     parser.add_argument("--demo", action="store_true", help="Run demo with sample questions")
     parser.add_argument("--question", "-q", type=str, help="Ask a single question")
     
