@@ -1,187 +1,154 @@
 """
-Smartphone Recommandation - User-Oriented Interface
+Smartphone Knowledge Graph - Landing Page
 Run with: streamlit run app.py
 """
 
 import streamlit as st
 from pathlib import Path
-import sys
-import json
+from rdflib import Graph
 
 ROOT_DIR = Path(__file__).parent
-sys.path.insert(0, str(ROOT_DIR))
+KG_PATH = ROOT_DIR / "data" / "rdf" / "knowledge_graph_full.ttl"
 
 st.set_page_config(
-    page_title="Recommandation",
+    page_title="Amafone",
     page_icon="phone",
     layout="wide"
 )
 
-USE_CASES = ["Gaming", "Photography", "Vlogging", "Business", "EverydayUse", "MinimalistUse"]
-
 
 @st.cache_resource
-def load_recommendation_system():
-    """Load the recommendation model (cached)."""
-    import torch
-    from pykeen.triples import TriplesFactory
-
-    model_dir = ROOT_DIR / "output" / "models" / "link_prediction"
-    data_dir = ROOT_DIR / "data"
-
-    model = torch.load(model_dir / "trained_model.pkl", weights_only=False)
-    tf = TriplesFactory.from_path_binary(model_dir / "training_triples")
-
-    # Load phone names
-    phones_file = data_dir / "raw_pretty" / "phones.json"
-    with open(phones_file, "r") as f:
-        phones = json.load(f)
-    phone_names = {p["phone_id"]: p["phone_name"] for p in phones}
-
-    # Load phone specs
-    configs_file = data_dir / "preprocessed" / "phones_configuration.json"
-    with open(configs_file, "r") as f:
-        configs = json.load(f)
-    phone_specs = {p["phone_id"]: p for p in configs}
-
-    return model, tf, phone_names, phone_specs
+def load_knowledge_graph():
+    """Load the knowledge graph (cached)."""
+    g = Graph()
+    g.parse(KG_PATH, format="turtle")
+    return g
 
 
-def parse_config_id(config_id: str) -> tuple[str, str, str]:
-    """Parse config ID to (phone_id, storage, ram)."""
-    parts = config_id.rsplit("_", 2)
-    if len(parts) >= 3 and parts[-1].endswith("gb") and parts[-2].endswith("gb"):
-        phone_id = "_".join(parts[:-2])
-        storage = parts[-2].upper()
-        ram = parts[-1].upper()
-        return phone_id, storage, ram
-    return config_id, "", ""
-
-
-def get_recommendations(interests: list[str], top_k: int = 5) -> list[dict]:
-    """Get phone recommendations with specs for given interests."""
-    import torch
-
-    model, tf, phone_names, phone_specs = load_recommendation_system()
-    entity_to_id = tf.entity_to_id
-    relation_to_id = tf.relation_to_id
-
-    if "suitableFor" not in relation_to_id:
+def run_sparql(graph: Graph, query: str) -> list[dict]:
+    """Execute SPARQL query and return results."""
+    try:
+        results = graph.query(query)
+        rows = []
+        for row in results:
+            row_dict = {}
+            if results.vars:
+                for var in results.vars:
+                    value = getattr(row, str(var), None)
+                    row_dict[str(var)] = str(value) if value else None
+            rows.append(row_dict)
+        return rows
+    except Exception:
         return []
 
-    valid_interests = [i for i in interests if i in entity_to_id]
-    if not valid_interests:
-        return []
 
-    all_config_ids = [e for e in entity_to_id.keys() if e.endswith("gb")]
-    if not all_config_ids:
-        return []
+st.title("Amafone")
 
-    suitable_rel_idx = relation_to_id["suitableFor"]
-    aggregate_scores: dict[str, float] = {cid: 0.0 for cid in all_config_ids}
-    config_indices = torch.tensor([entity_to_id[cid] for cid in all_config_ids], dtype=torch.long)
+st.markdown("""
+This application demonstrates a **Knowledge Graph** for smartphone data,
+built using **RDF** (Resource Description Framework) and queryable via **SPARQL**.
+""")
 
-    for interest in valid_interests:
-        interest_idx = entity_to_id[interest]
-        h = config_indices
-        r = torch.full((len(config_indices),), suitable_rel_idx, dtype=torch.long)
-        t = torch.full((len(config_indices),), interest_idx, dtype=torch.long)
-        hrt_batch = torch.stack([h, r, t], dim=1)
-        scores = model.score_hrt(hrt_batch).squeeze()
+# Load KG
+with st.spinner("Loading Knowledge Graph..."):
+    kg = load_knowledge_graph()
 
-        for config_id, score in zip(all_config_ids, scores):
-            aggregate_scores[config_id] += score.item()
+st.divider()
 
-    sorted_configs = sorted(aggregate_scores.items(), key=lambda x: x[1], reverse=True)[:top_k]
+# Stats
+st.subheader("Knowledge Graph Statistics")
 
-    results = []
-    for config_id, score in sorted_configs:
-        phone_id, storage, ram = parse_config_id(config_id)
-        phone_name = phone_names.get(phone_id, phone_id)
-        specs = phone_specs.get(phone_id, {})
+col1, col2, col3, col4 = st.columns(4)
 
-        results.append({
-            "name": f"{phone_name} ({storage}/{ram})",
-            "score": score,
-            "brand": specs.get("brand", ""),
-            "battery": specs.get("battery_mah"),
-            "camera": specs.get("main_camera_mp"),
-            "refresh_rate": specs.get("refresh_rate_hz"),
-            "supports_5g": specs.get("supports_5g", False),
-            "display_type": specs.get("display_type", ""),
+col1.metric("Total Triples", f"{len(kg):,}")
+
+# Count entities
+phones_query = "SELECT (COUNT(DISTINCT ?p) AS ?c) WHERE { ?p a <http://example.org/smartphone#BasePhone> }"
+brands_query = "SELECT (COUNT(DISTINCT ?b) AS ?c) WHERE { ?b a <http://example.org/smartphone#Brand> }"
+configs_query = "SELECT (COUNT(DISTINCT ?c) AS ?c) WHERE { ?c a <http://example.org/smartphone#PhoneConfiguration> }"
+users_query = "SELECT (COUNT(DISTINCT ?u) AS ?c) WHERE { ?u a <http://example.org/smartphone#User> }"
+
+phones = run_sparql(kg, phones_query)
+brands = run_sparql(kg, brands_query)
+configs = run_sparql(kg, configs_query)
+users = run_sparql(kg, users_query)
+
+col2.metric("Base Phones", phones[0]['c'] if phones else "0")
+col3.metric("Configurations", configs[0]['c'] if configs else "0")
+col4.metric("Brands", brands[0]['c'] if brands else "0")
+
+st.divider()
+
+# Ontology overview
+st.subheader("Ontology Structure")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("**Classes**")
+    st.markdown("""
+    - `sp:BasePhone` - Base phone model with specifications
+    - `sp:PhoneConfiguration` - Storage/RAM variant
+    - `sp:Brand` - Manufacturer
+    - `sp:Store` - Retail store
+    - `sp:PriceOffering` - Price at a store
+    - `sp:TagSentiment` - Review sentiment data
+    - `sp:User` - User with preferences
+    """)
+
+with col2:
+    st.markdown("**Key Properties**")
+    st.markdown("""
+    - `sp:phoneName`, `sp:brandName`
+    - `sp:batteryCapacityMah`, `sp:mainCameraMP`
+    - `sp:refreshRateHz`, `sp:displayType`
+    - `sp:supports5G`, `sp:supportsNFC`
+    - `sp:storageGB`, `sp:ramGB`
+    - `sp:priceValue`, `sp:hasPriceSegment`
+    """)
+
+st.divider()
+
+# Sample data
+st.subheader("Sample Data")
+
+sample_query = """
+PREFIX sp: <http://example.org/smartphone#>
+
+SELECT ?phoneName ?brandName ?battery ?camera ?display
+WHERE {
+    ?phone a sp:BasePhone ;
+           sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName .
+    OPTIONAL { ?phone sp:batteryCapacityMah ?battery }
+    OPTIONAL { ?phone sp:mainCameraMP ?camera }
+    OPTIONAL { ?phone sp:displayType ?display }
+}
+LIMIT 10
+"""
+
+results = run_sparql(kg, sample_query)
+
+if results:
+    display_data = []
+    for r in results:
+        display_data.append({
+            "Phone": r.get("phoneName", ""),
+            "Brand": r.get("brandName", ""),
+            "Battery (mAh)": r.get("battery", "N/A"),
+            "Camera (MP)": r.get("camera", "N/A"),
+            "Display": (r.get("display", "")[:50] + "...") if r.get("display") and len(r.get("display", "")) > 50 else r.get("display", "N/A"),
         })
+    st.dataframe(display_data, use_container_width=True, hide_index=True)
 
-    return results
+st.divider()
 
+# Namespaces
+st.subheader("RDF Namespaces")
 
-# Initialize session state
-if "selected_use_case" not in st.session_state:
-    st.session_state.selected_use_case = None
-if "show_recommendations" not in st.session_state:
-    st.session_state.show_recommendations = False
-
-
-@st.dialog("Recommended Phones")
-def show_recommendation_dialog(use_case: str):
-    st.markdown(f"### Top phones for {use_case}")
-
-    with st.spinner("Loading..."):
-        recommendations = get_recommendations([use_case], top_k=5)
-
-    if recommendations:
-        for i, phone in enumerate(recommendations, 1):
-            with st.container(border=True):
-                col1, col2 = st.columns([3, 1])
-                col1.markdown(f"**{i}. {phone['name']}**")
-                col2.caption(f"Score: {phone['score']:.2f}")
-
-                # Specs row
-                specs = []
-                if phone.get("battery"):
-                    specs.append(f"{phone['battery']} mAh")
-                if phone.get("camera"):
-                    specs.append(f"{phone['camera']} MP")
-                if phone.get("refresh_rate"):
-                    specs.append(f"{phone['refresh_rate']} Hz")
-                if phone.get("supports_5g"):
-                    specs.append("5G")
-                if phone.get("display_type"):
-                    specs.append(phone["display_type"])
-
-                if specs:
-                    st.caption(" | ".join(specs))
-    else:
-        st.warning("Could not load recommendations. Check if the model is trained.")
-
-    if st.button("Close", type="primary"):
-        st.session_state.show_recommendations = False
-        st.rerun()
-
-
-# Main content
-st.title("Recommandation")
-
-st.subheader("Select your use case")
-
-cols = st.columns(3)
-for i, use_case in enumerate(USE_CASES):
-    with cols[i % 3]:
-        is_selected = st.session_state.selected_use_case == use_case
-
-        with st.container(border=True):
-            st.markdown(f"### {use_case}")
-
-            if st.button(
-                "Selected" if is_selected else "Select",
-                key=f"btn_{use_case}",
-                type="primary" if is_selected else "secondary",
-                use_container_width=True,
-            ):
-                if st.session_state.selected_use_case != use_case:
-                    st.session_state.selected_use_case = use_case
-                    st.session_state.show_recommendations = True
-                    st.rerun()
-
-# Show recommendation dialog if triggered
-if st.session_state.show_recommendations and st.session_state.selected_use_case:
-    show_recommendation_dialog(st.session_state.selected_use_case)
+st.code("""
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+""", language="sparql")
