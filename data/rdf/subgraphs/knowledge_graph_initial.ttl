@@ -88,25 +88,12 @@ sp:negativeCount a owl:DatatypeProperty,
     rdfs:domain sp:TagSentiment ;
     rdfs:range xsd:integer .
 
-sp:offeredBy a owl:ObjectProperty ;
-    rdfs:label "offered by"@en ;
-    rdfs:comment "Links a price offering to the store offering it"@en ;
-    rdfs:domain sp:PriceOffering ;
-    rdfs:range sp:Store .
-
 sp:positiveCount a owl:DatatypeProperty,
         owl:FunctionalProperty ;
     rdfs:label "positive count"@en ;
     rdfs:comment "Number of reviews mentioning this tag positively"@en ;
     rdfs:domain sp:TagSentiment ;
     rdfs:range xsd:integer .
-
-sp:priceValue a owl:DatatypeProperty,
-        owl:FunctionalProperty ;
-    rdfs:label "price value"@en ;
-    rdfs:comment "Price value in EUR"@en ;
-    rdfs:domain sp:PriceOffering ;
-    rdfs:range xsd:decimal .
 
 sp:processorName a owl:DatatypeProperty ;
     rdfs:label "processor name"@en ;
@@ -122,12 +109,6 @@ sp:selfieCameraMP a owl:DatatypeProperty ;
     rdfs:label "selfie camera (megapixels)"@en ;
     rdfs:domain sp:BasePhone ;
     rdfs:range xsd:integer .
-
-sp:storeName a owl:DatatypeProperty,
-        owl:FunctionalProperty ;
-    rdfs:label "store name"@en ;
-    rdfs:domain sp:Store ;
-    rdfs:range xsd:string .
 
 <http://example.org/smartphone/instance/basephone/asus_asus_rog_phone_9_fe> sp:hasSentiment <http://example.org/smartphone/instance/sentiment/asus_asus_rog_phone_9_fe_Battery>,
         <http://example.org/smartphone/instance/sentiment/asus_asus_rog_phone_9_fe_Build>,
@@ -12150,40 +12131,16 @@ sp:storeName a owl:DatatypeProperty,
         <http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_64gb_2gb> ;
     sp:userId "user_0499" .
 
-spsh:BrandShape a sh:NodeShape ;
+spsh:BasePhoneShape a sh:NodeShape ;
     sh:property [ sh:datatype xsd:string ;
             sh:maxCount 1 ;
-            sh:message "Brand must have exactly one non-empty name" ;
-            sh:minCount 1 ;
-            sh:minLength 1 ;
-            sh:path sp:brandName ] ;
-    sh:targetClass sp:Brand .
-
-spsh:PhoneVariantConsistencyShape a sh:NodeShape ;
-    rdfs:label "Phone-Variant Consistency" ;
-    rdfs:comment "Ensures variant references are bidirectional" ;
-    sh:sparql [ sh:message "Variant must reference back to this phone via variantOf" ;
-            sh:prefixes [ sh:declare [ sh:namespace "http://example.org/smartphone#"^^xsd:anyURI ;
-                            sh:prefix "sp" ] ] ;
-            sh:select """
-            SELECT $this ?variant
-            WHERE {
-                $this sp:hasVariant ?variant .
-                FILTER NOT EXISTS { ?variant sp:variantOf $this }
-            }
-        """ ] ;
-    sh:targetClass sp:Phone .
-
-spsh:SmartphoneShape a sh:NodeShape ;
-    sh:property [ sh:datatype xsd:string ;
-            sh:maxCount 1 ;
-            sh:message "Smartphone must have exactly one non-empty name" ;
+            sh:message "BasePhone must have exactly one non-empty name" ;
             sh:minCount 1 ;
             sh:minLength 1 ;
             sh:path sp:phoneName ],
         [ sh:class sp:Brand ;
             sh:maxCount 1 ;
-            sh:message "Smartphone must be linked to exactly one Brand" ;
+            sh:message "BasePhone must be linked to exactly one Brand" ;
             sh:minCount 1 ;
             sh:path sp:hasBrand ],
         [ sh:datatype xsd:integer ;
@@ -12201,48 +12158,19 @@ spsh:SmartphoneShape a sh:NodeShape ;
             sh:message "Release year must be between 2000 and 2030" ;
             sh:minInclusive 2000 ;
             sh:path sp:releaseYear ] ;
-    sh:targetClass sp:Smartphone .
+    sh:targetClass sp:BasePhone .
 
-spsh:UserLikesConsistencyShape a sh:NodeShape ;
-    rdfs:label "User Likes Consistency" ;
-    rdfs:comment "Ensures users only like smartphones, not other types" ;
-    sh:sparql [ sh:message "User can only like instances of sp:Smartphone" ;
-            sh:prefixes [ sh:declare [ sh:namespace "http://example.org/smartphone#"^^xsd:anyURI ;
-                            sh:prefix "sp" ] ] ;
-            sh:select """
-            SELECT $this ?liked
-            WHERE {
-                $this sp:likes ?liked .
-                FILTER NOT EXISTS { ?liked a sp:Smartphone }
-            }
-        """ ] ;
-    sh:targetClass sp:User .
-
-spsh:UserShape a sh:NodeShape ;
+spsh:BrandShape a sh:NodeShape ;
     sh:property [ sh:datatype xsd:string ;
             sh:maxCount 1 ;
-            sh:message "User must have exactly one non-empty user ID" ;
+            sh:message "Brand must have exactly one non-empty name" ;
             sh:minCount 1 ;
             sh:minLength 1 ;
-            sh:path sp:userId ],
-        [ sh:datatype xsd:string ;
-            sh:maxCount 1 ;
-            sh:message "User must have exactly one persona" ;
-            sh:minCount 1 ;
-            sh:path sp:persona ],
-        [ sh:class skos:Concept ;
-            sh:message "User must be interested in at least one use-case or price segment" ;
-            sh:minCount 1 ;
-            sh:path sp:interestedIn ] ;
-    sh:targetClass sp:User .
+            sh:path sp:brandName ] ;
+    sh:targetClass sp:Brand .
 
-spsh:VariantShape a sh:NodeShape ;
-    sh:property [ sh:class sp:Phone ;
-            sh:maxCount 1 ;
-            sh:message "Variant must be linked to exactly one phone" ;
-            sh:minCount 1 ;
-            sh:path sp:variantOf ],
-        [ sh:datatype xsd:integer ;
+spsh:PhoneConfigurationShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:integer ;
             sh:maxInclusive 2000 ;
             sh:message "Storage must be between 1 and 2000 GB" ;
             sh:minInclusive 1 ;
@@ -12251,29 +12179,60 @@ spsh:VariantShape a sh:NodeShape ;
             sh:maxInclusive 128 ;
             sh:message "RAM must be between 1 and 128 GB" ;
             sh:minInclusive 1 ;
-            sh:path sp:ramGB ] ;
-    sh:targetClass sp:Variant .
+            sh:path sp:ramGB ],
+        [ sh:class sp:BasePhone ;
+            sh:maxCount 1 ;
+            sh:message "PhoneConfiguration must be linked to exactly one BasePhone" ;
+            sh:minCount 1 ;
+            sh:path sp:hasBasePhone ] ;
+    sh:targetClass sp:PhoneConfiguration .
+
+spsh:PriceOfferingShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:decimal ;
+            sh:maxCount 1 ;
+            sh:message "PriceOffering must have exactly one positive price value" ;
+            sh:minCount 1 ;
+            sh:minExclusive 0 ;
+            sh:path sp:priceValue ],
+        [ sh:class sp:PhoneConfiguration ;
+            sh:maxCount 1 ;
+            sh:message "PriceOffering must be linked to exactly one PhoneConfiguration" ;
+            sh:minCount 1 ;
+            sh:path sp:forConfiguration ],
+        [ sh:class sp:Store ;
+            sh:maxCount 1 ;
+            sh:message "PriceOffering must be linked to exactly one Store" ;
+            sh:minCount 1 ;
+            sh:path sp:offeredBy ] ;
+    sh:targetClass sp:PriceOffering .
+
+spsh:StoreShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:message "Store must have exactly one non-empty name" ;
+            sh:minCount 1 ;
+            sh:minLength 1 ;
+            sh:path sp:storeName ] ;
+    sh:targetClass sp:Store .
+
+spsh:UserShape a sh:NodeShape ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:message "User must have exactly one non-empty user ID" ;
+            sh:minCount 1 ;
+            sh:minLength 1 ;
+            sh:path sp:userId ],
+        [ sh:class skos:Concept ;
+            sh:message "User must be interested in at least one use-case or price segment" ;
+            sh:minCount 1 ;
+            sh:path sp:interestedIn ] ;
+    sh:targetClass sp:User .
 
 sp:brandName a owl:DatatypeProperty,
         owl:FunctionalProperty ;
     rdfs:label "brand name"@en ;
     rdfs:domain sp:Brand ;
     rdfs:range xsd:string .
-
-sp:forConfiguration a owl:ObjectProperty ;
-    rdfs:label "for configuration"@en ;
-    rdfs:comment "Links a price offering to the phone configuration it is for"@en ;
-    rdfs:domain sp:PriceOffering ;
-    rdfs:range sp:PhoneConfiguration ;
-    owl:inverseOf sp:hasPriceOffering .
-
-sp:hasBasePhone a owl:FunctionalProperty,
-        owl:ObjectProperty ;
-    rdfs:label "has base phone"@en ;
-    rdfs:comment "Links a phone configuration to its base phone model"@en ;
-    rdfs:domain sp:PhoneConfiguration ;
-    rdfs:range sp:BasePhone ;
-    owl:inverseOf sp:hasConfiguration .
 
 sp:hasBrand a owl:FunctionalProperty,
         owl:ObjectProperty ;
@@ -12307,11 +12266,24 @@ sp:manufactures a owl:ObjectProperty ;
     rdfs:domain sp:Brand ;
     rdfs:range sp:BasePhone .
 
+sp:offeredBy a owl:ObjectProperty ;
+    rdfs:label "offered by"@en ;
+    rdfs:comment "Links a price offering to the store offering it"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range sp:Store .
+
 sp:phoneName a owl:DatatypeProperty,
         owl:FunctionalProperty ;
     rdfs:label "phone name"@en ;
     rdfs:domain sp:BasePhone ;
     rdfs:range xsd:string .
+
+sp:priceValue a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "price value"@en ;
+    rdfs:comment "Price value in EUR"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range xsd:decimal .
 
 sp:ramGB a owl:DatatypeProperty,
         owl:FunctionalProperty ;
@@ -12330,6 +12302,12 @@ sp:storageGB a owl:DatatypeProperty,
     rdfs:label "storage (GB)"@en ;
     rdfs:domain sp:PhoneConfiguration ;
     rdfs:range xsd:integer .
+
+sp:storeName a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "store name"@en ;
+    rdfs:domain sp:Store ;
+    rdfs:range xsd:string .
 
 sp:supports5G a owl:DatatypeProperty,
         owl:FunctionalProperty ;
@@ -36187,6 +36165,21 @@ sp:batteryCapacityMah a owl:DatatypeProperty,
     rdfs:domain sp:BasePhone ;
     rdfs:range xsd:integer .
 
+sp:forConfiguration a owl:ObjectProperty ;
+    rdfs:label "for configuration"@en ;
+    rdfs:comment "Links a price offering to the phone configuration it is for"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range sp:PhoneConfiguration ;
+    owl:inverseOf sp:hasPriceOffering .
+
+sp:hasBasePhone a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "has base phone"@en ;
+    rdfs:comment "Links a phone configuration to its base phone model"@en ;
+    rdfs:domain sp:PhoneConfiguration ;
+    rdfs:range sp:BasePhone ;
+    owl:inverseOf sp:hasConfiguration .
+
 sp:mainCameraMP a owl:DatatypeProperty ;
     rdfs:label "main camera (megapixels)"@en ;
     rdfs:domain sp:BasePhone ;
@@ -45368,10 +45361,6 @@ spv:PriceSegment a skos:Concept ;
     sp:ramGB 8 ;
     sp:storageGB 256 .
 
-sp:Store a owl:Class ;
-    rdfs:label "Store"@en ;
-    rdfs:comment "A retail store or marketplace that offers phones"@en .
-
 <http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_a3> a sp:BasePhone ;
     rdfs:label "Xiaomi Redmi A3" ;
     sp:batteryCapacityMah 5000 ;
@@ -45527,6 +45516,10 @@ spv:UseCase a skos:Concept ;
     sp:hasBasePhone <http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_pro_5g> ;
     sp:ramGB 12 ;
     sp:storageGB 512 .
+
+sp:Store a owl:Class ;
+    rdfs:label "Store"@en ;
+    rdfs:comment "A retail store or marketplace that offers phones"@en .
 
 <http://example.org/smartphone/instance/brand/Apple> a sp:Brand ;
     rdfs:label "Apple" ;
