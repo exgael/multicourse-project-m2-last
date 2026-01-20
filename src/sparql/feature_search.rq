@@ -1,7 +1,4 @@
 # Competency Query: Search phones by feature combination
-#
-# This query finds phones matching specific feature requirements:
-# 5G + NFC + large battery + high refresh rate within a budget.
 
 PREFIX sp: <http://example.org/smartphone#>
 PREFIX spv: <http://example.org/smartphone/vocab/>

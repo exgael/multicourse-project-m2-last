@@ -1,7 +1,4 @@
-# Competency Query: Aggregate sentiment analysis by phone
-#
-# This query aggregates tag sentiments from reviews for each phone,
-# showing positive/negative sentiment distribution.
+# Sentiment Analysis by Phone
 
 PREFIX sp: <http://example.org/smartphone#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
