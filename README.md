@@ -35,7 +35,6 @@ You can run the following:
 make data
 ```
 
-Note that once the data is processed/generated, the following allow to construct the KG `data/full_knowledge_graph.ipynb`.
 
 ## Web App
 
