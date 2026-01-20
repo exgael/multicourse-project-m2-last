@@ -1,8 +1,5 @@
 # Competency Query: Compare brands within a price segment
-#
-# This query aggregates phone statistics by brand within a given price segment,
-# showing average specs and number of models available.
-#
+
 PREFIX sp: <http://example.org/smartphone#>
 PREFIX spv: <http://example.org/smartphone/vocab/>
 

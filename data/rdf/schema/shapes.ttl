@@ -5,22 +5,22 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix spsh: <http://example.org/smartphone/shapes/> .
 
-spsh:SmartphoneShape a sh:NodeShape ;
-    sh:targetClass sp:Smartphone ;
+spsh:BasePhoneShape a sh:NodeShape ;
+    sh:targetClass sp:BasePhone ;
     sh:property [
         sh:path sp:phoneName ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
         sh:minLength 1 ;
-        sh:message "Smartphone must have exactly one non-empty name"
+        sh:message "BasePhone must have exactly one non-empty name"
     ] ;
     sh:property [
         sh:path sp:hasBrand ;
         sh:class sp:Brand ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "Smartphone must be linked to exactly one Brand"
+        sh:message "BasePhone must be linked to exactly one Brand"
     ] ;
     sh:property [
         sh:path sp:batteryCapacityMah ;
@@ -66,27 +66,20 @@ spsh:UserShape a sh:NodeShape ;
         sh:message "User must have exactly one non-empty user ID"
     ] ;
     sh:property [
-        sh:path sp:persona ;
-        sh:datatype xsd:string ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
-        sh:message "User must have exactly one persona"
-    ] ;
-    sh:property [
         sh:path sp:interestedIn ;
         sh:class skos:Concept ;
         sh:minCount 1 ;
         sh:message "User must be interested in at least one use-case or price segment"
     ] .
 
-spsh:VariantShape a sh:NodeShape ;
-    sh:targetClass sp:Variant ;
+spsh:PhoneConfigurationShape a sh:NodeShape ;
+    sh:targetClass sp:PhoneConfiguration ;
     sh:property [
-        sh:path sp:variantOf ;
-        sh:class sp:Phone ;
+        sh:path sp:hasBasePhone ;
+        sh:class sp:BasePhone ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "Variant must be linked to exactly one phone"
+        sh:message "PhoneConfiguration must be linked to exactly one BasePhone"
     ] ;
     sh:property [
         sh:path sp:storageGB ;
@@ -103,39 +96,39 @@ spsh:VariantShape a sh:NodeShape ;
         sh:message "RAM must be between 1 and 128 GB"
     ] .
 
-
-spsh:PhoneVariantConsistencyShape a sh:NodeShape ;
-    sh:targetClass sp:Phone ;
-    rdfs:label "Phone-Variant Consistency" ;
-    rdfs:comment "Ensures variant references are bidirectional" ;
-    sh:sparql [
-        sh:message "Variant must reference back to this phone via variantOf" ;
-        sh:prefixes [
-            sh:declare [ sh:prefix "sp" ; sh:namespace "http://example.org/smartphone#"^^xsd:anyURI ]
-        ] ;
-        sh:select """
-            SELECT $this ?variant
-            WHERE {
-                $this sp:hasVariant ?variant .
-                FILTER NOT EXISTS { ?variant sp:variantOf $this }
-            }
-        """
+spsh:StoreShape a sh:NodeShape ;
+    sh:targetClass sp:Store ;
+    sh:property [
+        sh:path sp:storeName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Store must have exactly one non-empty name"
     ] .
 
-spsh:UserLikesConsistencyShape a sh:NodeShape ;
-    sh:targetClass sp:User ;
-    rdfs:label "User Likes Consistency" ;
-    rdfs:comment "Ensures users only like smartphones, not other types" ;
-    sh:sparql [
-        sh:message "User can only like instances of sp:Smartphone" ;
-        sh:prefixes [
-            sh:declare [ sh:prefix "sp" ; sh:namespace "http://example.org/smartphone#"^^xsd:anyURI ]
-        ] ;
-        sh:select """
-            SELECT $this ?liked
-            WHERE {
-                $this sp:likes ?liked .
-                FILTER NOT EXISTS { ?liked a sp:Smartphone }
-            }
-        """
+spsh:PriceOfferingShape a sh:NodeShape ;
+    sh:targetClass sp:PriceOffering ;
+    sh:property [
+        sh:path sp:priceValue ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minExclusive 0 ;
+        sh:message "PriceOffering must have exactly one positive price value"
+    ] ;
+    sh:property [
+        sh:path sp:forConfiguration ;
+        sh:class sp:PhoneConfiguration ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "PriceOffering must be linked to exactly one PhoneConfiguration"
+    ] ;
+    sh:property [
+        sh:path sp:offeredBy ;
+        sh:class sp:Store ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "PriceOffering must be linked to exactly one Store"
     ] .
+

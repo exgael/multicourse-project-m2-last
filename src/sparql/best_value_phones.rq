@@ -1,15 +1,10 @@
-# Competency Query: Find best value phones (specs per euro)
-#
-# This query calculates a "value score" based on key specs divided by price,
-# helping users find phones with the best specifications for their budget.
-
 PREFIX sp: <http://example.org/smartphone#>
 PREFIX spv: <http://example.org/smartphone/vocab/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT ?phoneName ?brandName ?price ?battery ?mainCamera ?ram ?storage
        ?priceSegmentLabel
-       # Value score: weighted combination of specs per 100€
+       # Value score: weighted combination of specs per 100 eur
        (ROUND(
            ((?battery / 1000.0) + (?mainCamera / 10.0) + ?ram + (?storage / 32.0))
            / (?price / 100.0) * 100

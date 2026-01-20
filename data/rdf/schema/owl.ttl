@@ -13,9 +13,9 @@
     owl:versionInfo "3.0" .
 
 
-# =============================================================================
+
 # Brand
-# =============================================================================
+
 
 sp:Brand a owl:Class ;
     rdfs:label "Brand"@en ;
@@ -32,9 +32,9 @@ sp:manufactures a owl:ObjectProperty ;
     rdfs:range sp:BasePhone .
 
 
-# =============================================================================
+
 # BasePhone
-# =============================================================================
+
 
 sp:BasePhone a owl:Class ;
     rdfs:label "Base Phone"@en ;
@@ -111,9 +111,9 @@ sp:hasConfiguration a owl:ObjectProperty ;
     owl:inverseOf sp:hasBasePhone .
 
 
-# =============================================================================
+
 # BasePhone - Defined Subclasses (OWL reasoning)
-# =============================================================================
+
 
 sp:LargeBatteryPhone a owl:Class ;
     rdfs:label "Large Battery Phone"@en ;
@@ -164,9 +164,9 @@ sp:HighResolutionCameraPhone a owl:Class ;
     ] .
 
 
-# =============================================================================
+
 # TagSentiment
-# =============================================================================
+
 
 sp:TagSentiment a owl:Class ;
     rdfs:label "Tag Sentiment"@en ;
@@ -191,9 +191,9 @@ sp:negativeCount a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:range xsd:integer .
 
 
-# =============================================================================
+
 # PhoneConfiguration
-# =============================================================================
+
 
 sp:PhoneConfiguration a owl:Class ;
     rdfs:label "Phone Configuration"@en ;
@@ -229,9 +229,9 @@ sp:hasPriceOffering a owl:ObjectProperty ;
     rdfs:range sp:PriceOffering ;                                                                    
     owl:inverseOf sp:forConfiguration .  
 
-# =============================================================================
+
 # Store
-# =============================================================================
+
 
 sp:Store a owl:Class ;
     rdfs:label "Store"@en ;
@@ -243,9 +243,9 @@ sp:storeName a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:range xsd:string .
 
 
-# =============================================================================
+
 # PriceOffering
-# =============================================================================
+
 
 sp:PriceOffering a owl:Class ;
     rdfs:label "Price Offering"@en ;
@@ -271,9 +271,9 @@ sp:offeredBy a owl:ObjectProperty ;
     rdfs:range sp:Store .
 
 
-# =============================================================================
+
 # User
-# =============================================================================
+
 
 sp:User a owl:Class ;
     rdfs:label "User"@en ;
