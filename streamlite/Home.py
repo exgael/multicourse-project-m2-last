@@ -1,13 +1,8 @@
-"""
-Smartphone Knowledge Graph - Landing Page
-Run with: streamlit run app.py
-"""
-
 import streamlit as st
 from pathlib import Path
 from rdflib import Graph
 
-ROOT_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).parent.parent
 KG_PATH = ROOT_DIR / "data" / "rdf" / "knowledge_graph_full.ttl"
 
 st.set_page_config(
