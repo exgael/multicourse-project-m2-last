@@ -8,7 +8,7 @@ import sys
 import json
 from rdflib import Graph
 
-ROOT_DIR = Path(__file__).parent.parent
+ROOT_DIR = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 st.set_page_config(

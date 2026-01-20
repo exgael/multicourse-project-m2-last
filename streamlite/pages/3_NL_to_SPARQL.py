@@ -6,7 +6,7 @@ import streamlit as st
 import sys
 from pathlib import Path
 
-ROOT_DIR = Path(__file__).parent.parent
+ROOT_DIR = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 st.set_page_config(

@@ -12,7 +12,7 @@ st.set_page_config(
     layout="wide"
 )
 
-ROOT_DIR = Path(__file__).parent.parent
+ROOT_DIR = Path(__file__).parent.parent.parent
 KG_PATH = ROOT_DIR / "data" / "rdf" / "knowledge_graph_full.ttl"
 
 

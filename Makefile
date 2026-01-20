@@ -12,4 +12,4 @@ data:
 	uv run data/data_to_rdf.py
 
 ui:
-	uv run streamlit run Home.py   
+	uv run streamlit run streamlite/Home.py   
