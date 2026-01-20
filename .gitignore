@@ -6,6 +6,23 @@ __pycache__/
 # C extensions
 *.so
 
+# Data files
+*.dat
+*.data
+*.db
+*.sqlite3
+*.db-journal
+*.csv
+dataset
+knowledge_graph/data/
+
+# Javar executables
+*.jar
+*.war
+*.ear
+*.gz
+apache-jena-fuseki-5.6.0
+
 # Distribution / packaging
 .Python
 build/

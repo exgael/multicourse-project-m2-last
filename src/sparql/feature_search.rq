@@ -1,0 +1,31 @@
+# Competency Query: Search phones by feature combination
+#
+# This query finds phones matching specific feature requirements:
+# 5G + NFC + large battery + high refresh rate within a budget.
+
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+
+SELECT ?phoneName ?brandName ?battery ?refreshRate ?mainCamera ?ram ?price
+WHERE {
+    ?phone a sp:BasePhone ;
+           sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName ;
+           sp:batteryCapacityMah ?battery ;
+           sp:mainCameraMP ?mainCamera ;
+           sp:supports5G true ;
+           sp:supportsNFC true ;
+           sp:hasConfiguration ?config .
+
+    OPTIONAL { ?phone sp:refreshRateHz ?refreshRate }
+
+    ?config sp:ramGB ?ram .
+
+    ?offering sp:forConfiguration ?config ;
+              sp:priceValue ?price .
+
+    # Filters: large battery, within budget
+    FILTER(?battery >= 5000)
+    FILTER(?price <= 600)
+}
+ORDER BY ?price DESC(?battery)

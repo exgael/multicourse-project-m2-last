@@ -1,0 +1,25 @@
+# Competency Query: Aggregate sentiment analysis by phone
+#
+# This query aggregates tag sentiments from reviews for each phone,
+# showing positive/negative sentiment distribution.
+
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?phoneName ?brandName
+       (SUM(?positiveCount) AS ?totalPositive)
+       (SUM(?negativeCount) AS ?totalNegative)
+       (SUM(?positiveCount) - SUM(?negativeCount) AS ?netSentiment)
+       (ROUND(SUM(?positiveCount) * 100.0 / (SUM(?positiveCount) + SUM(?negativeCount))) AS ?positivePercent)
+WHERE {
+    ?phone a sp:BasePhone ;
+           sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName ;
+           sp:hasSentiment ?sentiment .
+
+    ?sentiment sp:forTag ?tag ;
+               sp:positiveCount ?positiveCount ;
+               sp:negativeCount ?negativeCount .
+}
+GROUP BY ?phoneName ?brandName
+ORDER BY DESC(?netSentiment)

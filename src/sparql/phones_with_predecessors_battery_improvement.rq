@@ -1,0 +1,28 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?phoneName ?battery ?predecessorName ?predecessorBattery
+       (ROUND((?battery - ?predecessorBattery) * 100.0 / ?predecessorBattery) AS ?batteryImprovementPct)
+WHERE {
+    # Local: Get our phone with its battery and Wikidata link
+    ?phone a sp:BasePhone ;
+           sp:phoneName ?phoneName ;
+           sp:batteryCapacityMah ?battery ;
+           owl:sameAs ?wikidataUri .
+
+    # Federated: Get predecessor from Wikidata
+    # P155 = "follows"
+    SERVICE <https://query.wikidata.org/sparql> {
+        ?wikidataUri wdt:P155 ?predecessorWikidata .
+    }
+
+    # Local: Match predecessor back to our knowledge graph
+    ?predecessor a sp:BasePhone ;
+                 sp:phoneName ?predecessorName ;
+                 sp:batteryCapacityMah ?predecessorBattery ;
+                 owl:sameAs ?predecessorWikidata .
+}
+ORDER BY DESC(?batteryImprovementPct)

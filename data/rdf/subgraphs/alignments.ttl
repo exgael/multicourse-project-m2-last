@@ -1,0 +1,47 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sp: <http://example.org/smartphone#> .
+
+sp:BasePhone rdfs:subClassOf <http://schema.org/Product> ;
+    skos:exactMatch <http://www.wikidata.org/entity/Q22645> .
+
+sp:Brand owl:equivalentClass <http://purl.org/goodrelations/v1#Brand>,
+        <http://schema.org/Brand> .
+
+sp:PriceOffering owl:equivalentClass <http://purl.org/goodrelations/v1#Offering> .
+
+sp:Store owl:equivalentClass <http://schema.org/Store> .
+
+sp:TagSentiment skos:closeMatch <http://schema.org/Rating> .
+
+sp:User rdfs:subClassOf <http://schema.org/Person>,
+        foaf:Person .
+
+sp:brandName owl:equivalentClass <http://dbpedia.org/ontology/brand>,
+        <http://schema.org/brand> .
+
+sp:forTag owl:equivalentClass <http://dbpedia.org/ontology/tag> .
+
+sp:hasBrand owl:equivalentClass <http://dbpedia.org/ontology/brand>,
+        <http://purl.org/goodrelations/v1#hasBrand>,
+        <http://schema.org/brand> .
+
+sp:hasConfiguration rdfs:subPropertyOf <http://dbpedia.org/ontology/configuration> .
+
+sp:likes skos:closeMatch foaf:interest .
+
+sp:manufactures skos:closeMatch <http://dbpedia.org/ontology/manufacturer>,
+        <http://schema.org/manufacturer> .
+
+sp:offeredBy owl:equivalentClass <http://schema.org/offeredBy> .
+
+sp:priceValue owl:equivalentClass <http://schema.org/price> .
+
+sp:processorName owl:equivalentClass <http://dbpedia.org/ontology/cpu> .
+
+sp:releaseYear skos:closeMatch <http://dbpedia.org/ontology/releaseDate> .
+
+sp:supportsNFC skos:closeMatch <http://dbpedia.org/ontology/feature> .
+

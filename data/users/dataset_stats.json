@@ -1,0 +1,15 @@
+{
+  "num_users": 500,
+  "num_phones": 893,
+  "num_usecases": 6,
+  "user_usecase_labels": 500,
+  "user_phone_labels": 986,
+  "usecase_phone_counts": {
+    "Gaming": 24,
+    "Photography": 75,
+    "Vlogging": 344,
+    "Business": 375,
+    "EverydayUse": 578,
+    "MinimalistUse": 34
+  }
+}

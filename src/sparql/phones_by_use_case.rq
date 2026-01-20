@@ -1,0 +1,42 @@
+# Competency Query: Find phones suitable for a specific use case
+#
+# This query finds phones that match the requirements for a given use case
+# based on the specifications defined in the SKOS vocabulary.
+#
+# Example use cases: Gaming, Photography, Vlogging, Business, EverydayUse
+
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?phoneName ?brandName ?battery ?mainCamera ?refreshRate ?ram ?price ?priceSegment
+WHERE {
+    ?phone a sp:BasePhone ;
+           sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName ;
+           sp:batteryCapacityMah ?battery ;
+           sp:mainCameraMP ?mainCamera .
+
+    OPTIONAL { ?phone sp:refreshRateHz ?refreshRate }
+
+    # Get configuration with RAM and price
+    ?phone sp:hasConfiguration ?config .
+    ?config sp:ramGB ?ram .
+
+    OPTIONAL {
+        ?offering sp:forConfiguration ?config ;
+                  sp:priceValue ?price .
+    }
+
+    OPTIONAL {
+        ?config sp:hasPriceSegment ?segment .
+        ?segment skos:prefLabel ?priceSegment .
+    }
+
+    # Gaming requirements: refresh >= 120Hz, RAM >= 12GB, battery >= 4500mAh, 5G
+    ?phone sp:supports5G true .
+    FILTER(?refreshRate >= 120)
+    FILTER(?ram >= 12)
+    FILTER(?battery >= 4500)
+}
+ORDER BY DESC(?refreshRate) DESC(?ram)

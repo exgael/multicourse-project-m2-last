@@ -15,13 +15,17 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 # Install dependencies
 uv sync
 ```
+## Build Knowledge Graph
 
-## Usage
+If you need to rebuild knowledge graph, see `data/README.md`
 
-```python
-from load_data import load_datasets
-
-df_smartphones, df_amazon_reviews = load_datasets()
+You can run the following:
+```sh
+make data
 ```
 
-Downloads on first run, uses cache afterward.
+## Clean up
+
+```sh
+make clean
+```
