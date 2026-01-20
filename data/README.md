@@ -48,3 +48,20 @@ uv run data_to_rdf.py
 You can now run the `full_knowledge_graph.ipynb` notebook
 - output: `rdf/subgraphs/*`
 - output: `rdf/knwoledge_graph_full`
+
+You can check `data/rdf/subgraphs/` for part of the generated KG.
+This is usefull to audit. 
+
+    Note that unless deleting one of those files, `data/full_knowledge_graph.ipynb` will not regenerate, instead it will load them.
+
+Pattern used for auditable graph generation:
+```py
+my_subgraph_path = Path("rdf/subgraphs/my_subgraph.ttl")
+
+if my_subgraph_path.exists():
+    kg += load_graph([my_subgraph_path])
+else:
+    subgraph = do_something_with(kg)
+    export_graph(subgraph, my_subgraph_path)
+    kg += subgraph
+```
