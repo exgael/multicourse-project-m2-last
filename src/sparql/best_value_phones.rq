@@ -1,0 +1,34 @@
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?phoneName ?brandName ?price ?battery ?mainCamera ?ram ?storage
+       ?priceSegmentLabel
+       # Value score: weighted combination of specs per 100 eur
+       (ROUND(
+           ((?battery / 1000.0) + (?mainCamera / 10.0) + ?ram + (?storage / 32.0))
+           / (?price / 100.0) * 100
+       ) / 100.0 AS ?valueScore)
+WHERE {
+    ?phone a sp:BasePhone ;
+           sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName ;
+           sp:batteryCapacityMah ?battery ;
+           sp:mainCameraMP ?mainCamera ;
+           sp:hasConfiguration ?config .
+
+    ?config sp:ramGB ?ram ;
+            sp:storageGB ?storage .
+
+    ?offering sp:forConfiguration ?config ;
+              sp:priceValue ?price .
+
+    OPTIONAL {
+        ?config sp:hasPriceSegment ?priceSegment .
+        ?priceSegment skos:prefLabel ?priceSegmentLabel .
+    }
+
+    FILTER(?price > 0)
+}
+ORDER BY DESC(?valueScore)
+LIMIT 20

@@ -1,0 +1,2455 @@
+@prefix ns1: <http://example.org/smartphone#> .
+
+<http://example.org/smartphone/instance/basephone/asus_asus_rog_phone_8> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/asus_asus_rog_phone_8_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/asus_asus_rog_phone_9> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/asus_asus_rog_phone_9_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/asus_asus_zenfone_11_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/asus_asus_zenfone_12_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_10_pro_fold> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_10_pro_xl> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_9_pro_xl> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/google_google_pixel_9a> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_200> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_200_lite> a ns1:HighResolutionCameraPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_200_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_200_smart> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_400> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_400_lite> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_400_pro> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic6_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic6_rsr_porsche_design> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic7_lite> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic7_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic8_lite> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic8_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic_v3> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_magic_v5> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_x6b_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_x8c> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/honor_honor_x9c> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/huawei_huawei_mate_xt_ultimate> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/huawei_huawei_nova_13_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/huawei_huawei_pura_70_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/huawei_huawei_pura_80_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_2024> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_2025> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_50> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_50_fusion> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_fusion> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_neo> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_edge_60_stylus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_g96> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_e14> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_e15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g04> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g04s> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g05> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g06> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g06_power> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g15_power> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g24> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g24_power> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g35> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g45> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g55> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g56> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g57_power> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g64> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g67_power> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g75> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g85> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g86> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g86_power> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_2024> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_2025> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_play_2024> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_play_2026> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_power_2024> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_power_2025> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_power_2026> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_stylus_5g_2024> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/motorola_motorola_moto_g_stylus_5g_2025> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_cmf_phone_1> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_cmf_phone_2_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_2a> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_2a_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_3> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_3a> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/nothing_nothing_phone_3a_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_12r> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_13> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_13r> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_13s> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_15r> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_nord_4> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_nord_5> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_nord_ce5> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oneplus_oneplus_nord_n30_se> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a3> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a3_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a3x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a5> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a5_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a5x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a5x_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_a60> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_f25_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_f27_pro_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_f31> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_n5> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x7_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x8> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x8_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x9> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_find_x9_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_k12x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_k13_turbo> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_k13x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno11_f> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno12> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno12_f> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno12_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno13> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno13_f> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno13_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno14> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno14_f> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno14_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno15_pro_india> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/oppo_oppo_reno15_pro_mini> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_12> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_12_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_12_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_12_pro_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_12x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_13> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_13_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_13_pro_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_14> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_14_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_14_pro_lite> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_14_pro_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_14t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_14x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_15_india> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_15_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_15t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_15x_india> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_16_pro> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c61> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c63> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c65> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c65_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c71> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c73> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c75> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_c75_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_gt_6> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_gt_6t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_gt_7> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_gt_7_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_gt_7t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_gt_8_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_70_turbo> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_80_lite> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_80_lite_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_80_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_80x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_90> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_narzo_90x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_note_50> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_note_60> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_note_60x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_note_70t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_p1> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_p3> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_p3_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_p4_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/realme_realme_p4x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a06> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a06_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a07_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a16> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a16_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a17> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a17_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a26> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a35> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a36> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a55> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_a56> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f05> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f06_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f07> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f16> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f17> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f36> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f55> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_f56> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m05> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m06> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m07> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m14_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m16> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m35> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m36> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m55> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_m56> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s24_ultra> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s25_edge> a ns1:HighResolutionCameraPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_s25_ultra> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/samsung_samsung_galaxy_z_fold7> a ns1:HighResolutionCameraPhone .
+
+<http://example.org/smartphone/instance/basephone/sony_sony_xperia_10_vi> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/sony_sony_xperia_10_vii> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/sony_sony_xperia_1_vi> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/sony_sony_xperia_1_vii> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/tecno_tecno_camon_30_premier> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/tecno_tecno_pova_6_pro> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/tecno_tecno_pova_7> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/tecno_tecno_pova_slim> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/tecno_tecno_spark_go_1> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_neo_10> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_neo_10r> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_z10> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_z10_lite> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_z10r_india> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_iqoo_z10x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t3> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t3_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t4> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t4_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t4_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t4r> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_t4x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v30> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v30e> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v40> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v40_lite> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v40e> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v50> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v50_lite> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v50_lite_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v50e> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v60> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v60_lite_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_v60e> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x200> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x200_fe> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x200_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x300> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x300_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_x_fold5> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y03> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y19s_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y28> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y29> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y300> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y400> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/vivo_vivo_y400_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_14_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_14t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_14t_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_15_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_15t> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_15t_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_c71> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_c75> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_c75_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_c85> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_c85_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f6> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f6_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f7> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f7_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f7_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f8_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_f8_ultra> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m6_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m6_plus> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m6_pro_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m7> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m7_plus> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m7_pro_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m8> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_m8_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_x6> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_x6_neo> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_x6_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_x7> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_poco_x7_pro> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_13> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_13_5g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_14c> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_14c_5g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_15> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_15_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_15c> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_15c_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_a3> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_a3x> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_a4> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_a5_4g> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_13> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_13_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_13_pro_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_5g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_5g_india> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_pro_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_pro_5g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_pro_5g_india> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_pro_plus_5g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_india> a ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_14s> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_15> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_15_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_15_pro> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_15_pro_4g> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/basephone/xiaomi_xiaomi_redmi_note_15_pro_plus> a ns1:HighResolutionCameraPhone,
+        ns1:LargeBatteryPhone .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_plus_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_plus_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_pro_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_pro_max_1tb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_pro_max_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16_pro_max_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16e_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16e_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_16e_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_pro_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_pro_max_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_pro_max_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_17_pro_max_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_air_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_air_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/apple_apple_iphone_air_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_rog_phone_8_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_rog_phone_8_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_rog_phone_8_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_rog_phone_9_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_rog_phone_9_pro_1tb_24gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_rog_phone_9_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_zenfone_11_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_zenfone_11_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/asus_asus_zenfone_12_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_128gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_128gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_fold_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_fold_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_fold_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_xl_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_xl_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_10_pro_xl_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_8a_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_8a_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_128gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_128gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_fold_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_fold_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_xl_128gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_xl_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9_pro_xl_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9a_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/google_google_pixel_9a_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_lite_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_smart_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_200_smart_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_lite_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_400_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic6_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic6_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic6_rsr_porsche_design_1tb_24gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_lite_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_lite_512gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_lite_512gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_lite_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_pro_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic7_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic8_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic8_lite_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic8_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic8_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic_v3_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic_v3_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic_v3_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_magic_v5_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/honor_honor_x6b_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_x6b_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_x6b_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_x8c_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/honor_honor_x9c_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/honor_honor_x9c_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/huawei_huawei_mate_xt_ultimate_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/huawei_huawei_nova_13_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/huawei_huawei_pura_70_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/huawei_huawei_pura_70_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/huawei_huawei_pura_70_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/huawei_huawei_pura_80_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_2024_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_2025_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_fusion_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_fusion_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_fusion_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_neo_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_neo_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_neo_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_ultra_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_ultra_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_50_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_fusion_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_fusion_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_neo_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_neo_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_60_stylus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_70_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_70_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_edge_70_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_g96_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_g96_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_e14_64gb_2gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_e14_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_e15_64gb_2gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g04_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g04_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g04_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g04s_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g04s_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g04s_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g05_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g05_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g05_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g06_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g06_power_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g06_power_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g06_power_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_512gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_power_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g15_power_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g24_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g24_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g24_power_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g24_power_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g35_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g35_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g35_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g35_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g45_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g45_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g55_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g56_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g56_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g57_power_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g64_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g64_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g67_power_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g75_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g85_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g85_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_power_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_power_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_power_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_power_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g86_power_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_2024_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_2025_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_2025_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_play_2024_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_play_2026_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_power_2024_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_power_2025_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_power_2026_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_stylus_5g_2024_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_stylus_5g_2024_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_stylus_5g_2024_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_stylus_5g_2025_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_moto_g_stylus_5g_2025_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_2024_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_2025_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_50_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_50_ultra_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_60_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_60_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_60_ultra_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_60_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_plus_2024_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_plus_2025_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_ultra_2025_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_razr_ultra_2025_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/motorola_motorola_thinkphone_25_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_cmf_phone_1_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_cmf_phone_1_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_cmf_phone_2_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_cmf_phone_2_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_2a_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_2a_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_2a_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_2a_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_2a_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3a_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3a_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3a_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3a_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/nothing_nothing_phone_3a_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_12r_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_12r_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_12r_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13_1tb_24gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13r_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13s_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_13s_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_15_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_15_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_15_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_15_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_15r_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_15r_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_4_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_4_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_4_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_5_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_5_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_5_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_ce5_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_ce5_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_ce5_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oneplus_oneplus_nord_n30_se_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3_pro_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3x_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a3x_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_pro_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5x_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5x_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5x_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5x_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a5x_4g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a60_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_a60_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_f25_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_f25_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_f27_pro_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_f31_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_f31_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_n5_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x7_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x7_ultra_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x8_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x8_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x8_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x8_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x8_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x8_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x9_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x9_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x9_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_find_x9_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k12x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13_turbo_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13_turbo_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13_turbo_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13_turbo_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13x_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_k13x_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno11_f_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno11_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_f_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_f_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_f_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_f_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno12_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_f_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_f_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno13_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_f_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_f_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno14_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_pro_india_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_pro_india_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_pro_mini_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/oppo_oppo_reno15_pro_mini_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_plus_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_pro_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_pro_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12_pro_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12x_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_12x_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_13_pro_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_lite_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_plus_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14_pro_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14t_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14t_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14t_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14x_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_14x_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15_india_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15_india_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15_india_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15t_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15t_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15t_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15x_india_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15x_india_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_15x_india_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_16_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c61_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c61_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c61_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c61_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c61_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c63_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c65_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c65_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c65_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c65_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c65_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c65_5g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c71_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c71_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c71_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c71_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c71_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c73_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c73_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c75_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c75_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c75_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c75_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_c75_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_6_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_6_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_6_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_6t_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_6t_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_pro_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7t_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7t_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_7t_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_8_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_8_pro_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_8_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/realme_realme_gt_8_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_70_turbo_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_70_turbo_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_lite_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_lite_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_lite_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_lite_5g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_80x_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_90_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_90_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_90x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_narzo_90x_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_50_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60x_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_60x_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_70t_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_70t_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_note_70t_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p1_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p1_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p3_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p3_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p3_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p3_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p4_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p4x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p4x_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/realme_realme_p4x_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a06_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a06_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a06_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a06_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a06_5g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a06_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a07_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a07_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a07_4g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_5g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_5g_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a16_5g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_4g_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a17_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a26_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a26_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a26_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a26_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a26_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a35_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a35_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a35_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a35_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a35_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a35_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a36_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a36_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a36_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a36_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a36_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a55_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a55_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a55_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a55_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a55_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a56_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a56_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a56_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a56_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_a56_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f05_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f06_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f06_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f07_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f15_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f15_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f15_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f16_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f16_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f16_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f17_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f17_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f17_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f36_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f36_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f36_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f55_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_f56_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m05_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m06_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m06_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m06_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m07_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m14_4g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m15_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m15_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m15_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m16_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m16_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m16_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m35_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m35_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m36_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m36_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m36_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m55_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m55_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m55_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m56_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_m56_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_fe_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_fe_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_fe_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_ultra_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s24_ultra_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_128gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_edge_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_edge_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_fe_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_fe_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_fe_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_ultra_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_ultra_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_s25_ultra_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_xcover7_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_xcover7_pro_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_xcover7_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_flip6_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_flip6_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_flip7_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_flip7_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_flip7_fe_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_flip7_fe_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold6_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold6_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold6_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold7_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold7_1tb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold7_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/samsung_samsung_galaxy_z_fold7_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/sony_sony_xperia_10_vi_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/sony_sony_xperia_10_vii_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/sony_sony_xperia_1_vi_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/sony_sony_xperia_1_vi_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/sony_sony_xperia_1_vii_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_camon_30_premier_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_pova_6_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_pova_6_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_pova_7_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_pova_7_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_pova_slim_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_spark_go_1_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/tecno_tecno_spark_go_1_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_15_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_15_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_15_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_15_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_neo_10_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_neo_10_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_neo_10_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_neo_10r_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_neo_10r_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_neo_10r_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10_lite_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10_lite_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10r_india_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10r_india_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10r_india_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10x_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10x_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_iqoo_z10x_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t3_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t3_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t3_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4_ultra_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4r_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4r_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4r_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4x_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4x_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_t4x_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v30_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v30_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v30_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v30e_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v40_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v40_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v40e_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_lite_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_lite_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_lite_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50_lite_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50e_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v50e_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60_lite_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60e_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60e_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_v60e_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x200_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x200_fe_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x200_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x300_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x300_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x300_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x300_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x300_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x300_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x_fold5_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_x_fold5_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y03_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y19s_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y19s_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y19s_4g_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y19s_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y28_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y28_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y28_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y29_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y29_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y29_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y300_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y300_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y400_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y400_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y400_pro_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/vivo_vivo_y400_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14_civi_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14_civi_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_pro_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_14t_pro_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15_256gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Flagship> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15t_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15t_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15t_pro_1tb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15t_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_15t_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_mix_flip_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c71_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c71_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c71_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c71_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c75_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c75_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c75_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c75_5g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c85_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c85_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c85_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c85_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c85_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_c85_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f6_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f6_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f6_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f6_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f6_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f7_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f7_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f7_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f7_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f7_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f7_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f8_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f8_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f8_ultra_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_f8_ultra_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m6_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m6_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m6_plus_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m6_plus_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m6_pro_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m6_pro_4g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_plus_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_plus_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_plus_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_pro_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_pro_5g_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m7_pro_5g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m8_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m8_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m8_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_m8_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_neo_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_neo_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x6_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x7_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x7_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x7_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x7_pro_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x7_pro_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_poco_x7_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_13_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_13_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_13_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_13_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_13_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_13_5g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_5g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_14c_5g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_4g_256gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_15c_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_128gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_64gb_2gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3x_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3x_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a3x_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a4_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a4_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a5_4g_128gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a5_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a5_4g_64gb_3gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_a5_4g_64gb_4gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_4g_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_pro_4g_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_pro_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_pro_4g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_13_pro_4g_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_4g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_4g_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_4g_256gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_5g_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_5g_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_5g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_5g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_5g_india_128gb_6gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_5g_india_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_4g_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_4g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_5g_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_5g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_5g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_5g_india_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_5g_india_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_5g_india_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_india_128gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_india_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_india_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_india_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14_pro_plus_5g_india_512gb_16gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_14s_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_4g_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_pro_4g_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/Budget> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_pro_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_pro_512gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_pro_plus_256gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_pro_plus_256gb_8gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+
+<http://example.org/smartphone/instance/config/xiaomi_xiaomi_redmi_note_15_pro_plus_512gb_12gb> ns1:hasPriceSegment <http://example.org/smartphone/vocab/MidRange> .
+

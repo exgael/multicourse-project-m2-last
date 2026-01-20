@@ -1,0 +1,31 @@
+# Competency Query: Recommend phones based on user interests
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?userName ?phoneName ?brandName ?priceSegmentLabel ?price
+       (GROUP_CONCAT(DISTINCT ?interestLabel; separator=", ") AS ?matchedInterests)
+WHERE {
+    # Get user and their interests
+    ?user a sp:User ;
+          sp:userId ?userName ;
+          sp:interestedIn ?interest .
+
+    ?interest skos:prefLabel ?interestLabel .
+
+    # Find phones the user likes
+    ?user sp:likes ?config .
+
+    ?config sp:hasBasePhone ?phone .
+    ?phone sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName .
+
+    # Get price segment and price
+    ?config sp:hasPriceSegment ?priceSegment .
+    ?priceSegment skos:prefLabel ?priceSegmentLabel .
+
+    ?offering sp:forConfiguration ?config ;
+        sp:priceValue ?price .
+}
+GROUP BY ?userName ?phoneName ?brandName ?priceSegmentLabel ?price
+ORDER BY ?userName ?price

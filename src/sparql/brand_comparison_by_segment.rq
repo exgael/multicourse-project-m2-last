@@ -1,0 +1,29 @@
+# Competency Query: Compare brands within a price segment
+
+PREFIX sp: <http://example.org/smartphone#>
+PREFIX spv: <http://example.org/smartphone/vocab/>
+
+SELECT ?brandName
+       (COUNT(DISTINCT ?phone) AS ?numModels)
+       (AVG(?battery) AS ?avgBattery)
+       (AVG(?mainCamera) AS ?avgCamera)
+       (AVG(?price) AS ?avgPrice)
+       (MIN(?price) AS ?minPrice)
+       (MAX(?price) AS ?maxPrice)
+WHERE {
+    ?brand a sp:Brand ;
+           sp:brandName ?brandName .
+
+    ?phone a sp:BasePhone ;
+           sp:hasBrand ?brand ;
+           sp:batteryCapacityMah ?battery ;
+           sp:mainCameraMP ?mainCamera ;
+           sp:hasConfiguration ?config .
+
+    ?config sp:hasPriceSegment spv:MidRange .  # Change to spv:Budget or spv:Flagship
+
+    ?offering sp:forConfiguration ?config ;
+              sp:priceValue ?price .
+}
+GROUP BY ?brandName
+ORDER BY DESC(?numModels)

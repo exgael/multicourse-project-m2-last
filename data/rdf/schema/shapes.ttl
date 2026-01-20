@@ -1,0 +1,134 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sp: <http://example.org/smartphone#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spsh: <http://example.org/smartphone/shapes/> .
+
+spsh:BasePhoneShape a sh:NodeShape ;
+    sh:targetClass sp:BasePhone ;
+    sh:property [
+        sh:path sp:phoneName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "BasePhone must have exactly one non-empty name"
+    ] ;
+    sh:property [
+        sh:path sp:hasBrand ;
+        sh:class sp:Brand ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "BasePhone must be linked to exactly one Brand"
+    ] ;
+    sh:property [
+        sh:path sp:batteryCapacityMah ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 500 ;
+        sh:maxInclusive 10000 ;
+        sh:message "Battery capacity must be between 500 and 10000 mAh"
+    ] ;
+    sh:property [
+        sh:path sp:mainCameraMP ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 300 ;
+        sh:message "Main camera must be between 1 and 300 MP"
+    ] ;
+    sh:property [
+        sh:path sp:releaseYear ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 2000 ;
+        sh:maxInclusive 2030 ;
+        sh:message "Release year must be between 2000 and 2030"
+    ] .
+
+spsh:BrandShape a sh:NodeShape ;
+    sh:targetClass sp:Brand ;
+    sh:property [
+        sh:path sp:brandName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Brand must have exactly one non-empty name"
+    ] .
+
+spsh:UserShape a sh:NodeShape ;
+    sh:targetClass sp:User ;
+    sh:property [
+        sh:path sp:userId ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "User must have exactly one non-empty user ID"
+    ] ;
+    sh:property [
+        sh:path sp:interestedIn ;
+        sh:class skos:Concept ;
+        sh:minCount 1 ;
+        sh:message "User must be interested in at least one use-case or price segment"
+    ] .
+
+spsh:PhoneConfigurationShape a sh:NodeShape ;
+    sh:targetClass sp:PhoneConfiguration ;
+    sh:property [
+        sh:path sp:hasBasePhone ;
+        sh:class sp:BasePhone ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "PhoneConfiguration must be linked to exactly one BasePhone"
+    ] ;
+    sh:property [
+        sh:path sp:storageGB ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 2000 ;
+        sh:message "Storage must be between 1 and 2000 GB"
+    ] ;
+    sh:property [
+        sh:path sp:ramGB ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 128 ;
+        sh:message "RAM must be between 1 and 128 GB"
+    ] .
+
+spsh:StoreShape a sh:NodeShape ;
+    sh:targetClass sp:Store ;
+    sh:property [
+        sh:path sp:storeName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1 ;
+        sh:message "Store must have exactly one non-empty name"
+    ] .
+
+spsh:PriceOfferingShape a sh:NodeShape ;
+    sh:targetClass sp:PriceOffering ;
+    sh:property [
+        sh:path sp:priceValue ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minExclusive 0 ;
+        sh:message "PriceOffering must have exactly one positive price value"
+    ] ;
+    sh:property [
+        sh:path sp:forConfiguration ;
+        sh:class sp:PhoneConfiguration ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "PriceOffering must be linked to exactly one PhoneConfiguration"
+    ] ;
+    sh:property [
+        sh:path sp:offeredBy ;
+        sh:class sp:Store ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "PriceOffering must be linked to exactly one Store"
+    ] .
+
