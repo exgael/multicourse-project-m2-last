@@ -134,16 +134,31 @@ def get_recommendations(interests: list[str], prices_lookup: dict, top_k: int = 
 
         config_str = f"{storage}GB/{ram}GB" if storage and ram else "-"
 
+        # Format display (truncate if too long)
+        display_val = specs.get("display_type") or "-"
+        if len(display_val) > 20:
+            display_val = display_val[:20] + "..."
+
+        # Format processor (truncate if too long)
+        processor_val = specs.get("processor") or specs.get("chipset") or "-"
+        if len(processor_val) > 25:
+            processor_val = processor_val[:25] + "..."
+
         results.append({
             "Phone": phone_name,
             "Brand": specs.get("brand", ""),
+            "Year": specs.get("year") or "-",
             "Config": config_str,
             "Price": price_str,
             "Store": store_str,
             "Battery": f"{specs.get('battery_mah')}mAh" if specs.get("battery_mah") else "-",
             "Camera": f"{specs.get('main_camera_mp')}MP" if specs.get("main_camera_mp") else "-",
+            "Selfie": f"{specs.get('selfie_camera_mp')}MP" if specs.get("selfie_camera_mp") else "-",
             "Refresh": f"{specs.get('refresh_rate_hz')}Hz" if specs.get("refresh_rate_hz") else "-",
+            "Display": display_val,
+            "Processor": processor_val,
             "5G": "Yes" if specs.get("supports_5g") else "No",
+            "NFC": "Yes" if specs.get("nfc") else "No",
             "Score": round(score, 2),
         })
 

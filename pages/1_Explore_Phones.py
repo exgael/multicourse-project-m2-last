@@ -103,35 +103,48 @@ if selected_display != "Any":
 filter_clause = "\n    ".join(filters)
 
 if show_prices:
-    # Query with prices - direct join, no nested OPTIONAL
+    # Query with prices - subquery pattern: filter phones FIRST, then join prices
     explore_query = f"""
 PREFIX sp: <http://example.org/smartphone#>
 
-SELECT ?phoneName ?brandName ?battery ?camera ?refresh ?display ?has5g ?storage ?ram ?price ?storeName
+SELECT ?phoneName ?brandName ?year ?battery ?camera ?selfie ?refresh ?display ?processor ?has5g ?hasNfc ?storage ?ram ?price ?storeName
 WHERE {{
-    ?config a sp:PhoneConfiguration ;
-            sp:hasBasePhone ?phone ;
-            sp:storageGB ?storage ;
-            sp:ramGB ?ram ;
-            sp:hasPriceOffering ?offering .
+    # Subquery: get filtered phones FIRST with LIMIT
+    {{
+        SELECT ?phone ?phoneName ?brandName ?year ?battery ?camera ?selfie ?refresh ?display ?processor ?has5g ?hasNfc
+        WHERE {{
+            ?phone a sp:BasePhone ;
+                   sp:phoneName ?phoneName ;
+                   sp:hasBrand/sp:brandName ?brandName .
 
-    ?phone sp:phoneName ?phoneName ;
-           sp:hasBrand/sp:brandName ?brandName .
+            OPTIONAL {{ ?phone sp:releaseYear ?year }}
+            OPTIONAL {{ ?phone sp:batteryCapacityMah ?battery }}
+            OPTIONAL {{ ?phone sp:mainCameraMP ?camera }}
+            OPTIONAL {{ ?phone sp:selfieCameraMP ?selfie }}
+            OPTIONAL {{ ?phone sp:refreshRateHz ?refresh }}
+            OPTIONAL {{ ?phone sp:displayType ?display }}
+            OPTIONAL {{ ?phone sp:processorName ?processor }}
+            OPTIONAL {{ ?phone sp:supports5G ?has5g }}
+            OPTIONAL {{ ?phone sp:supportsNFC ?hasNfc }}
 
-    ?offering sp:priceValue ?price ;
-              sp:offeredBy/sp:storeName ?storeName .
+            {filter_clause}
+        }}
+        ORDER BY DESC(?battery) DESC(?camera)
+        LIMIT {result_limit}
+    }}
 
-    OPTIONAL {{ ?phone sp:batteryCapacityMah ?battery }}
-    OPTIONAL {{ ?phone sp:mainCameraMP ?camera }}
-    OPTIONAL {{ ?phone sp:refreshRateHz ?refresh }}
-    OPTIONAL {{ ?phone sp:displayType ?display }}
-    OPTIONAL {{ ?phone sp:supports5G ?has5g }}
-    OPTIONAL {{ ?phone sp:supportsNFC ?hasNfc }}
-
-    {filter_clause}
+    # Then join with prices for only those phones
+    OPTIONAL {{
+        ?config a sp:PhoneConfiguration ;
+                sp:hasBasePhone ?phone ;
+                sp:storageGB ?storage ;
+                sp:ramGB ?ram ;
+                sp:hasPriceOffering ?offering .
+        ?offering sp:priceValue ?price ;
+                  sp:offeredBy/sp:storeName ?storeName .
+    }}
 }}
 ORDER BY ?phoneName ?storage ?price
-LIMIT {result_limit}
 """
 else:
     explore_query = f"""
@@ -185,17 +198,31 @@ if results:
             ram_val = r.get("ram")
             config_str = f"{storage_val}GB/{ram_val}GB" if storage_val and ram_val else "-"
 
+            # Format display (truncate if too long)
+            display_val = r.get("display") or "-"
+            if len(display_val) > 20:
+                display_val = display_val[:20] + "..."
+
+            # Format processor (truncate if too long)
+            processor_val = r.get("processor") or "-"
+            if len(processor_val) > 25:
+                processor_val = processor_val[:25] + "..."
+
             row = {
                 "Phone": r.get("phoneName") or "-",
                 "Brand": r.get("brandName") or "-",
-                "Battery": f"{r.get('battery')}mAh" if r.get("battery") else "-",
-                "Camera": f"{r.get('camera')}MP" if r.get("camera") else "-",
-                "Refresh": f"{r.get('refresh')}Hz" if r.get("refresh") else "-",
-                "Display": r.get("display") or "-",
-                "5G": "Yes" if r.get("has5g") == "true" else "No",
+                "Year": r.get("year") or "-",
                 "Config": config_str,
                 "Price": price_str,
                 "Store": r.get("storeName") or "-",
+                "Battery": f"{r.get('battery')}mAh" if r.get("battery") else "-",
+                "Camera": f"{r.get('camera')}MP" if r.get("camera") else "-",
+                "Selfie": f"{r.get('selfie')}MP" if r.get("selfie") else "-",
+                "Refresh": f"{r.get('refresh')}Hz" if r.get("refresh") else "-",
+                "Display": display_val,
+                "Processor": processor_val,
+                "5G": "Yes" if r.get("has5g") == "true" else "No",
+                "NFC": "Yes" if r.get("hasNfc") == "true" else "No",
             }
         else:
             row = {
