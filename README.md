@@ -48,6 +48,7 @@ make ui
 
 ## Clean up
 
+Warning: doing this will require a FULL data processing + KG build. This can take a lot of time due to linking and alignment steps.
 ```sh
 make clean
 ```
