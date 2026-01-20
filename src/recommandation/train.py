@@ -279,6 +279,9 @@ def train_model() -> None:
 
     result.save_to_directory(MODEL_DIR)
 
+    # Explicitly save training triples with full data for loading
+    training.to_path_binary(MODEL_DIR / "training_triples")
+
     print(f"\nModel saved to {MODEL_DIR}")
     print("\nTest Metrics:")
     print(f"  MRR: {result.metric_results.get_metric('mean_reciprocal_rank'):.4f}")
