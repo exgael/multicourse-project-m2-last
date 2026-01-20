@@ -54,52 +54,63 @@ search_query = st.text_input("Search phones", placeholder="e.g. Samsung Galaxy, 
 if search_query:
     search_terms = search_query.strip().lower()
 
+    # Query with prices - start from config for direct join
     search_sparql = f"""
     PREFIX sp: <http://example.org/smartphone#>
 
-    SELECT DISTINCT ?phoneName ?brandName ?year ?screen ?battery ?camera ?selfie ?refresh ?processor ?display ?has5g ?hasNfc
+    SELECT ?phoneName ?brandName ?battery ?camera ?refresh ?display ?has5g ?storage ?ram ?price ?storeName
     WHERE {{
-        ?phone a sp:BasePhone ;
-               sp:phoneName ?phoneName ;
+        ?config a sp:PhoneConfiguration ;
+                sp:hasBasePhone ?phone ;
+                sp:storageGB ?storage ;
+                sp:ramGB ?ram ;
+                sp:hasPriceOffering ?offering .
+
+        ?phone sp:phoneName ?phoneName ;
                sp:hasBrand/sp:brandName ?brandName .
 
-        OPTIONAL {{ ?phone sp:releaseYear ?year }}
-        OPTIONAL {{ ?phone sp:screenSizeInches ?screen }}
+        ?offering sp:priceValue ?price ;
+                  sp:offeredBy/sp:storeName ?storeName .
+
         OPTIONAL {{ ?phone sp:batteryCapacityMah ?battery }}
         OPTIONAL {{ ?phone sp:mainCameraMP ?camera }}
-        OPTIONAL {{ ?phone sp:selfieCameraMP ?selfie }}
         OPTIONAL {{ ?phone sp:refreshRateHz ?refresh }}
-        OPTIONAL {{ ?phone sp:processorName ?processor }}
         OPTIONAL {{ ?phone sp:displayType ?display }}
         OPTIONAL {{ ?phone sp:supports5G ?has5g }}
-        OPTIONAL {{ ?phone sp:supportsNFC ?hasNfc }}
 
         FILTER(CONTAINS(LCASE(?phoneName), "{search_terms}") || CONTAINS(LCASE(?brandName), "{search_terms}"))
     }}
-    ORDER BY ?phoneName
-    LIMIT 25
+    ORDER BY ?phoneName ?storage ?price
+    LIMIT 50
     """
 
     results = run_sparql(kg, search_sparql)
 
     if results:
-        st.success(f"Found {len(results)} phones")
+        st.success(f"Found {len(results)} results")
 
         display_data = []
         for r in results:
+            # Format price
+            price_val = r.get("price")
+            price_str = f"{float(price_val):.0f}€" if price_val else "-"
+
+            # Format config
+            storage = r.get("storage")
+            ram = r.get("ram")
+            config_str = f"{storage}GB/{ram}GB" if storage and ram else "-"
+
             row = {
                 "Phone": r.get("phoneName") or "-",
                 "Brand": r.get("brandName") or "-",
-                "Year": r.get("year") or "-",
-                "Screen": r.get("screen") or "-",
-                "Battery": r.get("battery") or "-",
-                "Camera": r.get("camera") or "-",
-                "Selfie": r.get("selfie") or "-",
-                "Refresh": r.get("refresh") or "-",
-                "Chipset": r.get("processor") or "-",
+                "Config": config_str,
+                "Price": price_str,
+                "Store": r.get("storeName") or "-",
+                "Battery": f"{r.get('battery')}mAh" if r.get("battery") else "-",
+                "Camera": f"{r.get('camera')}MP" if r.get("camera") else "-",
+                "Refresh": f"{r.get('refresh')}Hz" if r.get("refresh") else "-",
                 "Display": r.get("display") or "-",
                 "5G": "Yes" if r.get("has5g") == "true" else "No",
-                "NFC": "Yes" if r.get("hasNfc") == "true" else "No",
             }
             display_data.append(row)
 

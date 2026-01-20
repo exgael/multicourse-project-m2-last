@@ -77,9 +77,10 @@ with st.sidebar:
 
     st.divider()
 
+    show_prices = st.checkbox("Show configurations & prices", value=True)
     result_limit = st.slider("Max Results", 10, 100, 25, 5)
 
-# Build dynamic SPARQL query
+# Build filters
 filters = [f"FILTER(?battery >= {min_battery})"]
 filters.append(f"FILTER(?camera >= {min_camera})")
 
@@ -101,7 +102,39 @@ if selected_display != "Any":
 
 filter_clause = "\n    ".join(filters)
 
-explore_query = f"""
+if show_prices:
+    # Query with prices - direct join, no nested OPTIONAL
+    explore_query = f"""
+PREFIX sp: <http://example.org/smartphone#>
+
+SELECT ?phoneName ?brandName ?battery ?camera ?refresh ?display ?has5g ?storage ?ram ?price ?storeName
+WHERE {{
+    ?config a sp:PhoneConfiguration ;
+            sp:hasBasePhone ?phone ;
+            sp:storageGB ?storage ;
+            sp:ramGB ?ram ;
+            sp:hasPriceOffering ?offering .
+
+    ?phone sp:phoneName ?phoneName ;
+           sp:hasBrand/sp:brandName ?brandName .
+
+    ?offering sp:priceValue ?price ;
+              sp:offeredBy/sp:storeName ?storeName .
+
+    OPTIONAL {{ ?phone sp:batteryCapacityMah ?battery }}
+    OPTIONAL {{ ?phone sp:mainCameraMP ?camera }}
+    OPTIONAL {{ ?phone sp:refreshRateHz ?refresh }}
+    OPTIONAL {{ ?phone sp:displayType ?display }}
+    OPTIONAL {{ ?phone sp:supports5G ?has5g }}
+    OPTIONAL {{ ?phone sp:supportsNFC ?hasNfc }}
+
+    {filter_clause}
+}}
+ORDER BY ?phoneName ?storage ?price
+LIMIT {result_limit}
+"""
+else:
+    explore_query = f"""
 PREFIX sp: <http://example.org/smartphone#>
 
 SELECT DISTINCT ?phoneName ?brandName ?year ?screen ?battery ?camera ?selfie ?refresh ?processor ?display ?has5g ?hasNfc
@@ -132,24 +165,53 @@ st.subheader("Results")
 results = run_sparql(kg, explore_query)
 
 if results:
-    st.success(f"Found {len(results)} phones")
+    st.success(f"Found {len(results)} results")
 
     display_data = []
     for r in results:
-        row = {
-            "Phone": r.get("phoneName") or "-",
-            "Brand": r.get("brandName") or "-",
-            "Year": r.get("year") or "-",
-            "Screen": r.get("screen") or "-",
-            "Battery": r.get("battery") or "-",
-            "Camera": r.get("camera") or "-",
-            "Selfie": r.get("selfie") or "-",
-            "Refresh": r.get("refresh") or "-",
-            "Chipset": r.get("processor") or "-",
-            "Display": r.get("display") or "-",
-            "5G": "Yes" if r.get("has5g") == "true" else "No",
-            "NFC": "Yes" if r.get("hasNfc") == "true" else "No",
-        }
+        if show_prices:
+            # Format price with EUR
+            price_val = r.get("price")
+            if price_val:
+                try:
+                    price_str = f"{float(price_val):.0f}€"
+                except (ValueError, TypeError):
+                    price_str = "-"
+            else:
+                price_str = "-"
+
+            # Format storage/RAM
+            storage_val = r.get("storage")
+            ram_val = r.get("ram")
+            config_str = f"{storage_val}GB/{ram_val}GB" if storage_val and ram_val else "-"
+
+            row = {
+                "Phone": r.get("phoneName") or "-",
+                "Brand": r.get("brandName") or "-",
+                "Battery": f"{r.get('battery')}mAh" if r.get("battery") else "-",
+                "Camera": f"{r.get('camera')}MP" if r.get("camera") else "-",
+                "Refresh": f"{r.get('refresh')}Hz" if r.get("refresh") else "-",
+                "Display": r.get("display") or "-",
+                "5G": "Yes" if r.get("has5g") == "true" else "No",
+                "Config": config_str,
+                "Price": price_str,
+                "Store": r.get("storeName") or "-",
+            }
+        else:
+            row = {
+                "Phone": r.get("phoneName") or "-",
+                "Brand": r.get("brandName") or "-",
+                "Year": r.get("year") or "-",
+                "Screen": r.get("screen") or "-",
+                "Battery": r.get("battery") or "-",
+                "Camera": r.get("camera") or "-",
+                "Selfie": r.get("selfie") or "-",
+                "Refresh": r.get("refresh") or "-",
+                "Chipset": r.get("processor") or "-",
+                "Display": r.get("display") or "-",
+                "5G": "Yes" if r.get("has5g") == "true" else "No",
+                "NFC": "Yes" if r.get("hasNfc") == "true" else "No",
+            }
         display_data.append(row)
 
     st.dataframe(display_data, use_container_width=True, hide_index=True)
@@ -160,11 +222,10 @@ if results:
     col1, col2, col3, col4 = st.columns(4)
 
     batteries = [int(r.get("battery", 0) or 0) for r in results if r.get("battery")]
-    cameras = [int(r.get("camera", 0) or 0) for r in results if r.get("camera")]
     brands_count = len(set(r.get("brandName") for r in results))
     fiveg_count = sum(1 for r in results if r.get("has5g") == "true")
 
-    col1.metric("Phones", len(results))
+    col1.metric("Results", len(results))
     col2.metric("Brands", brands_count)
     col3.metric("Avg Battery", f"{sum(batteries) // len(batteries) if batteries else 0} mAh")
     col4.metric("5G Phones", fiveg_count)

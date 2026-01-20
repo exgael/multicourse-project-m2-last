@@ -56,12 +56,6 @@ sp:displayType a owl:DatatypeProperty ;
     rdfs:domain sp:BasePhone ;
     rdfs:range xsd:string .
 
-sp:forConfiguration a owl:ObjectProperty ;
-    rdfs:label "for configuration"@en ;
-    rdfs:comment "Links a price offering to the phone configuration it is for"@en ;
-    rdfs:domain sp:PriceOffering ;
-    rdfs:range sp:PhoneConfiguration .
-
 sp:forTag a owl:DatatypeProperty,
         owl:FunctionalProperty ;
     rdfs:label "for tag"@en ;
@@ -12266,6 +12260,13 @@ sp:brandName a owl:DatatypeProperty,
     rdfs:domain sp:Brand ;
     rdfs:range xsd:string .
 
+sp:forConfiguration a owl:ObjectProperty ;
+    rdfs:label "for configuration"@en ;
+    rdfs:comment "Links a price offering to the phone configuration it is for"@en ;
+    rdfs:domain sp:PriceOffering ;
+    rdfs:range sp:PhoneConfiguration ;
+    owl:inverseOf sp:hasPriceOffering .
+
 sp:hasBasePhone a owl:FunctionalProperty,
         owl:ObjectProperty ;
     rdfs:label "has base phone"@en ;
@@ -12287,6 +12288,13 @@ sp:hasConfiguration a owl:ObjectProperty ;
     rdfs:domain sp:BasePhone ;
     rdfs:range sp:PhoneConfiguration ;
     owl:inverseOf sp:hasBasePhone .
+
+sp:hasPriceOffering a owl:ObjectProperty ;
+    rdfs:label "has price offering"@en ;
+    rdfs:comment "Links a phone configuration to its price offerings"@en ;
+    rdfs:domain sp:PhoneConfiguration ;
+    rdfs:range sp:PriceOffering ;
+    owl:inverseOf sp:forConfiguration .
 
 sp:interestedIn a owl:ObjectProperty ;
     rdfs:label "interested in"@en ;

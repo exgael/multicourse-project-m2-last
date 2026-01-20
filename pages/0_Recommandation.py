@@ -6,6 +6,7 @@ import streamlit as st
 from pathlib import Path
 import sys
 import json
+from rdflib import Graph
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
@@ -17,6 +18,15 @@ st.set_page_config(
 )
 
 USE_CASES = ["Gaming", "Photography", "Vlogging", "Business", "EverydayUse", "MinimalistUse"]
+KG_PATH = ROOT_DIR / "data" / "rdf" / "knowledge_graph_full.ttl"
+
+
+@st.cache_resource
+def load_knowledge_graph():
+    """Load the knowledge graph for price lookups (cached)."""
+    g = Graph()
+    g.parse(KG_PATH, format="turtle")
+    return g
 
 
 @st.cache_resource
@@ -40,8 +50,36 @@ def load_recommendation_system():
     return model, tf, phone_specs
 
 
-def get_recommendations(interests: list[str], top_k: int = 10) -> list[dict]:
-    """Get phone recommendations with specs for given interests."""
+@st.cache_data
+def load_all_prices(_kg: Graph) -> dict[str, list[dict]]:
+    """Load all prices from KG into a lookup dict. config_id -> [{price, store}, ...]"""
+    query = """
+    PREFIX sp: <http://example.org/smartphone#>
+
+    SELECT ?config_id ?price ?storeName WHERE {
+        ?config a sp:PhoneConfiguration ;
+                sp:hasPriceOffering ?offering .
+        BIND(STRAFTER(STR(?config), "instance/config/") AS ?config_id)
+
+        ?offering sp:priceValue ?price ;
+                  sp:offeredBy/sp:storeName ?storeName .
+    }
+    ORDER BY ?config_id ?price
+    """
+    prices: dict[str, list[dict]] = {}
+    for row in _kg.query(query):
+        config_id = str(row.config_id)
+        if config_id not in prices:
+            prices[config_id] = []
+        prices[config_id].append({
+            "price": float(row.price),
+            "store": str(row.storeName)
+        })
+    return prices
+
+
+def get_recommendations(interests: list[str], prices_lookup: dict, top_k: int = 10) -> list[dict]:
+    """Get phone recommendations with specs and prices for given interests."""
     import torch
 
     model, tf, phone_specs = load_recommendation_system()
@@ -83,26 +121,39 @@ def get_recommendations(interests: list[str], top_k: int = 10) -> list[dict]:
         storage = specs.get("storage_gb", "")
         ram = specs.get("ram_gb", "")
 
-        display_name = f"{phone_name} ({storage}GB/{ram}GB)" if storage and ram else phone_name
+        # Get price info
+        config_prices = prices_lookup.get(config_id, [])
+        if config_prices:
+            min_price = min(p["price"] for p in config_prices)
+            price_str = f"{min_price:.0f}€"
+            stores = list(set(p["store"] for p in config_prices))
+            store_str = ", ".join(stores[:2])
+        else:
+            price_str = "-"
+            store_str = "-"
+
+        config_str = f"{storage}GB/{ram}GB" if storage and ram else "-"
 
         results.append({
-            "Phone": display_name,
+            "Phone": phone_name,
             "Brand": specs.get("brand", ""),
-            "Year": specs.get("year") or "-",
-            "Screen": specs.get("screen_size_inches") or "-",
-            "Battery": specs.get("battery_mah") or "-",
-            "Camera": specs.get("main_camera_mp") or "-",
-            "Selfie": specs.get("selfie_camera_mp") or "-",
-            "Refresh": specs.get("refresh_rate_hz") or "-",
-            "Chipset": specs.get("chipset") or "-",
-            "Display": specs.get("display_type") or "-",
+            "Config": config_str,
+            "Price": price_str,
+            "Store": store_str,
+            "Battery": f"{specs.get('battery_mah')}mAh" if specs.get("battery_mah") else "-",
+            "Camera": f"{specs.get('main_camera_mp')}MP" if specs.get("main_camera_mp") else "-",
+            "Refresh": f"{specs.get('refresh_rate_hz')}Hz" if specs.get("refresh_rate_hz") else "-",
             "5G": "Yes" if specs.get("supports_5g") else "No",
-            "NFC": "Yes" if specs.get("nfc") else "No",
             "Score": round(score, 2),
         })
 
     return results
 
+
+# Load KG and prices once (cached)
+with st.spinner("Loading price data..."):
+    kg = load_knowledge_graph()
+    prices_lookup = load_all_prices(kg)
 
 # Initialize session state
 if "selected_use_case" not in st.session_state:
@@ -136,7 +187,7 @@ if st.session_state.selected_use_case:
     st.subheader(f"Top phones for {st.session_state.selected_use_case}")
 
     with st.spinner("Loading recommendations..."):
-        recommendations = get_recommendations([st.session_state.selected_use_case], top_k=10)
+        recommendations = get_recommendations([st.session_state.selected_use_case], prices_lookup, top_k=10)
 
     if recommendations:
         st.dataframe(recommendations, use_container_width=True, hide_index=True)
